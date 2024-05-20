@@ -21,8 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nordicnews.R
+import com.example.nordicnews.data.models.ArticleMockData
 import com.example.nordicnews.ui.navigation.BottomNavigationBar
 import com.example.nordicnews.ui.navigation.NavigationDestination
+import com.example.nordicnews.ui.shared.ArticleList
 import com.example.nordicnews.ui.theme.NordicNewsTheme
 
 object BookmarksDestination : NavigationDestination {
@@ -61,10 +63,14 @@ fun BookmarksScreen(
                 .padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
+            ArticleList(articles = ArticleMockData.articleList)
+            
+            /*
             Text(
                 text = "Nordic News - ${stringResource(BookmarksDestination.titleRes)}",
                 modifier = modifier
             )
+             */
         }
     }
 

@@ -4,4 +4,5 @@
     <string name="bookmarks">Bookmarks</string>
     <string name="search">Search</string>
     <string name="detail">Detail</string>
+    <string name="news_thumbnail">News Thumbnail</string>
 </resources>
