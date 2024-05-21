@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id ("kotlin-parcelize")
 }
 
 android {
@@ -72,4 +73,8 @@ dependencies {
 
     // Coil
     implementation("io.coil-kt:coil-compose:2.4.0")
+
+    // Retrofit with gson Converter
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    //implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10")
 }
