@@ -1,6 +1,7 @@
 package com.example.nordicnews.ui.shared
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -44,16 +45,21 @@ import java.util.TimeZone
 
 @Composable
 fun ArticleApp() {
-    ArticleList(articles = ArticleMockData.articleList)
+    ArticleList(articles = ArticleMockData.articleList, onItemClick = {})
 }
 
 @Composable
-fun ArticleList(articles : List<Article>,modifier : Modifier = Modifier) {
+fun ArticleList(
+    onItemClick: (Article) -> Unit,
+    articles : List<Article>,
+    modifier : Modifier = Modifier) {
     LazyColumn {
         items(articles){article ->
             ArticleCard(
                 article = article,
-                modifier = Modifier.padding(4.dp)
+                modifier = Modifier
+                    .padding(4.dp)
+                    .clickable { onItemClick(article) }
             )
         }
     }

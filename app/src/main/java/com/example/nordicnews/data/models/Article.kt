@@ -1,8 +1,11 @@
 package com.example.nordicnews.data.models
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
+@Entity(tableName = "bookmarks")
 @Parcelize
 data class Article(
     val author: String = "",
@@ -11,6 +14,7 @@ data class Article(
     val publishedAt: String = "",
     val source: Source = Source(null,""),
     val title: String = "",
+    @PrimaryKey
     val url: String = "",
     val urlToImage: String = "",
     //@DrawableRes

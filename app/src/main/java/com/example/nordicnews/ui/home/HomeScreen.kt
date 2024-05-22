@@ -33,10 +33,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nordicnews.R
 import com.example.nordicnews.data.models.Article
+import com.example.nordicnews.data.models.ArticleMockData
 import com.example.nordicnews.data.models.Source
 import com.example.nordicnews.ui.detail.DetailDestination
 import com.example.nordicnews.ui.navigation.BottomNavigationBar
 import com.example.nordicnews.ui.navigation.NavigationDestination
+import com.example.nordicnews.ui.shared.ArticleList
 import com.example.nordicnews.ui.theme.NordicNewsTheme
 import com.google.gson.Gson
 
@@ -49,6 +51,7 @@ object HomeDestination : NavigationDestination {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    navigateToDetailScreen : (Article) -> Unit,
     navController: NavController,
     //name: String,
     modifier: Modifier = Modifier) {
@@ -124,6 +127,10 @@ fun HomeScreen(
                     You have pressed the floating action button $presses times.
                 """.trimIndent(),
             )
+            ArticleList(
+                onItemClick = {navigateToDetailScreen(it)},
+                articles = ArticleMockData.articleList
+            )
         }
     }
 }
@@ -132,6 +139,7 @@ fun HomeScreen(
 @Composable
 private fun HomeScreenPreview() {
     NordicNewsTheme {
-        HomeScreen(navController = rememberNavController())
+        HomeScreen(navController = rememberNavController(),
+            navigateToDetailScreen = {})
     }
 }

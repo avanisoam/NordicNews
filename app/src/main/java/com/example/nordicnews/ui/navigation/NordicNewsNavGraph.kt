@@ -1,5 +1,6 @@
 package com.example.nordicnews.ui.navigation
 
+import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -19,6 +20,7 @@ import com.example.nordicnews.ui.home.HomeDestination
 import com.example.nordicnews.ui.home.HomeScreen
 import com.example.nordicnews.ui.search.SearchDestination
 import com.example.nordicnews.ui.search.SearchScreen
+import com.google.gson.Gson
 
 @Composable
 fun NordicNewsNavHost(
@@ -30,7 +32,12 @@ fun NordicNewsNavHost(
         startDestination = HomeDestination.route,
         modifier = modifier
     ){
-        composable(HomeDestination.route) { HomeScreen(navController) }
+        composable(HomeDestination.route) { HomeScreen(
+            navigateToDetailScreen = {
+                val json = Uri.encode(Gson().toJson(it))
+                navController.navigate("detail/$json")
+            },
+            navController) }
         //composable(DetailDestination.route) { DetailScreen(navController)}
 
         composable(
@@ -53,6 +60,13 @@ fun NordicNewsNavHost(
         }
 
         composable(SearchDestination.route) { SearchScreen(navController) }
-        composable(BookmarksDestination.route) { BookmarksScreen(navController)}
+        composable(BookmarksDestination.route) {
+            BookmarksScreen(
+                navigateToDetailScreen = {
+                    val json = Uri.encode(Gson().toJson(it))
+                    navController.navigate("detail/$json")
+                },
+                navController)
+        }
     }
 }
