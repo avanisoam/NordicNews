@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nordicnews.R
@@ -36,6 +38,7 @@ import com.example.nordicnews.data.models.Article
 import com.example.nordicnews.data.models.ArticleMockData
 import com.example.nordicnews.data.models.Source
 import com.example.nordicnews.ui.detail.DetailDestination
+import com.example.nordicnews.ui.detail.DetailViewModel
 import com.example.nordicnews.ui.navigation.BottomNavigationBar
 import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.shared.ArticleList
@@ -54,8 +57,10 @@ fun HomeScreen(
     navigateToDetailScreen : (Article) -> Unit,
     navController: NavController,
     //name: String,
-    modifier: Modifier = Modifier) {
-
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
+) {
+    val uiState by viewModel.uiState.collectAsState()
     /*
     Text(
         text = "Nordic News - $name",
@@ -116,6 +121,7 @@ fun HomeScreen(
                 .padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
+            /*
             Text(
                 modifier = Modifier.padding(8.dp),
                 text =
@@ -127,9 +133,16 @@ fun HomeScreen(
                     You have pressed the floating action button $presses times.
                 """.trimIndent(),
             )
+            
+             */
+            //Text(text = "No. of Article ${uiState.ArticleList.size}")
             ArticleList(
                 onItemClick = {navigateToDetailScreen(it)},
-                articles = ArticleMockData.articleList
+                // Mock Article Data
+                //articles = ArticleMockData.articleList
+
+                // Data from Api
+                articles = uiState.ArticleList
             )
         }
     }

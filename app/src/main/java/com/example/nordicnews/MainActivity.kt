@@ -10,6 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.nordicnews.data.models.ArticleMockData
+import com.example.nordicnews.ui.shared.HorizontalGrid
 import com.example.nordicnews.ui.theme.NordicNewsTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,6 +25,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     NordicNewsApp()
+                    //HorizontalGrid(articles = ArticleMockData.articleList)
+                    //HorizontalGrid()
                 }
             }
         }

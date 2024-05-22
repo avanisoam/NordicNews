@@ -75,9 +75,14 @@ dependencies {
     // Coil
     implementation("io.coil-kt:coil-compose:2.4.0")
 
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
     // Retrofit with gson Converter
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    //implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10")
+
+    // Retrofit Extension
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10")
 
     // Room Db
     implementation("androidx.room:room-runtime:${rootProject.extra["room_version"]}")
