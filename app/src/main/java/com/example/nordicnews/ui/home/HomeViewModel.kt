@@ -14,6 +14,7 @@ import com.example.nordicnews.ui.search.SearchUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 class HomeViewModel(private  val apiRepository: ApiRepository): ViewModel() {
 
@@ -33,11 +34,15 @@ class HomeViewModel(private  val apiRepository: ApiRepository): ViewModel() {
     fun getAllNews(sources : String = "ars-technica",//"the-verge",//"bbc-news",
                    page : Int= 1){
         viewModelScope.launch {
-        val allNews = apiRepository.getNews(sources,page)
-            uiState.update {currentUiState ->
-                currentUiState.copy(
-                    ArticleList = allNews.articles
-                )
+            try {
+                val allNews = apiRepository.getNews(sources,page)
+                uiState.update {currentUiState ->
+                    currentUiState.copy(
+                        ArticleList = allNews.articles
+                    )
+                }
+            }catch (e: IOException){
+
             }
         }
     }

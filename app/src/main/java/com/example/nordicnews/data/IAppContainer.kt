@@ -14,6 +14,14 @@ interface IAppContainer {
 class DefaultAppContainer(private val context: Context) : IAppContainer {
 
     private val baseUrl = "https://newsapi.org/v2/"
+/*
+    // ToDo : https://stackoverflow.com/questions/34133621/retrofit-400-bad-request
+    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+    HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+    loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+    clientBuilder.addInterceptor(loggingInterceptor);
+
+ */
 
     private val retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())

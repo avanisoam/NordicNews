@@ -82,6 +82,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     // Retrofit Extension
+    // TODO : https://stackoverflow.com/questions/34133621/retrofit-400-bad-request
+    //implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10")
 
     // Room Db
