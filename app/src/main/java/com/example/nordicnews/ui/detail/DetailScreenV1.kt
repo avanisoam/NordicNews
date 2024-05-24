@@ -66,7 +66,7 @@ import com.example.nordicnews.ui.theme.NordicNewsTheme
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
-
+/*
 object DetailDestination : NavigationDestination {
     override val route = "detail"
     override val titleRes = R.string.detail
@@ -112,7 +112,7 @@ fun DetailScreen(
             floatingActionButton = {
                 FloatingActionButton(onClick = {
                     coroutineScope.launch {
-                        viewModel.saveItem(article)
+                            viewModel.saveItem(article)
                     }
                 }) {
 
@@ -125,47 +125,6 @@ fun DetailScreen(
             }
         ) { innerPadding ->
 
-            LazyColumn(
-                modifier = Modifier
-                    //.verticalScroll(rememberScrollState())
-                    .padding(innerPadding),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ){
-                item {
-                    Text(
-                        text = article.description,
-                        style = MaterialTheme.typography.headlineLarge,
-                        fontWeight = FontWeight(400),
-                        fontSize = 28.sp,
-                        lineHeight = 36.sp,
-                        color = Color(29, 27, 32),
-                        modifier = Modifier.padding(
-                            start = 16.dp,
-                            end = 16.dp,
-                            top = 40.dp,
-                            bottom = 28.dp
-                        )
-                    )
-                }
-                item {
-                    AsyncImage(
-                        model = ImageRequest.Builder(context = LocalContext.current)
-                            .data(article.urlToImage)
-                            .build(),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            //.width(390.dp)
-                            .height(220.dp),
-                        //.clip(MaterialTheme.shapes.medium),
-                        contentScale = ContentScale.Crop
-                    )
-                }
-                item {
-                    DetailsRow(article = article)
-                }
-            }
-            /*
             DetailBodyV2(
                 //uiState = uiState,
                 article = article,
@@ -192,12 +151,7 @@ fun DetailScreen(
         }
 */
         }
-
-             */
-        }
     }
-
-
 }
 
 @Composable
@@ -415,12 +369,7 @@ fun DetailsRow(article : Article,
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(
-                top = 32.dp,
-                start = 25.dp,
-                bottom = 19.dp,
-                end =25.dp
-            )
+            .padding(8.dp)
     ) {
 
         AsyncImage(
@@ -429,22 +378,20 @@ fun DetailsRow(article : Article,
                 .build(),
             contentDescription = null,
             modifier = Modifier
-                //.padding(16.dp)
+                .padding(16.dp)
                 .size(64.dp)
                 //.clip(shape = RoundedCornerShape(50.dp))
                 .clip(MaterialTheme.shapes.small)
                 .weight(1f),
             contentScale = ContentScale.Crop
         )
-        /*
+
         Column(modifier
             .padding(16.dp)
             .weight(2f)) {
             Text(text = article.author)
-            //Text(text = getOffset(article.publishedAt))
+            Text(text = getOffset(article.publishedAt))
         }
-
-         */
     }
 }
 
@@ -473,3 +420,5 @@ private fun DetailScreenPreview() {
          */
     }
 }
+
+ */

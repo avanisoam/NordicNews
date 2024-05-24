@@ -3,8 +3,11 @@ package com.example.nordicnews.ui.home
 import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
@@ -25,23 +28,30 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.nordicnews.R
 import com.example.nordicnews.data.models.Article
 import com.example.nordicnews.data.models.ArticleMockData
 import com.example.nordicnews.data.models.Source
-import com.example.nordicnews.ui.detail.DetailDestination
-import com.example.nordicnews.ui.detail.DetailViewModel
 import com.example.nordicnews.ui.navigation.BottomNavigationBar
 import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.shared.ArticleList
+import com.example.nordicnews.ui.shared.ArticleListV1
+import com.example.nordicnews.ui.shared.ColorfulTabsList
+import com.example.nordicnews.ui.shared.FixedHeader
+import com.example.nordicnews.ui.shared.HorizontalCardListWithText
 import com.example.nordicnews.ui.theme.NordicNewsTheme
 import com.google.gson.Gson
 
@@ -61,15 +71,6 @@ fun HomeScreen(
     viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    /*
-    Text(
-        text = "Nordic News - $name",
-        modifier = modifier
-    )    
-     */
-
-    var presses by remember { mutableIntStateOf(0) }
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -92,14 +93,14 @@ fun HomeScreen(
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                
+
                 val article = Article(
                     source = Source(
                         id = "bbc-news",
                         name = "BBC News"
                     ),
                     author = "https://www.facebook.com/bbcnews",
-                    content= "Birmingham Airport has temporarily suspended flights due to a security incident on a plane.\\r\\nA spokesperson for the airport, based in Solihull, said: \\\"The aircraft landed safely and all passengers an… [+460 chars]",
+                    content = "Birmingham Airport has temporarily suspended flights due to a security incident on a plane.\\r\\nA spokesperson for the airport, based in Solihull, said: \\\"The aircraft landed safely and all passengers an… [+460 chars]",
                     description = "An airport spokesperson says the plane landed safely and all passengers and crew have disembarked.",
                     publishedAt = "2024-04-16T16:42:23Z",
                     title = "Birmingham Airport suspends operations over security incident",
@@ -116,11 +117,44 @@ fun HomeScreen(
             }
         }
     ) { innerPadding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
+                //.verticalScroll(rememberScrollState())
                 .padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
+            //Text("Your text here")
+            item {
+            FixedHeader(article = ArticleMockData.articleList[3])
+           }
+            item { Spacer(modifier = Modifier.height(50.dp)) }
+            item {
+                HorizontalCardListWithText(articles = uiState.ArticleList.take(20))
+            }
+
+            item { Spacer(modifier = Modifier.height(50.dp)) }
+
+            item {
+                ColorfulTabsList()
+            }
+            item { Spacer(modifier = Modifier.height(50.dp)) }
+
+            item{
+
+                    ArticleListV1(
+                        onItemClick = { navigateToDetailScreen(it) },
+                        // Mock Article Data
+                        //articles = ArticleMockData.articleList
+
+                        // Data from Api
+                        articles = uiState.ArticleList,
+                        //modifier = Modifier.height(500.dp)
+                    )
+            }
+
+        }
+    }
+}
             /*
             Text(
                 modifier = Modifier.padding(8.dp),
@@ -136,17 +170,8 @@ fun HomeScreen(
             
              */
             //Text(text = "No. of Article ${uiState.ArticleList.size}")
-            ArticleList(
-                onItemClick = {navigateToDetailScreen(it)},
-                // Mock Article Data
-                //articles = ArticleMockData.articleList
 
-                // Data from Api
-                articles = uiState.ArticleList
-            )
-        }
-    }
-}
+
 
 @Preview(showSystemUi = true)
 @Composable

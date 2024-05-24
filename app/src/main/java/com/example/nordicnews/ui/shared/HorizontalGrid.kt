@@ -1,9 +1,12 @@
 package com.example.nordicnews.ui.shared
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -30,6 +33,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -45,76 +49,83 @@ fun HorizontalGrid(articles : List<Article>, modifier : Modifier = Modifier) {
     LazyHorizontalGrid(
         //columns = GridCells.Fixed(4),
         rows = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier) {
+        //verticalArrangement = Arrangement.spacedBy(2.dp),
+        //horizontalArrangement = Arrangement.spacedBy(2.dp),
+        modifier = modifier.border(BorderStroke(2.dp, SolidColor(Color.Red)))) {
         items(articles){article ->
             //ArticleCard(article = article)
-            //TopicCard(article = article)
-            Text(text = "Hello World")
+            TopicCard(article = article)
+            //Text(text = "Hello World")
         }
     }
 }
 
 @Composable
 fun TopicCard(article : Article,modifier: Modifier = Modifier){
-    Card(modifier = Modifier.height(80.dp)) {
-        Row {
-            AsyncImage(
-                model = ImageRequest.Builder(context = LocalContext.current) //samplePhoto.imgSrc,
-                    .data(article.urlToImage)
-                    .crossfade(true)
-                    .build(),
-                //error = painterResource(R.drawable.ic_broken_image),
-                //placeholder = painterResource(R.drawable.loading_img),
-                contentDescription = stringResource(R.string.news_thumbnail),
-                contentScale = ContentScale.FillHeight,  // to cover whole screen
-                modifier = Modifier
-                    //.align(Alignment.Center)
-                    .clip(MaterialTheme.shapes.small)
-                    .size(width = 80.dp, height = 80.dp),
-            )
-            Column(modifier = Modifier
-                .fillMaxWidth()
-                .padding(4.dp)) {
-                Text(
-                    text = sanitizeString(article.title),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(
-                        //top= 4.dp,
-                        //start = 8.dp,
-                        //bottom = 8.dp
-                    )
-                )
 
-                Row(modifier = Modifier.padding(top= 4.dp)) {
+    Box {
+        Card(modifier = Modifier.border(BorderStroke(2.dp, SolidColor(Color.Blue)))) {
+            Row {
+                AsyncImage(
+                    model = ImageRequest.Builder(context = LocalContext.current) //samplePhoto.imgSrc,
+                        .data(article.urlToImage)
+                        .crossfade(true)
+                        .build(),
+                    //error = painterResource(R.drawable.ic_broken_image),
+                    //placeholder = painterResource(R.drawable.loading_img),
+                    contentDescription = stringResource(R.string.news_thumbnail),
+                    contentScale = ContentScale.Crop,  // to cover whole screen
+                    modifier = Modifier
+                        //.align(Alignment.Center)
+                        .clip(MaterialTheme.shapes.small)
+                        .size(width = 80.dp, height = 80.dp),
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(4.dp)
+                ) {
                     Text(
-                        text = article.source.name,
-                        fontSize = 14.sp,
-                        modifier = Modifier.padding(
-                            //start = 8.dp,
-                            //bottom = 4.dp
-                        )
-                    )
-                    Text(text = ".",
-                        fontSize = 14.sp,
+                        text = sanitizeString(article.title),
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(
-                            start = 5.dp,
-                            //bottom = 4.dp
+                            //top= 4.dp,
+                            //start = 8.dp,
+                            //bottom = 8.dp
                         )
                     )
-                    Text(text = getOffset(article.publishedAt),
-                        fontSize = 14.sp,
-                        modifier = Modifier.padding(
-                            start = 5.dp,
-                            //bottom = 4.dp
-                        )
-                    )
-                }
-            }
 
+                    Row(modifier = Modifier.padding(top = 4.dp)) {
+                        Text(
+                            text = article.source.name,
+                            fontSize = 14.sp,
+                            modifier = Modifier.padding(
+                                //start = 8.dp,
+                                //bottom = 4.dp
+                            )
+                        )
+                        Text(
+                            text = ".",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(
+                                start = 5.dp,
+                                //bottom = 4.dp
+                            )
+                        )
+                        Text(
+                            text = getOffset(article.publishedAt),
+                            fontSize = 14.sp,
+                            modifier = Modifier.padding(
+                                start = 5.dp,
+                                //bottom = 4.dp
+                            )
+                        )
+                    }
+                }
+
+            }
         }
     }
 }
@@ -132,7 +143,7 @@ val items = (100..200).toList()
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HorizontalGrid() {
+fun HorizontalGrid(article : Article, modifier : Modifier = Modifier ) {
     val rows = 2
     val columns = 4
     val itemsPerPage = rows * columns
@@ -147,17 +158,34 @@ fun HorizontalGrid() {
                         if (index < items.size) {
                             Card(
                                 colors = CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                containerColor = MaterialTheme.colorScheme.onSurfaceVariant,
                                 ),
-                                shape = CutCornerShape(1.dp),
+                                //shape = CutCornerShape(1.dp),
                                 modifier = Modifier
                                     .padding(4.dp)
                                     .height(80.dp)
-                                    .width(360.dp)
+                                    .width(340.dp)
                             ) {
+                                /*
                                 Text(
                                     text = "Card #$index: ${items[index]}",
                                     modifier = Modifier.background(Color.White),
+                                )
+
+                                 */
+                                AsyncImage(
+                                    model = ImageRequest.Builder(context = LocalContext.current) //samplePhoto.imgSrc,
+                                        .data(article.urlToImage)
+                                        .crossfade(true)
+                                        .build(),
+                                    //error = painterResource(R.drawable.ic_broken_image),
+                                    //placeholder = painterResource(R.drawable.loading_img),
+                                    contentDescription = stringResource(R.string.news_thumbnail),
+                                    contentScale = ContentScale.FillHeight,  // to cover whole screen
+                                    modifier = Modifier
+                                        //.align(Alignment.Center)
+                                        .clip(MaterialTheme.shapes.small)
+                                        .size(width = 80.dp, height = 80.dp),
                                 )
                             }
                         }

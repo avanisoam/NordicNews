@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,7 +31,10 @@ import androidx.compose.ui.unit.sp
 import com.example.nordicnews.R
 import com.example.nordicnews.data.models.Article
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DatePickerDefaults
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.nordicnews.data.models.ArticleMockData
@@ -53,12 +57,48 @@ fun ArticleList(
     onItemClick: (Article) -> Unit,
     articles : List<Article>,
     modifier : Modifier = Modifier) {
-    LazyColumn {
+    LazyColumn(modifier.height(500.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp)) {
         items(articles){article ->
             ArticleCard(
                 article = article,
                 modifier = Modifier
-                    .padding(4.dp)
+                    //.padding(4.dp)
+                    .clickable { onItemClick(article) }
+            )
+        }
+    }
+}
+
+@Composable
+fun ArticleListV1(
+    onItemClick: (Article) -> Unit,
+    articles : List<Article>,
+    modifier : Modifier = Modifier, ) {
+    Column(modifier = Modifier.padding(
+        start = 25.dp,
+        end = 25.dp,
+        bottom = 20.dp
+    ),
+        verticalArrangement = Arrangement.spacedBy(20.dp)) {
+        Text(
+            text = "All Articles",
+            fontWeight = FontWeight(700),
+            fontSize = 20.sp,
+            lineHeight = 28.sp,
+            style = MaterialTheme.typography.headlineMedium,
+            color = Color(29, 27, 32),
+            modifier = Modifier.padding(
+                //start = 25.dp,
+                //end = 25.dp,
+                //bottom = 20.dp
+            )
+        )
+        articles.forEach{article ->
+            ArticleCard(
+                article = article,
+                modifier = Modifier
+                    //.padding(4.dp)
                     .clickable { onItemClick(article) }
             )
         }
@@ -68,12 +108,15 @@ fun ArticleList(
 @Composable
 fun ArticleCard(article : Article,modifier: Modifier = Modifier) {
     Card(modifier = modifier
-        .fillMaxWidth()
-        .size(80.dp)) {
-        Row(modifier = Modifier
-            .padding(2.dp),
-        )
-            {
+        //.height(80.dp)
+        //.padding(8.dp)
+        //.sizeIn(minWidth = 100.dp, minHeight = 100.dp)
+        .size(width =340.dp, height = 80.dp),
+        //.background(listOfColor.random()),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White,
+        )) {
+        Row{
             //Box(modifier = modifier){
                 AsyncImage(
                     model = ImageRequest.Builder(context = LocalContext.current) //samplePhoto.imgSrc,
@@ -89,57 +132,60 @@ fun ArticleCard(article : Article,modifier: Modifier = Modifier) {
                         .clip(MaterialTheme.shapes.small)
                         .size(width = 80.dp, height = 80.dp),
                 )
-                /*
-            Image(
-                painter = painterResource(article.urlToImage),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .clip(MaterialTheme.shapes.small)
-                    .size(width = 80.dp, height = 80.dp),
-                )
-                 */
-            //}
-            Column(modifier = Modifier
-                .fillMaxWidth()
-                .padding(4.dp)) {
-                Text(
-                    text = sanitizeString(article.title),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(
-                        //top= 4.dp,
-                        //start = 8.dp,
-                        //bottom = 8.dp
-                    )
-                )
 
-                Row(modifier = Modifier.padding(top= 4.dp)) {
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 7.dp, start = 18.dp, bottom = 7.dp)) {
                     Text(
-                        text = article.source.name,
-                        fontSize = 14.sp,
+                        text = article.title ?: "",//sanitizeString(article.title),
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight(500),
+                        lineHeight = 22.sp,
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = Color(29, 27, 32),
                         modifier = Modifier.padding(
+                            //top= 4.dp,
                             //start = 8.dp,
-                            //bottom = 4.dp
+                            bottom = 5.dp
                         )
                     )
-                    Text(text = ".",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(
-                            start = 5.dp,
-                            //bottom = 4.dp
+                    //Text(text = beachName)
+                    Row{
+                        Text(
+                            text = article.source.name,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(400),
+                            lineHeight = 17.41.sp,
+                            color = Color(29, 27, 32),
+                            modifier = Modifier.padding(
+                                end = 7.dp
+                            )
                         )
-                    )
-                    Text(text = getOffset(article.publishedAt),
-                        fontSize = 14.sp,
-                        modifier = Modifier.padding(
-                            start = 5.dp,
-                            //bottom = 4.dp
+                        Text(
+                            text = "·",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(400),
+                            lineHeight = 17.41.sp,
+                            color = Color(29, 27, 32),
+                            modifier = Modifier.padding(
+                                //start = 0.5.dp,
+                                //end = 0.5.dp
+                            )
                         )
+                        Text(
+                            text = getOffset(article.publishedAt),
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(400),
+                            lineHeight = 17.41.sp,
+                            color = Color(29, 27, 32),
+                            modifier = Modifier.padding(
+                                start = 7.dp
+                            )
                         )
+                    }
                 }
-            }
         }
     }
 }
@@ -216,9 +262,15 @@ private fun ArticleCardPreview() {
 }
 
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun ArticleCardPreview1() {
     ArticleApp()
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun ArticleCardPreview2() {
+    ArticleListV1(onItemClick = {}, articles = ArticleMockData.articleList)
 }
 

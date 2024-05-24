@@ -30,6 +30,7 @@ import com.example.nordicnews.ui.detail.DetailViewModel
 import com.example.nordicnews.ui.navigation.BottomNavigationBar
 import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.shared.ArticleList
+import com.example.nordicnews.ui.shared.ArticleListV1
 import com.example.nordicnews.ui.theme.NordicNewsTheme
 
 object BookmarksDestination : NavigationDestination {
