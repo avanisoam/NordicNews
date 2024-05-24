@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -146,7 +147,9 @@ fun CardWithImageAndText(article : Article, modifier : Modifier = Modifier) {
 }
 
 @Composable
-fun HorizontalCardListWithText(articles : List<Article>,modifier : Modifier = Modifier) {
+fun HorizontalCardListWithText(
+    onItemClick: (Article) -> Unit,
+    articles : List<Article>,modifier : Modifier = Modifier) {
     val listOfItems = mutableListOf(
        "BBC","ABP","Technology","Sports"
     )
@@ -184,7 +187,9 @@ fun HorizontalCardListWithText(articles : List<Article>,modifier : Modifier = Mo
              */
             items(articles){ article ->
                 CardWithImageAndText(
-                    article = article )
+                    article = article,
+                    modifier = Modifier
+                        .clickable { onItemClick(article) })
             }
         }
     }
@@ -194,5 +199,7 @@ fun HorizontalCardListWithText(articles : List<Article>,modifier : Modifier = Mo
 @Preview(showSystemUi = true)
 @Composable
 private fun HorizontalCardListPreview() {
-    HorizontalCardListWithText(articles = ArticleMockData.articleList)
+    HorizontalCardListWithText(
+        onItemClick = {},
+        articles = ArticleMockData.articleList)
 }

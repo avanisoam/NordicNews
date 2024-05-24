@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -57,10 +58,12 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.nordicnews.R
 import com.example.nordicnews.data.models.Article
+import com.example.nordicnews.data.models.ArticleMockData
 import com.example.nordicnews.data.models.Source
 import com.example.nordicnews.ui.navigation.BottomNavigationBar
 import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.search.SearchDestination
+import com.example.nordicnews.ui.shared.ArticleListV1
 import com.example.nordicnews.ui.shared.getOffset
 import com.example.nordicnews.ui.theme.NordicNewsTheme
 import com.google.gson.Gson
@@ -75,6 +78,7 @@ object DetailDestination : NavigationDestination {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
+    navigateToDetailScreen : (Article) -> Unit,
     article : Article?,
     navController: NavController,
     modifier: Modifier = Modifier,
@@ -129,11 +133,11 @@ fun DetailScreen(
                 modifier = Modifier
                     //.verticalScroll(rememberScrollState())
                     .padding(innerPadding),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                //verticalArrangement = Arrangement.spacedBy(16.dp),
             ){
                 item {
                     Text(
-                        text = article.description,
+                        text = article.title,
                         style = MaterialTheme.typography.headlineLarge,
                         fontWeight = FontWeight(400),
                         fontSize = 28.sp,
@@ -157,12 +161,87 @@ fun DetailScreen(
                             .fillMaxWidth()
                             //.width(390.dp)
                             .height(220.dp),
+                            //.border(BorderStroke(2.dp, Color.Red)),
                         //.clip(MaterialTheme.shapes.medium),
                         contentScale = ContentScale.Crop
                     )
                 }
                 item {
                     DetailsRow(article = article)
+                }
+                item{
+
+                    Divider(color = Color(215, 215, 215),
+                        modifier =Modifier
+                        //.height(1.dp)
+                        //.width(1.dp)
+                        .padding(
+                            start = 25.dp,
+                            end = 25.dp,
+                            bottom = 20.dp
+                        ),
+                        thickness = 1.dp
+
+                     )
+                }
+
+                item {
+                    Column(modifier = Modifier.
+                    padding(start = 25.dp, end = 25.dp, bottom = 28.dp)) {
+                        Text(
+                            text = "AI in our products",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight(700),
+                            lineHeight = 28.sp,
+                            style = MaterialTheme.typography.headlineMedium,
+                            color = Color(29, 27, 32),
+                            modifier = Modifier.padding(top=20.dp,bottom=20.dp)
+                        )
+                        Text(
+                            text = "“Help me write” in Gmail",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight(500),
+                            lineHeight = 22.sp,
+                            style = MaterialTheme.typography.headlineSmall,
+                            color = Color(29, 27, 32),
+                            modifier = Modifier.padding(bottom=10.dp)
+                        )
+                        Text(
+                            text = article.content,
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight(400),
+                            lineHeight = 24.sp,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = Color(29, 27, 32),
+                            modifier = Modifier.padding(bottom=20.dp),
+                            textAlign = TextAlign.Justify
+                        )
+                    }
+                }
+                item{
+                    Column(modifier = Modifier.padding(start=25.dp,end=25.dp)) {
+                        Text(
+                            text = "Related article",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight(700),
+                            lineHeight = 28.sp,
+                            style = MaterialTheme.typography.headlineMedium,
+                            color = Color(29, 27, 32),
+                            modifier = Modifier.padding(bottom=20.dp),
+                            )
+
+                        ArticleListV1(
+                            onItemClick = { navigateToDetailScreen(it)},
+                            // Mock Article Data
+                            articles = ArticleMockData.articleList.takeLast(3)
+                            // Data from Api
+                            //articles = uiState.ArticleList,
+                            //modifier = Modifier.height(500.dp)
+                        )
+                    }
+                }
+                item { 
+                    Spacer(modifier = Modifier.height(84.dp))
                 }
             }
             /*
@@ -345,7 +424,7 @@ fun DetailBodyV2(article : Article,
     ){
         item {
             Text(
-                text = article.description,
+                text = article.title,
                 style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight(400),
                 fontSize = 28.sp,
@@ -416,10 +495,10 @@ fun DetailsRow(article : Article,
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                top = 32.dp,
+                //top = 32.dp,
                 start = 25.dp,
                 bottom = 19.dp,
-                end =25.dp
+                end = 25.dp
             )
     ) {
 
@@ -429,22 +508,57 @@ fun DetailsRow(article : Article,
                 .build(),
             contentDescription = null,
             modifier = Modifier
-                //.padding(16.dp)
-                .size(64.dp)
+                .padding(top = 32.dp)
+                //.size(64.dp)
+                .size(width = 35.dp, height = 35.dp)
                 //.clip(shape = RoundedCornerShape(50.dp))
-                .clip(MaterialTheme.shapes.small)
-                .weight(1f),
+                //.border(BorderStroke(2.dp, Color.Red))
+                .clip(MaterialTheme.shapes.small),
+                //.weight(1f),
             contentScale = ContentScale.Crop
         )
-        /*
-        Column(modifier
-            .padding(16.dp)
-            .weight(2f)) {
-            Text(text = article.author)
-            //Text(text = getOffset(article.publishedAt))
-        }
 
-         */
+        Column(modifier = Modifier
+            .padding(start = 12.dp, top = 30.dp)
+            .weight(2f)) {
+            Text(
+                text = article.author,
+                fontSize = 16.sp,
+                fontWeight = FontWeight(500),
+                lineHeight = 22.sp,
+                color = Color(29, 27, 32),
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(
+                    end = 18.dp,
+                    bottom = 1.dp
+                )
+            )
+            Row {
+                Text(
+                    text = "posted : ",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight(400),
+                    lineHeight = 17.41.sp,
+                    color = Color(29, 27, 32),
+                    style = MaterialTheme.typography.labelLarge,
+                    modifier = Modifier.padding(
+                        //start = 0.5.dp,
+                        //end = 0.5.dp
+                    )
+                )
+                Text(
+                    text = "${getOffset(article.publishedAt)} ago",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight(400),
+                    lineHeight = 17.41.sp,
+                    color = Color(29, 27, 32),
+                    style = MaterialTheme.typography.labelLarge,
+                    modifier = Modifier.padding(
+                        start = 7.dp
+                    )
+                )
+            }
+        }
     }
 }
 

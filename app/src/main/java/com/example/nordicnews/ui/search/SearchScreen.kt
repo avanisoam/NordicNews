@@ -2,8 +2,11 @@ package com.example.nordicnews.ui.search
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
@@ -31,11 +34,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nordicnews.R
+import com.example.nordicnews.data.models.Article
 import com.example.nordicnews.ui.home.HomeDestination
 import com.example.nordicnews.ui.home.HomeViewModel
 import com.example.nordicnews.ui.navigation.BottomNavigationBar
 import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.shared.ArticleList
+import com.example.nordicnews.ui.shared.ArticleListV1
 import com.example.nordicnews.ui.theme.NordicNewsTheme
 
 object SearchDestination : NavigationDestination {
@@ -46,6 +51,7 @@ object SearchDestination : NavigationDestination {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
+    navigateToDetailScreen : (Article) -> Unit,
     navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = viewModel(factory = SearchViewModel.Factory)
@@ -93,6 +99,28 @@ fun SearchScreen(
             }
         }
     ) { innerPadding ->
+
+        LazyColumn(
+            modifier = Modifier
+                .padding(innerPadding),
+        ){
+            item { Spacer(modifier = Modifier.height(40.dp)) }
+
+            item {
+                Column(modifier = Modifier.padding(start = 25.dp,end = 25.dp)) {
+                    ArticleListV1(
+                        onItemClick = { navigateToDetailScreen(it) },
+                        // Mock Article Data
+                        //articles = ArticleMockData.articleList
+
+                        // Data from Api
+                        articles = uiState.ArticleList,
+                        //modifier = Modifier.padding(bottom = 20.dp)
+                    )
+                }
+            }
+        }
+        /*
         Column(
             modifier = Modifier
                 .padding(innerPadding),
@@ -106,18 +134,15 @@ fun SearchScreen(
                 )
             }
             else {
-                /*
-                Text(
-                    text = "Nordic News - ${stringResource(SearchDestination.titleRes)}",
-                    modifier = modifier
-                )
-                 */
                 Text(text = "No. of Article ${uiState.ArticleList.size}")
 
             }
+
             ArticleList(articles = uiState.ArticleList,
                 onItemClick = {})
         }
+
+         */
     }
 
 }
@@ -127,6 +152,7 @@ fun SearchScreen(
 private fun SearchScreenPreview() {
     NordicNewsTheme {
        SearchScreen(
+           navigateToDetailScreen = {},
            navController = rememberNavController()
        )
     }

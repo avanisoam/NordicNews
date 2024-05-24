@@ -2,7 +2,10 @@ package com.example.nordicnews.ui.bookmark
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.BottomAppBar
@@ -18,8 +21,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -68,6 +73,48 @@ fun BookmarksScreen(
             }
         }
     ) { innerPadding ->
+        LazyColumn(
+            modifier = Modifier
+                //.verticalScroll(rememberScrollState())
+                .padding(innerPadding),
+            //verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            item { Spacer(modifier = Modifier.height(40.dp)) }
+            item {
+                Column(
+                    modifier = Modifier.padding(
+                        start = 25.dp,
+                        end = 25.dp,
+                        bottom = 50.dp
+                    )
+                ) {
+                    Text(
+                        text = "All Bookmarks",
+                        fontWeight = FontWeight(700),
+                        fontSize = 20.sp,
+                        lineHeight = 28.sp,
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = Color(29, 27, 32),
+                        modifier = Modifier.padding(
+                            //start = 25.dp,
+                            //end = 25.dp,
+                            bottom = 20.dp
+                        )
+                    )
+
+                    ArticleListV1(
+                        onItemClick = { navigateToDetailScreen(it) },
+                        // Mock Article Data
+                        //articles = ArticleMockData.articleList
+
+                        // Data from Api
+                        articles = uiState.bookmarks,
+                        //modifier = Modifier.padding(bottom = 20.dp)
+                    )
+                }
+            }
+
+            /*
         Column(
             modifier = Modifier
                 .padding(innerPadding),
@@ -77,16 +124,12 @@ fun BookmarksScreen(
                 onItemClick = {navigateToDetailScreen(it)},
                 articles = uiState.bookmarks
             )
-            
-            /*
-            Text(
-                text = "Nordic News - ${stringResource(BookmarksDestination.titleRes)}",
-                modifier = modifier
-            )
-             */
         }
-    }
 
+         */
+        }
+
+    }
 }
 
 @Preview(showSystemUi = true)

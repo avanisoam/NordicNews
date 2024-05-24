@@ -75,6 +75,7 @@ fun ArticleListV1(
     onItemClick: (Article) -> Unit,
     articles : List<Article>,
     modifier : Modifier = Modifier, ) {
+    /*
     Column(modifier = Modifier.padding(
         start = 25.dp,
         end = 25.dp,
@@ -94,15 +95,17 @@ fun ArticleListV1(
                 //bottom = 20.dp
             )
         )
+
+     */
         articles.forEach{article ->
             ArticleCard(
                 article = article,
                 modifier = Modifier
-                    //.padding(4.dp)
+                    .padding(bottom =20.dp)
                     .clickable { onItemClick(article) }
             )
         }
-    }
+    //}
 }
 
 @Composable

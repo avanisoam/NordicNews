@@ -51,6 +51,8 @@ fun NordicNewsNavHost(
             val article = it.arguments?.getParcelable<Article>("article")
 
             DetailScreen(
+                navigateToDetailScreen = {val json = Uri.encode(Gson().toJson(it))
+                    navController.navigate("detail/$json")},
                 article = article,
                 navController= navController,
                 // TODO:
@@ -59,7 +61,13 @@ fun NordicNewsNavHost(
             )
         }
 
-        composable(SearchDestination.route) { SearchScreen(navController) }
+        composable(SearchDestination.route) {
+            SearchScreen(
+                navigateToDetailScreen = { val json = Uri.encode(Gson().toJson(it))
+                    navController.navigate("detail/$json")},
+                navController
+            )
+        }
         composable(BookmarksDestination.route) {
             BookmarksScreen(
                 navigateToDetailScreen = {

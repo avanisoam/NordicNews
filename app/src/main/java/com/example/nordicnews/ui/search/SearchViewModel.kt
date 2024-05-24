@@ -43,6 +43,14 @@ class SearchViewModel(private  val apiRepository: ApiRepository) : ViewModel() {
 
     fun onSearchClicked(value : String) {
         getFilteredNews(value)
+        /*
+        uiState.update {currentUiState ->
+            currentUiState.copy(
+                name = ""
+            )
+        }
+        
+         */
     }
 
     fun getFilteredNews(sources : String = "ars-technica",//"the-verge",//"bbc-news",
@@ -73,7 +81,7 @@ class SearchViewModel(private  val apiRepository: ApiRepository) : ViewModel() {
     }
 
     init {
-        getFilteredNews()
+        //getFilteredNews()
     }
 }
 enum class SearchWidgetState {

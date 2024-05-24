@@ -102,7 +102,7 @@ fun FixedHeader(article : Article,
         }
 
         Text(
-            text = article.description,
+            text = article.title,
             style = MaterialTheme.typography.headlineLarge,
             color = Color.Black,
             fontSize = 28.sp,
