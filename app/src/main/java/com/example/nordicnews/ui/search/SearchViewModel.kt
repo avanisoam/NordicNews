@@ -1,5 +1,6 @@
 package com.example.nordicnews.ui.search
 
+import android.util.Log
 import androidx.compose.ui.text.toLowerCase
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -70,7 +71,7 @@ class SearchViewModel(
         viewModelScope.launch {
             try {
                 //val allNews = apiRepository.getNews(sources,page)
-                val allNews = apiRepository.getArticlesByCategoryAsync(sources)
+                val allNews = apiRepository.getHeadlinesByCountryAndCategoryV1(sources)
 
                 uiState.update {currentUiState ->
                     currentUiState.copy(
@@ -90,6 +91,22 @@ class SearchViewModel(
             currentUiState.copy(
                 searchWidgetState = newValue
             )
+        }
+    }
+
+    fun searchNews(keyword : String) {
+        viewModelScope.launch {
+            try {
+                val allNews = apiRepository.searchNewsV2(keyword)
+                Log.d("AllNews", "${allNews.totalResults} no.of news")
+                uiState.update {currentUiState ->
+                    currentUiState.copy(
+                        ArticleList = allNews.articles
+                    )
+                }
+            }catch (ex : Exception){
+
+            }
         }
     }
 

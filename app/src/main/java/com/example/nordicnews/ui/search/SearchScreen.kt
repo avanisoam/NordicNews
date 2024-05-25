@@ -90,7 +90,7 @@ fun SearchScreen(
                 searchTextState = uiState.name,
                 onTextChange = {viewModel.onNameChange(it)},
                 onCloseClicked = { viewModel.updateSearchWidgetState(newValue = SearchWidgetState.CLOSED ) },
-                onSearchClicked = {viewModel.onSearchClicked(it)},
+                onSearchClicked = {viewModel.searchNews(it)},//{viewModel.onSearchClicked(it)},
                 onSearchTriggered = {viewModel.updateSearchWidgetState(newValue = SearchWidgetState.OPENED)}
             )
 

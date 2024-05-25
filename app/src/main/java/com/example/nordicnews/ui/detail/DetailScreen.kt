@@ -18,11 +18,13 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
@@ -104,12 +106,28 @@ fun DetailScreen(
                     },
                     navigationIcon = {
 
+                        Row {
                             IconButton(onClick = navigateUp) {
                                 Icon(
                                     imageVector = Icons.Filled.ArrowBack,
                                     contentDescription = stringResource(R.string.back_button)
                                 )
                             }
+                            Spacer(modifier = Modifier.weight(0.5f))
+                            IconButton(
+                                onClick = {
+                                    coroutineScope.launch {
+                                    viewModel.deleteItem(article)
+                                        navigateUp()
+
+                                } }) {
+                                Icon(
+                                    imageVector = Icons.Filled.Delete,
+                                    contentDescription = stringResource(R.string.back_button)
+                                )
+                            }
+
+                        }
                     }
                 )
             },
@@ -131,7 +149,19 @@ fun DetailScreen(
                     if (uiState.article.url == "") {
                         Icon(Icons.Default.FavoriteBorder, contentDescription = "Bookmark Removed")
                     } else {
-                        Icon(Icons.Default.Favorite, contentDescription = "Bookmark Added")
+                        //Icon(Icons.Default.Favorite, contentDescription = "Bookmark Added")
+                        IconButton(
+                            onClick = {
+                                coroutineScope.launch {
+                                    viewModel.deleteItem(article)
+                                    navigateUp()
+
+                                } }) {
+                            Icon(
+                                imageVector = Icons.Filled.Delete,
+                                contentDescription = stringResource(R.string.back_button)
+                            )
+                        }
                     }
                 }
             }
@@ -519,9 +549,9 @@ fun DetailsRow(article : Article,
                 .padding(top = 32.dp)
                 //.size(64.dp)
                 .size(width = 35.dp, height = 35.dp)
-                //.clip(shape = RoundedCornerShape(50.dp))
+                .clip(CircleShape),
                 //.border(BorderStroke(2.dp, Color.Red))
-                .clip(MaterialTheme.shapes.small),
+                //.clip(MaterialTheme.shapes.small),
                 //.weight(1f),
             contentScale = ContentScale.Crop
         )
@@ -530,7 +560,7 @@ fun DetailsRow(article : Article,
             .padding(start = 12.dp, top = 30.dp)
             .weight(2f)) {
             Text(
-                text = article.author,
+                text = article.author.ifEmpty { "Anonymous" },
                 fontSize = 16.sp,
                 fontWeight = FontWeight(500),
                 lineHeight = 22.sp,
@@ -543,7 +573,7 @@ fun DetailsRow(article : Article,
             )
             Row {
                 Text(
-                    text = "posted : ",
+                    text = "posted :",
                     fontSize = 14.sp,
                     fontWeight = FontWeight(400),
                     lineHeight = 17.41.sp,

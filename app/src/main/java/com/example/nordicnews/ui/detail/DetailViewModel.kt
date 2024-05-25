@@ -54,10 +54,10 @@ class DetailViewModel(
     init {
         Log.d("argument", argument.url)
         viewModelScope.launch {
-        uiState.value = articleRepository.getArticle(argument.url)
-            .filterNotNull()
-            .first()
-            .toDetailUiState(false)
+            uiState.value = articleRepository.getArticle(argument.url)
+                .filterNotNull()
+                .first()
+                .toDetailUiState(false)
         }
     }
 
@@ -65,15 +65,15 @@ class DetailViewModel(
      * Holds current item ui state
      */
     // Backing property to avoid state updates from other classes
-   // private val _uiState = MutableStateFlow(DetailUiSate())
-   // val uiState: StateFlow<DetailUiSate> = _uiState.asStateFlow()
+    // private val _uiState = MutableStateFlow(DetailUiSate())
+    // val uiState: StateFlow<DetailUiSate> = _uiState.asStateFlow()
 
     /*
     var uiState = MutableStateFlow(DetailUiSate())
         private set
 
      */
-     
+
     suspend fun saveItem(article : Article) {
         uiState.update {currentUiState ->
             currentUiState.copy(
@@ -90,8 +90,13 @@ class DetailViewModel(
             // Delete Api
         }
     }
-}
 
+    suspend fun deleteItem(article: Article){
+        viewModelScope.launch {
+            articleRepository.deleteArticle(article)
+        }
+    }
+}
 data class DetailUiSate(
     val isBookmarked : Boolean = false,
     val article : Article = Article()

@@ -2,7 +2,6 @@ package com.example.nordicnews.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -13,8 +12,6 @@ import com.example.nordicnews.data.models.Category
 import com.example.nordicnews.data.models.General
 import com.example.nordicnews.data.models.Technology
 import com.example.nordicnews.data.network.ApiRepository
-import com.example.nordicnews.ui.detail.DetailViewModel
-import com.example.nordicnews.ui.search.SearchUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -40,11 +37,10 @@ class HomeViewModel(private  val apiRepository: ApiRepository): ViewModel() {
     var uiState = MutableStateFlow(HomeUiState())
         private set
 
-    fun getAllNews(sources : String = "ars-technica",//"the-verge",//"bbc-news",
-                   page : Int= 1){
+   private fun getNewsBySource(source : String){
         viewModelScope.launch {
             try {
-                val allNews = apiRepository.getNews(sources,page)
+                val allNews = apiRepository.getNewsBySource(source)
                 uiState.update {currentUiState ->
                     currentUiState.copy(
                         ArticleList = allNews.articles
@@ -57,7 +53,7 @@ class HomeViewModel(private  val apiRepository: ApiRepository): ViewModel() {
     }
 
     init {
-        getAllNews()
+        getNewsBySource(source = "the-verge")
     }
 
 }

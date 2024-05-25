@@ -19,4 +19,9 @@ interface IArticleRepository {
      */
     fun getAllArticles(): Flow<List<Article>>
 
+    /**
+     * Delete item from the data source
+     */
+    suspend fun deleteArticle(article: Article)
+
 }
