@@ -51,13 +51,18 @@ class DetailViewModel(
     //var uiState = MutableStateFlow(DetailUiSate())
       //  private set
 
-    private val argument = checkNotNull(savedStateHandle.get<Article>("article"))
+    private val argumentArticleObject = checkNotNull(savedStateHandle.get<Article>("article"))
 
     val uiState: StateFlow<DetailUiState> =
-        articleRepository.getArticle(argument.url)
-            .filterNotNull()
+        articleRepository.getArticle(argumentArticleObject.url)
+            //.filterNotNull()
             .map { article ->
-            DetailUiState(article = article)
+                if(article == null) {
+                    DetailUiState()
+                }
+                else{
+                    DetailUiState(article = article)
+                }
         }
             .stateIn(
                 scope = viewModelScope,

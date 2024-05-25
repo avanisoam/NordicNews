@@ -109,7 +109,7 @@ fun DetailScreen(
                                     viewModel.deleteItem(article)
                                     //navigateUp()
                                     // To refresh screen
-                                    navigateToDetailScreen(article)
+                                    //navigateToDetailScreen(article)
                                 }
                             }) {
                                 Icon(
@@ -180,6 +180,11 @@ fun DetailScreen(
                         )
                     )
                 }
+                /*
+                item {
+                    Text(text = "${uiState.article.url}**")
+                }
+                 */
                 item {
                     AsyncImage(
                         model = ImageRequest.Builder(context = LocalContext.current)
