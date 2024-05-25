@@ -93,12 +93,15 @@ data class NavigationItem(
 @Composable
 fun HomeScreen(
     navigateToDetailScreen : (Article) -> Unit,
+    navigateToSearchScreen : (String) -> Unit,
     navController: NavController,
     //name: String,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val categoryList by viewModel.categoryuiState.collectAsState()
+
     val items = listOf(
         NavigationItem(
             title = "All",
@@ -212,8 +215,9 @@ fun HomeScreen(
                             urlToImage = "https://raw.githubusercontent.com/avanisoam/NordicNews/main/MockImages/Mock_DetailImg.png",
                         )
                         val json = Uri.encode(Gson().toJson(article))
-                        navController.navigate("detail/$json")
-
+                        //navController.navigate("detail/$json")
+                        //navController.navigate("search/general")
+                        navController.navigate("search/business")
                         //navController.navigate(DetailDestination.route)
 
                     }) {
@@ -242,7 +246,10 @@ fun HomeScreen(
                     item { Spacer(modifier = Modifier.height(50.dp)) }
 
                     item {
-                        ColorfulTabsList()
+                        ColorfulTabsList(
+                            category=categoryList,
+                            onCardClick = {navigateToSearchScreen(it)}
+                        )
                     }
                     item { Spacer(modifier = Modifier.height(50.dp)) }
 
@@ -306,6 +313,8 @@ fun HomeScreen(
 private fun HomeScreenPreview() {
     NordicNewsTheme {
         HomeScreen(navController = rememberNavController(),
-            navigateToDetailScreen = {})
+            navigateToDetailScreen = {},
+            navigateToSearchScreen = {}
+        )
     }
 }

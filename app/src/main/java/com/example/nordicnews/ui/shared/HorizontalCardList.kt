@@ -1,5 +1,6 @@
 package com.example.nordicnews.ui.shared
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,6 +24,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.example.nordicnews.data.models.Article
+import com.example.nordicnews.data.models.Category
 
 @Composable
 fun HorizontalCardList() {
@@ -104,7 +107,11 @@ fun CardShower(beachName: String, modifier: Modifier= Modifier,backgroundColor :
 }
 
 @Composable
-fun ColorfulTabsList(modifier : Modifier = Modifier) {
+fun ColorfulTabsList(
+    modifier : Modifier = Modifier,
+    category : List<Category>,
+    onCardClick: (String) -> Unit,
+    ) {
     val listOfItems = mutableListOf(
        "AI","Search","Google","Gold"
     )
@@ -142,12 +149,14 @@ fun ColorfulTabsList(modifier : Modifier = Modifier) {
                 .padding(start = 25.dp),
             rows = GridCells.Fixed(1)
         ) {
-            itemsIndexed(listOfItems) { i, item ->
+            //itemsIndexed(listOfItems) { i, item ->
+            itemsIndexed(category) { i, item ->
                 CardShower(
-                    beachName = item,
-                    modifier = Modifier.padding(4.dp),
+                    beachName = item.category,
                     backgroundColor = listOfColorForBackground[i],
-                    textColor = listOfColorForText[i]
+                    textColor = listOfColorForText[i],
+                    modifier = Modifier.padding(4.dp)
+                        .clickable { onCardClick(item.category) }
                 )
             }
         }
@@ -158,5 +167,5 @@ fun ColorfulTabsList(modifier : Modifier = Modifier) {
 @Preview
 @Composable
 private fun ColorfulTabsListPreview() {
-    ColorfulTabsList()
+    //ColorfulTabsList(category = List<Category>(3))
 }

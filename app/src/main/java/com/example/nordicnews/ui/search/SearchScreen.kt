@@ -2,6 +2,7 @@ package com.example.nordicnews.ui.search
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,9 +26,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -47,6 +50,8 @@ object SearchDestination : NavigationDestination {
     override val route = "search"
     override val titleRes = R.string.search
     override val iconVector = Icons.Filled.Search
+    const val categoryArg = "category"
+    val routeWithArgs = "$route/{$categoryArg}"
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -104,8 +109,19 @@ fun SearchScreen(
             modifier = Modifier
                 .padding(innerPadding),
         ){
-            item { Spacer(modifier = Modifier.height(40.dp)) }
+            item { Spacer(modifier = Modifier.height(20.dp)) }
 
+            item {
+                Row(horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = "Topic: ${uiState.category}",
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
+            }
+            item { Spacer(modifier = Modifier.height(20.dp)) }
+            
             item {
                 Column(modifier = Modifier.padding(start = 25.dp,end = 25.dp)) {
                     ArticleListV1(

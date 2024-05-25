@@ -8,6 +8,10 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.nordicnews.NordicNewsApplication
 import com.example.nordicnews.data.models.Article
+import com.example.nordicnews.data.models.Business
+import com.example.nordicnews.data.models.Category
+import com.example.nordicnews.data.models.General
+import com.example.nordicnews.data.models.Technology
 import com.example.nordicnews.data.network.ApiRepository
 import com.example.nordicnews.ui.detail.DetailViewModel
 import com.example.nordicnews.ui.search.SearchUiState
@@ -27,6 +31,11 @@ class HomeViewModel(private  val apiRepository: ApiRepository): ViewModel() {
             }
         }
     }
+
+    var categoryuiState = MutableStateFlow<List<Category>>(
+        value = listOf(General(),Business(),Technology())
+    )
+        private set
 
     var uiState = MutableStateFlow(HomeUiState())
         private set

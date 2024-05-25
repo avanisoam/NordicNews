@@ -22,14 +22,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -71,7 +74,7 @@ import kotlinx.coroutines.launch
 
 
 object DetailDestination : NavigationDestination {
-    override val route = "detail"
+    override val route = "detail/{article}"
     override val titleRes = R.string.detail
     override val iconVector = Icons.Filled.Home
 }
@@ -82,8 +85,8 @@ fun DetailScreen(
     article : Article?,
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: DetailViewModel = viewModel(factory = DetailViewModel.Factory)
-    //viewModel: DetailViewModel = viewModel()
+    viewModel: DetailViewModel = viewModel(factory = DetailViewModel.Factory),
+    navigateUp: () -> Unit = {}
 ) {
     if(article == null)
     {
@@ -95,13 +98,18 @@ fun DetailScreen(
 
         Scaffold(
             topBar = {
-                TopAppBar(
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        titleContentColor = MaterialTheme.colorScheme.primary,
-                    ),
+                CenterAlignedTopAppBar(
                     title = {
                         Text(stringResource(id = DetailDestination.titleRes))
+                    },
+                    navigationIcon = {
+
+                            IconButton(onClick = navigateUp) {
+                                Icon(
+                                    imageVector = Icons.Filled.ArrowBack,
+                                    contentDescription = stringResource(R.string.back_button)
+                                )
+                            }
                     }
                 )
             },

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
@@ -37,11 +38,12 @@ fun NordicNewsNavHost(
                 val json = Uri.encode(Gson().toJson(it))
                 navController.navigate("detail/$json")
             },
+            navigateToSearchScreen = {navController.navigate("search/$it")},
             navController) }
         //composable(DetailDestination.route) { DetailScreen(navController)}
 
         composable(
-            "detail/{article}",
+            DetailDestination.route,//"detail/{article}",
             arguments = listOf(
                 navArgument("article") {
                     type = AssetParamType()
@@ -55,19 +57,29 @@ fun NordicNewsNavHost(
                     navController.navigate("detail/$json")},
                 article = article,
                 navController= navController,
-                // TODO:
-                //navigateBack = {navController.popBackStack()},
-                //togglePreference = {detailViewModel.saveBookmark(it)}
+                navigateUp = {navController.navigateUp()},
             )
         }
 
-        composable(SearchDestination.route) {
+        composable(route = SearchDestination.route) {
             SearchScreen(
                 navigateToDetailScreen = { val json = Uri.encode(Gson().toJson(it))
                     navController.navigate("detail/$json")},
                 navController
             )
         }
+        composable(route = SearchDestination.routeWithArgs,
+            arguments = listOf(navArgument(SearchDestination.categoryArg) {
+                type = NavType.StringType
+            })) {
+            SearchScreen(
+                navigateToDetailScreen = { val json = Uri.encode(Gson().toJson(it))
+                    navController.navigate("detail/$json")},
+                navController
+            )
+        }
+
+
         composable(BookmarksDestination.route) {
             BookmarksScreen(
                 navigateToDetailScreen = {
