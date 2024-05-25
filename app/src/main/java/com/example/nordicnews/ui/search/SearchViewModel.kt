@@ -18,7 +18,7 @@ import com.example.nordicnews.data.models.Category
 import com.example.nordicnews.data.models.General
 import com.example.nordicnews.data.models.Technology
 import com.example.nordicnews.data.network.ApiRepository
-import com.example.nordicnews.ui.detail.DetailUiSate
+import com.example.nordicnews.ui.detail.DetailUiState
 import com.example.nordicnews.ui.home.HomeViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update

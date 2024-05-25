@@ -1,6 +1,5 @@
 package com.example.nordicnews.ui.detail
 
-import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -14,17 +13,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
@@ -38,8 +30,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -49,7 +39,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -58,7 +48,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.nordicnews.R
@@ -67,11 +56,9 @@ import com.example.nordicnews.data.models.ArticleMockData
 import com.example.nordicnews.data.models.Source
 import com.example.nordicnews.ui.navigation.BottomNavigationBar
 import com.example.nordicnews.ui.navigation.NavigationDestination
-import com.example.nordicnews.ui.search.SearchDestination
 import com.example.nordicnews.ui.shared.ArticleListV1
 import com.example.nordicnews.ui.shared.getOffset
 import com.example.nordicnews.ui.theme.NordicNewsTheme
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 
@@ -104,29 +91,45 @@ fun DetailScreen(
                     title = {
                         Text(stringResource(id = DetailDestination.titleRes))
                     },
-                    navigationIcon = {
-
-                        Row {
-                            IconButton(onClick = navigateUp) {
+                    actions = {
+                        // RowScope here, so these icons will be placed horizontally
+                        if (uiState.article.url == "") {
+                            IconButton(onClick = {
+                                coroutineScope.launch {
+                                    viewModel.saveItem(article)
+                                }
+                            }) {
                                 Icon(
-                                    imageVector = Icons.Filled.ArrowBack,
-                                    contentDescription = stringResource(R.string.back_button)
-                                )
+                                    painter = painterResource(id = R.drawable.pin_hollow ) ,
+                                    contentDescription = null)
                             }
-                            Spacer(modifier = Modifier.weight(0.5f))
-                            IconButton(
-                                onClick = {
-                                    coroutineScope.launch {
+                        } else {
+                            IconButton(onClick = {
+                                coroutineScope.launch {
                                     viewModel.deleteItem(article)
-                                        navigateUp()
-
-                                } }) {
+                                    //navigateUp()
+                                    // To refresh screen
+                                    navigateToDetailScreen(article)
+                                }
+                            }) {
                                 Icon(
-                                    imageVector = Icons.Filled.Delete,
-                                    contentDescription = stringResource(R.string.back_button)
-                                )
+                                    painter = painterResource(id = R.drawable.pin ) ,
+                                    contentDescription = null)
                             }
+                        }
 
+                        IconButton(onClick = { /* doSomething() */ }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.share ) ,
+                                contentDescription = null)
+                        }
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = navigateUp) {
+                            Icon(
+                                imageVector = Icons.Filled.ArrowBack,
+                                contentDescription = stringResource(R.string.back_button)
+                            )
                         }
                     }
                 )
@@ -149,19 +152,7 @@ fun DetailScreen(
                     if (uiState.article.url == "") {
                         Icon(Icons.Default.FavoriteBorder, contentDescription = "Bookmark Removed")
                     } else {
-                        //Icon(Icons.Default.Favorite, contentDescription = "Bookmark Added")
-                        IconButton(
-                            onClick = {
-                                coroutineScope.launch {
-                                    viewModel.deleteItem(article)
-                                    navigateUp()
-
-                                } }) {
-                            Icon(
-                                imageVector = Icons.Filled.Delete,
-                                contentDescription = stringResource(R.string.back_button)
-                            )
-                        }
+                        Icon(Icons.Default.Favorite, contentDescription = "Bookmark Added")
                     }
                 }
             }
@@ -175,7 +166,7 @@ fun DetailScreen(
             ){
                 item {
                     Text(
-                        text = article.title,
+                        text = article.title ,
                         style = MaterialTheme.typography.headlineLarge,
                         fontWeight = FontWeight(400),
                         fontSize = 28.sp,
@@ -319,7 +310,7 @@ fun DetailScreen(
 
 @Composable
 fun DetailBody(
-    uiState : DetailUiSate,
+    uiState : DetailUiState,
     article : Article,
     modifier : Modifier = Modifier
 ) {
@@ -376,7 +367,7 @@ fun DetailBody(
 
 @Composable
 fun DetailBodyV1(
-    uiState : DetailUiSate,
+    uiState : DetailUiState,
     article : Article,
     modifier : Modifier = Modifier
 ) {

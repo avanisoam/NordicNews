@@ -21,6 +21,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -46,20 +48,36 @@ class DetailViewModel(
         private set
 
      */
-    var uiState = MutableStateFlow(DetailUiSate())
-        private set
+    //var uiState = MutableStateFlow(DetailUiSate())
+      //  private set
 
     private val argument = checkNotNull(savedStateHandle.get<Article>("article"))
 
+    val uiState: StateFlow<DetailUiState> =
+        articleRepository.getArticle(argument.url)
+            .filterNotNull()
+            .map { article ->
+            DetailUiState(article = article)
+        }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = DetailUiState()
+            )
+
+    /*
     init {
+
         Log.d("argument", argument.url)
         viewModelScope.launch {
             uiState.value = articleRepository.getArticle(argument.url)
                 .filterNotNull()
                 .first()
-                .toDetailUiState(false)
+                .toDetailUiState()
         }
     }
+
+     */
 
     /**
      * Holds current item ui state
@@ -75,6 +93,11 @@ class DetailViewModel(
      */
 
     suspend fun saveItem(article : Article) {
+        viewModelScope.launch {
+            articleRepository.insertArticle(article)
+        }
+
+        /*
         uiState.update {currentUiState ->
             currentUiState.copy(
                 isBookmarked = !(uiState.value.isBookmarked),
@@ -89,6 +112,7 @@ class DetailViewModel(
 
             // Delete Api
         }
+         */
     }
 
     suspend fun deleteItem(article: Article){
@@ -97,12 +121,12 @@ class DetailViewModel(
         }
     }
 }
-data class DetailUiSate(
-    val isBookmarked : Boolean = false,
+data class DetailUiState(
+    //val isBookmarked : Boolean = false,
     val article : Article = Article()
 )
 
-fun Article.toDetailUiState(isBookmarked: Boolean = false): DetailUiSate = DetailUiSate(
-    isBookmarked = isBookmarked,
+fun Article.toDetailUiState(): DetailUiState = DetailUiState(
+    //isBookmarked = isBookmarked,
     article = this
 )
