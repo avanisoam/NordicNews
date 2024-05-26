@@ -37,6 +37,8 @@ import com.example.nordicnews.ui.navigation.BottomNavigationBar
 import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.shared.ArticleList
 import com.example.nordicnews.ui.shared.ArticleListV1
+import com.example.nordicnews.ui.shared.BottomBar
+import com.example.nordicnews.ui.shared.Footer
 import com.example.nordicnews.ui.theme.NordicNewsTheme
 
 object BookmarksDestination : NavigationDestination {
@@ -67,7 +69,9 @@ fun BookmarksScreen(
                 containerColor = Color.White,//MaterialTheme.colorScheme.primaryContainer,
                 //contentColor = Color.Yellow,//MaterialTheme.colorScheme.primary,
             ) {
-                BottomNavigationBar(navController)
+                //BottomNavigationBar(navController)
+                Footer(navController)
+                //BottomBar(navController)
             }
         }
     ) { innerPadding ->

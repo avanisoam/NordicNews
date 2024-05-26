@@ -12,10 +12,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Settings
@@ -66,12 +68,16 @@ import com.example.nordicnews.R
 import com.example.nordicnews.data.models.Article
 import com.example.nordicnews.data.models.ArticleMockData
 import com.example.nordicnews.data.models.Source
+import com.example.nordicnews.ui.developerOptions.DeveloperOptionsDestination
 import com.example.nordicnews.ui.navigation.BottomNavigationBar
 import com.example.nordicnews.ui.navigation.NavigationDestination
+import com.example.nordicnews.ui.settings.SettingsDestination
 import com.example.nordicnews.ui.shared.ArticleList
 import com.example.nordicnews.ui.shared.ArticleListV1
+import com.example.nordicnews.ui.shared.BottomBar
 import com.example.nordicnews.ui.shared.ColorfulTabsList
 import com.example.nordicnews.ui.shared.FixedHeader
+import com.example.nordicnews.ui.shared.Footer
 import com.example.nordicnews.ui.shared.HorizontalCardListWithText
 import com.example.nordicnews.ui.theme.NordicNewsTheme
 import com.google.gson.Gson
@@ -81,16 +87,18 @@ import kotlinx.coroutines.launch
 object HomeDestination : NavigationDestination {
     override val route = "home"
     override val titleRes = R.string.home
-    override val selectedIcon = R.drawable.home_selected
-    override val unSelectedIcon = R.drawable.home
+    override val selectedIcon = R.drawable.home_selected_2
+    override val unSelectedIcon = R.drawable.home_2
 }
 
 data class NavigationItem(
     val title: String,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
-    val badgeCount: Int? = null
+    val badgeCount: Int? = null,
+    val destinationRoute: String?
 )
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -106,20 +114,30 @@ fun HomeScreen(
 
     val items = listOf(
         NavigationItem(
-            title = "All",
+            title = "Home",
             selectedIcon = Icons.Filled.Home,
             unselectedIcon = Icons.Outlined.Home,
+            destinationRoute = null
         ),
+        /*
         NavigationItem(
             title = "Urgent",
             selectedIcon = Icons.Filled.Info,
             unselectedIcon = Icons.Outlined.Info,
             badgeCount = 45
         ),
+         */
         NavigationItem(
             title = "Settings",
             selectedIcon = Icons.Filled.Settings,
             unselectedIcon = Icons.Outlined.Settings,
+            destinationRoute = SettingsDestination.route
+        ),
+        NavigationItem(
+            title = "Developer Options",
+            selectedIcon = Icons.Filled.Build,
+            unselectedIcon = Icons.Outlined.Build,
+            destinationRoute = DeveloperOptionsDestination.route
         ),
     )
 
@@ -143,10 +161,17 @@ fun HomeScreen(
                             },
                             selected = index == selectedItemIndex,
                             onClick = {
-//                                            navController.navigate(item.route)
+
                                 selectedItemIndex = index
-                                scope.launch {
-                                    drawerState.close()
+
+                                if(item.destinationRoute == null) {
+                                    scope.launch {
+                                        drawerState.close()
+                                    }
+                                }
+                                else
+                                {
+                                    navController.navigate(item.destinationRoute)
                                 }
                             },
                             icon = {
@@ -195,7 +220,9 @@ fun HomeScreen(
                         containerColor = Color.White,//MaterialTheme.colorScheme.primaryContainer,
                         //contentColor = Color.Yellow,//MaterialTheme.colorScheme.primary,
                     ) {
-                        BottomNavigationBar(navController)
+                        //BottomNavigationBar(navController)
+                        Footer(navController)
+                        //BottomBar(navController)
                     }
                 },
                 floatingActionButton = {
@@ -219,8 +246,9 @@ fun HomeScreen(
                         val json = Uri.encode(Gson().toJson(article))
                         //navController.navigate("detail/$json")
                         //navController.navigate("search/general")
-                        navController.navigate("search/business")
-                        //navController.navigate(DetailDestination.route)
+                        //navController.navigate("search/business")
+                        //navController.navigate(SettingsDestination.route)
+                        navController.navigate(DeveloperOptionsDestination.route)
 
                     }) {
                         Icon(Icons.Default.Add, contentDescription = "Add")

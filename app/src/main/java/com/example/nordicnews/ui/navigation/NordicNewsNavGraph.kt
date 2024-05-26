@@ -17,10 +17,14 @@ import com.example.nordicnews.ui.bookmark.BookmarksDestination
 import com.example.nordicnews.ui.bookmark.BookmarksScreen
 import com.example.nordicnews.ui.detail.DetailDestination
 import com.example.nordicnews.ui.detail.DetailScreen
+import com.example.nordicnews.ui.developerOptions.DeveloperOptionsDestination
+import com.example.nordicnews.ui.developerOptions.DeveloperOptionsScreen
 import com.example.nordicnews.ui.home.HomeDestination
 import com.example.nordicnews.ui.home.HomeScreen
 import com.example.nordicnews.ui.search.SearchDestination
 import com.example.nordicnews.ui.search.SearchScreen
+import com.example.nordicnews.ui.settings.SettingsDestination
+import com.example.nordicnews.ui.settings.SettingsScreen
 import com.google.gson.Gson
 
 @Composable
@@ -87,6 +91,19 @@ fun NordicNewsNavHost(
                     navController.navigate("detail/$json")
                 },
                 navController)
+        }
+        
+        composable(SettingsDestination.route) {
+            SettingsScreen(
+                navController = navController,
+                navigateUp = {navController.navigateUp()},
+            )
+        }
+        composable(DeveloperOptionsDestination.route) {
+            DeveloperOptionsScreen(
+                navController = navController,
+                navigateUp = {navController.navigateUp()},
+            )
         }
     }
 }
