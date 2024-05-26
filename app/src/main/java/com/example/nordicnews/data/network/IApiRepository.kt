@@ -4,6 +4,8 @@ import android.util.Log
 import java.time.LocalDate
 
 interface IApiRepository {
+
+    suspend fun ping() : String
     suspend fun getNewsBySource(sources : String = "bbc-news", page : Int = 1) : NewsResponse
     suspend fun searchNewsV1(keyword: String = "apple", from: LocalDate, to:LocalDate? = LocalDate.now()) : NewsResponse
     suspend fun searchNewsV2(keyword: String = "tesla", from: LocalDate? = LocalDate.now().minusMonths(1)) : NewsResponse
@@ -16,8 +18,12 @@ interface IApiRepository {
 }
 
 class ApiRepository(private val nordicNewsApiService: NordicNewsApiService) : IApiRepository{
+    override suspend fun ping(): String {
+        return nordicNewsApiService.ping()
+    }
 
     override suspend fun getNewsBySource(sources: String, page: Int): NewsResponse {
+        Log.d("NEWS","${nordicNewsApiService.getNewsBySource(sources,page)} data")
         return  nordicNewsApiService.getNewsBySource(sources,page)
     }
 

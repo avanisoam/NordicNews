@@ -49,10 +49,12 @@ import com.example.nordicnews.ui.theme.NordicNewsTheme
 object SearchDestination : NavigationDestination {
     override val route = "search"
     override val titleRes = R.string.search
-    override val iconVector = Icons.Filled.Search
+    override val selectedIcon = R.drawable.search_selected
+    override val unSelectedIcon = R.drawable.search
     const val categoryArg = "category"
     val routeWithArgs = "$route/{$categoryArg}"
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(

@@ -1,5 +1,6 @@
 package com.example.nordicnews.ui.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -41,19 +42,42 @@ class HomeViewModel(private  val apiRepository: ApiRepository): ViewModel() {
         viewModelScope.launch {
             try {
                 val allNews = apiRepository.getNewsBySource(source)
+                //val allNews = apiRepository.getNewsByApi()
+                Log.d("NEWS123","${allNews.totalResults} data")
                 uiState.update {currentUiState ->
                     currentUiState.copy(
                         ArticleList = allNews.articles
                     )
                 }
             }catch (e: IOException){
-
+                Log.d("Error:NEWS123","${e.toString()} data")
             }
         }
     }
 
+
+    private fun checkServerStatus(){
+        viewModelScope.launch {
+
+                val ping = apiRepository.ping()
+            Log.d("PING","${ping} data")
+                //val allProducts = apiRepository.getProducts()
+                //Log.d("PING","${allProducts.size} data")
+                /*
+                uiState.update {currentUiState ->
+                    currentUiState.copy(
+                        ArticleList = allNews.articles
+                    )
+                }
+
+                 */
+        }
+    }
+
+
     init {
-        getNewsBySource(source = "the-verge")
+       getNewsBySource(source = "the-verge")
+        //checkServerStatus()
     }
 
 }

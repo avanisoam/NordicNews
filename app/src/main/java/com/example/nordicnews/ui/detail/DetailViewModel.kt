@@ -1,5 +1,7 @@
 package com.example.nordicnews.ui.detail
 
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,6 +14,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.nordicnews.NordicNewsApplication
+import com.example.nordicnews.R
 import com.example.nordicnews.data.ArticleRepository
 import com.example.nordicnews.data.models.Article
 import com.example.nordicnews.data.models.AssetParamType
@@ -124,6 +127,18 @@ class DetailViewModel(
         viewModelScope.launch {
             articleRepository.deleteArticle(article)
         }
+    }
+
+    fun shareOrder(context: Context) {
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+        }
+        context.startActivity(
+            Intent.createChooser(
+                intent,
+                context.getString(R.string.detail)
+            )
+        )
     }
 }
 data class DetailUiState(

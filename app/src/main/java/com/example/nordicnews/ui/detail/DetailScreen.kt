@@ -65,8 +65,10 @@ import kotlinx.coroutines.launch
 object DetailDestination : NavigationDestination {
     override val route = "detail/{article}"
     override val titleRes = R.string.detail
-    override val iconVector = Icons.Filled.Home
+    override val selectedIcon = R.drawable.ic_general
+    override val unSelectedIcon = R.drawable.ic_general
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
@@ -77,6 +79,7 @@ fun DetailScreen(
     viewModel: DetailViewModel = viewModel(factory = DetailViewModel.Factory),
     navigateUp: () -> Unit = {}
 ) {
+    val context = LocalContext.current
     if(article == null)
     {
         Text(text = "Something went wrong!")
@@ -118,7 +121,7 @@ fun DetailScreen(
                             }
                         }
 
-                        IconButton(onClick = { /* doSomething() */ }) {
+                        IconButton(onClick = { viewModel.shareOrder(context) }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.share ) ,
                                 contentDescription = null)

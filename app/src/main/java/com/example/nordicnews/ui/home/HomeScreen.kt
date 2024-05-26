@@ -1,6 +1,7 @@
 package com.example.nordicnews.ui.home
 
 import android.net.Uri
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -80,7 +81,8 @@ import kotlinx.coroutines.launch
 object HomeDestination : NavigationDestination {
     override val route = "home"
     override val titleRes = R.string.home
-    override val iconVector = Icons.Filled.Home
+    override val selectedIcon = R.drawable.home_selected
+    override val unSelectedIcon = R.drawable.home
 }
 
 data class NavigationItem(

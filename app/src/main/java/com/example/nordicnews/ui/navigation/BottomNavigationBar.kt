@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,7 +57,12 @@ fun BottomNavigationBar(navController: NavController) {
                         launchSingleTop = true
                     }
                 },
-                icon = { Icon(item.iconVector, contentDescription = null) },
+                icon = {
+                    if(currentRoute == item.route)
+                        Icon(painter = painterResource(id = item.selectedIcon), contentDescription = null)
+                    else
+                        Icon(painter = painterResource(id = item.unSelectedIcon), contentDescription = null)
+                },
                 label = {
                     if(currentRoute == item.route)
                     {

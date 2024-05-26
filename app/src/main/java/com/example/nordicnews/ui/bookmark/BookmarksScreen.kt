@@ -42,7 +42,8 @@ import com.example.nordicnews.ui.theme.NordicNewsTheme
 object BookmarksDestination : NavigationDestination {
     override val route = "bookmark"
     override val titleRes = R.string.bookmarks
-    override val iconVector = Icons.Filled.Favorite
+    override val selectedIcon = R.drawable.pin_selected
+    override val unSelectedIcon = R.drawable.pin
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

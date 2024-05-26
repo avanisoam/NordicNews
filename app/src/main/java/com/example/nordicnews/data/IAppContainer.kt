@@ -13,7 +13,12 @@ interface IAppContainer {
 
 class DefaultAppContainer(private val context: Context) : IAppContainer {
 
-    private val baseUrl = "https://newsapi.org/v2/"
+    // Production Base Url
+    //private val baseUrl = "https://newsapi.org/v2/"  
+
+    // Dev/Local Base Url
+    private val baseUrl = "http://192.168.0.232:5003/api/News/"
+
 /*
     // ToDo : https://stackoverflow.com/questions/34133621/retrofit-400-bad-request
     OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();

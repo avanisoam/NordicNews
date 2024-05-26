@@ -8,6 +8,9 @@ import java.time.LocalDate
 private const val API_KEY = "d6478f2cd0f34abbbe54626f658b33bd"
 
 interface NordicNewsApiService {
+    @GET("ping")
+    suspend fun ping(): String
+
     @GET("everything")
     suspend fun getNewsBySource(
         @Query("sources") sources: String,

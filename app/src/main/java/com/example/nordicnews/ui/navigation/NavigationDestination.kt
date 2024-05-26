@@ -14,6 +14,8 @@ interface NavigationDestination {
     val titleRes: Int
 
     // Icon
-    val iconVector : ImageVector
+    val selectedIcon : Int
+
+    val unSelectedIcon : Int
 
 }
