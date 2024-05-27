@@ -57,6 +57,7 @@ import com.example.nordicnews.data.models.Source
 import com.example.nordicnews.ui.navigation.BottomNavigationBar
 import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.shared.ArticleListV1
+import com.example.nordicnews.ui.shared.Footer
 import com.example.nordicnews.ui.shared.getOffset
 import com.example.nordicnews.ui.theme.NordicNewsTheme
 import kotlinx.coroutines.launch
@@ -142,7 +143,8 @@ fun DetailScreen(
                     containerColor = Color.White,//MaterialTheme.colorScheme.primaryContainer,
                     //contentColor = Color.Yellow,//MaterialTheme.colorScheme.primary,
                 ) {
-                    BottomNavigationBar(navController)
+                    //BottomNavigationBar(navController)
+                    Footer(navController)
                 }
             },
             floatingActionButton = {
