@@ -3,9 +3,6 @@ package com.example.nordicnews.ui.navigation
 import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -37,68 +34,91 @@ fun NordicNewsNavHost(
         startDestination = HomeDestination.route,
         modifier = modifier
     ){
-        composable(HomeDestination.route) { HomeScreen(
-            navigateToDetailScreen = {
-                val json = Uri.encode(Gson().toJson(it))
-                navController.navigate("detail/$json")
-            },
-            navigateToSearchScreen = {navController.navigate("search/$it")},
-            navController) }
-        //composable(DetailDestination.route) { DetailScreen(navController)}
 
+        // Home Screen Route
+        composable(HomeDestination.route) {
+            HomeScreen(
+                navigateToDetailScreen = {
+                    val json = Uri.encode(Gson().toJson(it))
+                    navController.navigate("${DetailDestination.route}/$json")
+                },
+                navigateToSearchScreen = {
+                    navController.navigate("${SearchDestination.route}/$it")
+                },
+                navController
+            )
+        }
+
+        // Detail Screen Route
         composable(
-            DetailDestination.route,//"detail/{article}",
+            DetailDestination.routeWithArgs,
             arguments = listOf(
-                navArgument("article") {
+                navArgument(DetailDestination.ARTICLE_ARG) {
                     type = AssetParamType()
                 }
             )
-        ) {
-            val article = it.arguments?.getParcelable<Article>("article")
+        ) { entry ->
+            val article = entry.arguments?.getParcelable<Article>(DetailDestination.ARTICLE_ARG)
 
             DetailScreen(
-                navigateToDetailScreen = {val json = Uri.encode(Gson().toJson(it))
-                    navController.navigate("detail/$json")},
+                navigateToDetailScreen = {
+                    val json = Uri.encode(Gson().toJson(it))
+                    navController.navigate("${DetailDestination.route}/$json")
+                },
                 article = article,
                 navController= navController,
-                navigateUp = {navController.navigateUp()},
+                navigateUp = { navController.navigateUp() },
             )
         }
 
+        // Search Screen Route 1
         composable(route = SearchDestination.route) {
             SearchScreen(
-                navigateToDetailScreen = { val json = Uri.encode(Gson().toJson(it))
-                    navController.navigate("detail/$json")},
+                navigateToDetailScreen = {
+                    val json = Uri.encode(Gson().toJson(it))
+                    navController.navigate("${DetailDestination.route}/$json")
+                },
                 navController
             )
         }
-        composable(route = SearchDestination.routeWithArgs,
-            arguments = listOf(navArgument(SearchDestination.categoryArg) {
-                type = NavType.StringType
-            })) {
+        // Search Screen Route 2
+        composable(
+            route = SearchDestination.routeWithArgs,
+            arguments = listOf(
+                navArgument(SearchDestination.CATEGORY_ARG) {
+                    type = NavType.StringType
+                }
+            )
+        ) {
             SearchScreen(
-                navigateToDetailScreen = { val json = Uri.encode(Gson().toJson(it))
-                    navController.navigate("detail/$json")},
+                navigateToDetailScreen = {
+                    val json = Uri.encode(Gson().toJson(it))
+                    navController.navigate("${DetailDestination.route}/$json")
+                },
                 navController
             )
         }
 
-
+        // Bookmarks Screen Route
         composable(BookmarksDestination.route) {
             BookmarksScreen(
                 navigateToDetailScreen = {
                     val json = Uri.encode(Gson().toJson(it))
-                    navController.navigate("detail/$json")
+                    navController.navigate("${DetailDestination.route}/$json")
                 },
-                navController)
+                navController
+            )
         }
-        
+
+        // Settings Screen Route
         composable(SettingsDestination.route) {
             SettingsScreen(
                 navController = navController,
                 navigateUp = {navController.navigateUp()},
             )
         }
+
+        // DeveloperOptions Screen Route
         composable(DeveloperOptionsDestination.route) {
             DeveloperOptionsScreen(
                 navController = navController,

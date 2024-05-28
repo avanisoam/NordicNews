@@ -20,11 +20,6 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     NordicNewsApp()
-                    //HorizontalGrid(articles = ArticleMockData.articleList)
-                    //HorizontalGrid(articles = ArticleMockData.articleList)
-                    //CardShower("Avani")
-                    //CustomList()
-                   //HorizontalCardListWithText(articles = ArticleMockData.articleList)
                 }
             }
         }

@@ -40,16 +40,14 @@ import com.example.nordicnews.ui.settings.SettingsDestination
 object DeveloperOptionsDestination : NavigationDestination {
     override val route = "developerOptions"
     override val titleRes = R.string.developerOptions
-    override val selectedIcon = R.drawable.home_selected
-    override val unSelectedIcon = R.drawable.home
+    override val selectedIcon = R.drawable.ic_tech
+    override val unSelectedIcon = R.drawable.ic_tech
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DeveloperOptionsScreen(
     navigateUp : () -> Unit,
-    modifier : Modifier = Modifier,
-    navController: NavController,
     viewModel: DeveloperOptionsViewModel = viewModel(factory = DeveloperOptionsViewModel.Factory )
 ) {
     val uiState by viewModel.uiState.collectAsState()

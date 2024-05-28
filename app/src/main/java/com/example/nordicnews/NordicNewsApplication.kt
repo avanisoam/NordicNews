@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.runBlocking
 
+// TODO: Make Constant
 private const val PREFERENCE_NAME = "nordicnews_preferences"
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
@@ -32,6 +33,7 @@ class NordicNewsApplication : Application() {
     private val isDevloperMode = mutableStateOf(false)
 
     private suspend fun readDataStoreSync() {
+        // TODO: Make Constant
         val dataStoreKey = booleanPreferencesKey("is_debugMode_on")
         val preferences = dataStore.data.first()
 
@@ -48,31 +50,11 @@ class NordicNewsApplication : Application() {
 
         // https://stackoverflow.com/questions/73414839/how-to-load-instantly-data-from-data-store
         // https://developer.android.com/topic/libraries/architecture/datastore#synchronous
-        //GlobalScope.launch {
-            val exampleData = runBlocking {
-                //context.dataStore.data.first()
-                readDataStoreSync()
-            }
-        //}
+        runBlocking {
+            readDataStoreSync()
+        }
 
         Log.d("OnLoad:After", "${isDevloperMode.value}")
-
-        /*
-        val userName: StateFlow<String> = userPreferencesRepository.userName()
-            .filter {
-                it.isNotEmpty()
-            }
-            .stateIn(
-                GlobalScope,
-                SharingStarted.WhileSubscribed(),
-                "qwerty"
-            )
-
-        //Log.d("OnLoad", "${userPreferencesRepository.currentUserName}")
-        Log.d("OnLoad", "${userName.value}")
-         */
-
-        // container = DefaultAppContainer()
 
         container = if(isDevloperMode.value) {
             DefaultAppContainer(

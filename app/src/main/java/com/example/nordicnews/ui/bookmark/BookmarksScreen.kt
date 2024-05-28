@@ -115,20 +115,6 @@ fun BookmarksScreen(
                     )
                 }
             }
-
-            /*
-        Column(
-            modifier = Modifier
-                .padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            ArticleList(
-                onItemClick = {navigateToDetailScreen(it)},
-                articles = uiState.bookmarks
-            )
-        }
-
-         */
         }
 
     }

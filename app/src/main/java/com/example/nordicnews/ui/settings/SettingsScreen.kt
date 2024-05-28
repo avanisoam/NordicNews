@@ -44,16 +44,14 @@ import kotlinx.coroutines.launch
 object SettingsDestination : NavigationDestination {
     override val route = "settings"
     override val titleRes = R.string.settings
-    override val selectedIcon = R.drawable.home_selected
-    override val unSelectedIcon = R.drawable.home
+    override val selectedIcon = R.drawable.ic_business
+    override val unSelectedIcon = R.drawable.ic_business
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     navigateUp : () -> Unit,
-    modifier : Modifier = Modifier,
-    navController: NavController,
     viewModel: SettingViewModel = viewModel(factory = SettingViewModel.Factory )
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -74,14 +72,7 @@ fun SettingsScreen(
                 }
             )
         }
-    ){innerPadding->
-        /*
-        Text(
-            text = "Settings Screen",
-            modifier = Modifier.padding(innerPadding)
-        )
-
-         */
+    ){ innerPadding->
         MainScreen(
 
             uiState = uiState,

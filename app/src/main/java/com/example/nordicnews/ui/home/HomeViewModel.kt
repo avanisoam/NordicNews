@@ -55,22 +55,10 @@ class HomeViewModel(private  val apiRepository: ApiRepository): ViewModel() {
         }
     }
 
-
     private fun checkServerStatus(){
         viewModelScope.launch {
-
-                val ping = apiRepository.ping()
-            Log.d("PING","${ping} data")
-                //val allProducts = apiRepository.getProducts()
-                //Log.d("PING","${allProducts.size} data")
-                /*
-                uiState.update {currentUiState ->
-                    currentUiState.copy(
-                        ArticleList = allNews.articles
-                    )
-                }
-
-                 */
+            val ping = apiRepository.ping()
+            Log.d("PING","$ping data")
         }
     }
 

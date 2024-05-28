@@ -19,7 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
@@ -54,7 +53,6 @@ import com.example.nordicnews.R
 import com.example.nordicnews.data.models.Article
 import com.example.nordicnews.data.models.ArticleMockData
 import com.example.nordicnews.data.models.Source
-import com.example.nordicnews.ui.navigation.BottomNavigationBar
 import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.shared.ArticleListV1
 import com.example.nordicnews.ui.shared.Footer
@@ -64,10 +62,16 @@ import kotlinx.coroutines.launch
 
 
 object DetailDestination : NavigationDestination {
-    override val route = "detail/{article}"
+
+    override val route = "detail"
+    const val ARTICLE_ARG = "article"
+    val routeWithArgs = "${route}/{$ARTICLE_ARG}"
+
     override val titleRes = R.string.detail
+
     override val selectedIcon = R.drawable.ic_general
     override val unSelectedIcon = R.drawable.ic_general
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -618,11 +622,5 @@ private fun DetailScreenPreview() {
             url = "https://www.bbc.co.uk/news/uk-england-birmingham-68831165",
             urlToImage = "https://ichef.bbci.co.uk/news/1024/branded_news/A44D/production/_116316024_breaking-promo-v20e2-red-976x549.png",
         )
-        /*
-        DetailScreen(
-            navController = rememberNavController(),
-            article = article)
-
-         */
     }
 }
