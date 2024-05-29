@@ -12,6 +12,7 @@ import com.example.nordicnews.NordicNewsApplication
 import com.example.nordicnews.data.models.Article
 import com.example.nordicnews.data.network.ApiRepository
 import com.example.nordicnews.dataStore.UserPreferencesRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -22,8 +23,7 @@ import kotlinx.coroutines.launch
 
 class SearchViewModel(
     savedStateHandle: SavedStateHandle,
-    private  val apiRepository: ApiRepository,
-    private val userPreferencesRepository: UserPreferencesRepository
+    private  val apiRepository: ApiRepository
 ) : ViewModel() {
 
     companion object {
@@ -32,23 +32,12 @@ class SearchViewModel(
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as NordicNewsApplication)
                 val apiRepository = application.container.apiRepository
                 val savedStateHandle = this.createSavedStateHandle()
-                val userPreferencesRepository = application.userPreferencesRepository
-                SearchViewModel(savedStateHandle,apiRepository = apiRepository,userPreferencesRepository=userPreferencesRepository)
+                SearchViewModel(savedStateHandle,apiRepository = apiRepository)
             }
         }
     }
 
     private val category: String? = savedStateHandle[SearchDestination.CATEGORY_ARG]
-
-    val userName: StateFlow<String> = userPreferencesRepository.userName()
-        .filter {
-            it.isNotEmpty()
-        }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(),
-            ""
-        )
 
     var uiState = MutableStateFlow(SearchUiState())
         private set
@@ -60,38 +49,33 @@ class SearchViewModel(
                 name = value
             )
         }
-        
-        //getFilteredNews(value)
-        saveUserName(value)
     }
-
-    fun onSearchClicked(value : String) {
-        getFilteredNews(value)
-        /*
-        uiState.update {currentUiState ->
-            currentUiState.copy(
-                name = ""
-            )
-        }
-        
-         */
-    }
-
     fun getFilteredNews(sources : String = "ars-technica",//"the-verge",//"bbc-news",
                    page : Int= 1){
         viewModelScope.launch {
             try {
+                uiState.update {currentUiState ->
+                    currentUiState.copy(
+                        searchApiState = SearchApiState.LOADING
+                    )
+                }
+                delay(3000)  // the delay of 3 seconds
                 //val allNews = apiRepository.getNews(sources,page)
                 val allNews = apiRepository.getHeadlinesByCountryAndCategoryV1(sources)
 
                 uiState.update {currentUiState ->
                     currentUiState.copy(
-                        ArticleList = allNews.articles
+                        articleList = allNews.articles,
+                        searchApiState = SearchApiState.SUCCESS
                     )
                 }
             }//catch (e: IOException) {
             catch (ex : Exception) {
-
+                uiState.update {currentUiState ->
+                    currentUiState.copy(
+                        searchApiState = SearchApiState.ERROR
+                    )
+                }
             }
         }
     }
@@ -108,25 +92,28 @@ class SearchViewModel(
     fun searchNews(keyword : String) {
         viewModelScope.launch {
             try {
+                uiState.update {currentUiState ->
+                    currentUiState.copy(
+                        searchApiState = SearchApiState.LOADING
+                    )
+
+                }
                 val allNews = apiRepository.searchNewsV2(keyword)
                 Log.d("AllNews", "${allNews.totalResults} no.of news")
                 uiState.update {currentUiState ->
                     currentUiState.copy(
-                        ArticleList = allNews.articles
+                        articleList = allNews.articles,
+                        searchApiState = SearchApiState.SUCCESS
                     )
                 }
             }catch (ex : Exception){
+                uiState.update {currentUiState ->
+                    currentUiState.copy(
+                        searchApiState = SearchApiState.ERROR
+                    )
 
+                }
             }
-        }
-    }
-
-    fun CustomInit()
-    {
-        uiState.update {currentUiState ->
-            currentUiState.copy(
-                name = userName.value
-            )
         }
     }
 
@@ -139,14 +126,6 @@ class SearchViewModel(
                 )
             }
             getFilteredNews(uiState.value.category.lowercase())
-
-            saveUserName(category)
-        }
-    }
-
-    fun saveUserName(name: String) {
-        viewModelScope.launch {
-            userPreferencesRepository.saveUserName(name)
         }
     }
 }
@@ -154,9 +133,16 @@ enum class SearchWidgetState {
     OPENED,
     CLOSED
 }
+enum class SearchApiState {
+    SUCCESS,
+    ERROR,
+    LOADING,
+    NONE
+}
 data class SearchUiState(
     val searchWidgetState : SearchWidgetState = SearchWidgetState.OPENED,
     val name : String = "",
-    val ArticleList : List<Article> = listOf(),
-   val category : String = "Everything"
+    val articleList : List<Article> = listOf(),
+    val category : String = "Everything",
+    val searchApiState : SearchApiState = SearchApiState.NONE,
 )

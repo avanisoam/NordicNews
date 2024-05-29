@@ -12,12 +12,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,6 +39,7 @@ import com.example.nordicnews.data.Constants
 import com.example.nordicnews.ui.bookmark.BookmarksViewModel
 import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.settings.SettingsDestination
+import com.example.nordicnews.ui.shared.SettingsSwitchComp
 
 object DeveloperOptionsDestination : NavigationDestination {
     override val route = "developerOptions"
@@ -71,35 +75,29 @@ fun DeveloperOptionsScreen(
        
         Column(modifier = Modifier.padding(innerPadding)) {
             Spacer(modifier = Modifier.padding(4.dp))
+            SettingsSwitchComp(
+                icon = Icons.Filled.Build,
+                iconDesc = "Toggle Switch",
+                name = "Test Mode",
+                state = uiState.isDebugModeEnabled
+            ) {
+                viewModel.toggleDebugMode()
+            }
             if(uiState.isDebugModeEnabled)
             {
-                Button(
-                    onClick = { viewModel.toggleDebugMode() },
-                    //modifier = Modifier.background(color = Color.Green)
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Green)
-                ) {
-                    Text(
-                        text = "Enable PROD Mode",
-                        color = Color.Black
-                    )
-                }
                 Spacer(modifier = Modifier.padding(4.dp))
-                Text(text = "Test API URL : ${Constants.DEV_BASE_URL}")
+                Text(
+                    text = "Test API URL : ${Constants.DEV_BASE_URL}",
+                    modifier = Modifier.padding(start = 25.dp),
+                )
             }
             else
             {
-                Button(
-                    onClick = { viewModel.toggleDebugMode() },
-                    //modifier = Modifier.background(color = Color.Blue),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Yellow)
-                ) {
-                    Text(
-                        text = "Enable TEST Mode",
-                        color = Color.Black
-                    )
-                }
                 Spacer(modifier = Modifier.padding(4.dp))
-                Text(text = "Prod API URL : ${Constants.PROD_BASE_URL}")
+                Text(
+                    text = "Prod API URL : ${Constants.PROD_BASE_URL}",
+                    modifier = Modifier.padding(start = 25.dp),
+                )
             }
             Spacer(modifier = Modifier.padding(4.dp))
 
@@ -119,7 +117,7 @@ fun DeveloperOptionsScreen(
                     Runtime.getRuntime().exit(0)
 
                 },
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = 8.dp,start = 25.dp)
             ) {
                 Text(text = "Restart")
             }

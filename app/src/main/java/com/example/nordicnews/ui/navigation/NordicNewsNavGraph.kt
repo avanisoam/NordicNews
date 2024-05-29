@@ -113,7 +113,6 @@ fun NordicNewsNavHost(
         // Settings Screen Route
         composable(SettingsDestination.route) {
             SettingsScreen(
-                navController = navController,
                 navigateUp = {navController.navigateUp()},
             )
         }
@@ -121,7 +120,6 @@ fun NordicNewsNavHost(
         // DeveloperOptions Screen Route
         composable(DeveloperOptionsDestination.route) {
             DeveloperOptionsScreen(
-                navController = navController,
                 navigateUp = {navController.navigateUp()},
             )
         }

@@ -120,14 +120,13 @@ fun ArticleCard(article : Article,modifier: Modifier = Modifier) {
             containerColor = Color.White,
         )) {
         Row{
-            //Box(modifier = modifier){
                 AsyncImage(
                     model = ImageRequest.Builder(context = LocalContext.current) //samplePhoto.imgSrc,
                         .data(article.urlToImage)
                         .crossfade(true)
                         .build(),
-                    //error = painterResource(R.drawable.ic_broken_image),
-                    //placeholder = painterResource(R.drawable.loading_img),
+                    error = painterResource(R.drawable.ic_broken_image),
+                    placeholder = painterResource(R.drawable.loading_img),
                     contentDescription = stringResource(R.string.news_thumbnail),
                     contentScale = ContentScale.FillHeight,  // to cover whole screen
                     modifier = Modifier

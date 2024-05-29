@@ -2,12 +2,14 @@ package com.example.nordicnews.ui.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -39,6 +41,7 @@ import com.example.nordicnews.ui.detail.DetailDestination
 import com.example.nordicnews.ui.developerOptions.DeveloperOptionsViewModel
 import com.example.nordicnews.ui.navigation.BottomNavigationBar
 import com.example.nordicnews.ui.navigation.NavigationDestination
+import com.example.nordicnews.ui.shared.SettingsSwitchComp
 import kotlinx.coroutines.launch
 
 object SettingsDestination : NavigationDestination {
@@ -73,48 +76,18 @@ fun SettingsScreen(
             )
         }
     ){ innerPadding->
-        MainScreen(
 
-            uiState = uiState,
-            modifier = Modifier.padding(innerPadding),
-            onClick = {viewModel.saveUserName(it)},
-        )
-    }
+        Column(modifier = Modifier.padding(innerPadding)) {
+            Spacer(modifier = Modifier.padding(4.dp))
 
-}
-
-@Composable
-fun MainScreen(
-    uiState: SettingUiState,
-    modifier: Modifier = Modifier,
-    onClick : (String) -> Unit,
-) {
-
-    var userInput by rememberSaveable {
-        mutableStateOf("")
-    }
-
-    Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "My Topic: ${uiState.userName}",
-            style = MaterialTheme.typography.displaySmall,
-            modifier = Modifier
-                .padding(top = 32.dp)
-        )
-        TextField(
-            value = userInput,
-            onValueChange = { userInput = it },
-            modifier = Modifier
-                .padding(vertical = 32.dp)
-        )
-        Button(
-            onClick = { onClick(userInput) }
-        ) {
-            Text(text = "SAVE Topic")
+            SettingsSwitchComp(
+                icon = Icons.Filled.Settings,
+                iconDesc = "Toggle Switch",
+                name = "Lite Mode",
+                state = uiState.isLiteModeOn
+            ) {
+                viewModel.toggleSwitch()
+            }
         }
     }
 }

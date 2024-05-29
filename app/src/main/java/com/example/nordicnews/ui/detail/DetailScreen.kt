@@ -150,20 +150,6 @@ fun DetailScreen(
                     //BottomNavigationBar(navController)
                     Footer(navController)
                 }
-            },
-            floatingActionButton = {
-                FloatingActionButton(onClick = {
-                    coroutineScope.launch {
-                        viewModel.saveItem(article)
-                    }
-                }) {
-
-                    if (uiState.article.url == "") {
-                        Icon(Icons.Default.FavoriteBorder, contentDescription = "Bookmark Removed")
-                    } else {
-                        Icon(Icons.Default.Favorite, contentDescription = "Bookmark Added")
-                    }
-                }
             }
         ) { innerPadding ->
 

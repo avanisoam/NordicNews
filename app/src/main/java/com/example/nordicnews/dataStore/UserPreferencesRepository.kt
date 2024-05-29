@@ -17,7 +17,7 @@ class UserPreferencesRepository(
 ){
     private companion object{
         val Is_DebugMode_On = booleanPreferencesKey("is_debugMode_on")
-        val USER_NAME = stringPreferencesKey("user_name")
+        val Is_LightMode_On = booleanPreferencesKey("is_lightmode_on")
 
         const val TAG = "UserPreferencesRepo"
     }
@@ -43,24 +43,23 @@ class UserPreferencesRepository(
         preferences[Is_DebugMode_On] ?: true
     }
 
-    val currentUserName: Flow<String> =
-        dataStore.data.map { preferences ->
-            preferences[USER_NAME] ?: "Unknown"
-        }
-
-    suspend fun saveUserName(userName: String) {
-        dataStore.edit { preferences ->
-            preferences[USER_NAME] = userName
-        }
-    }
-
-    fun userName(): Flow<String> {
-        return dataStore.data
-            .catch {
+    // Boolean Preference for LiteMode or DetailedMode - Read
+    val isLightMode : Flow<Boolean> = dataStore.data
+        .catch {
+            if(it is IOException) {
+                Log.e(TAG, "Error reading preferences.", it)
                 emit(emptyPreferences())
+            } else {
+                throw it
             }
-            .map { preference ->
-                preference[USER_NAME] ?: ""
-            }
+        }
+        .map{ preferences ->
+            preferences[Is_LightMode_On] ?: false
+        }
+
+    suspend fun saveDisplayModePreference(isLightMode: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[Is_LightMode_On] = isLightMode
+        }
     }
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,7 +31,9 @@ import com.example.nordicnews.R
 import com.example.nordicnews.data.models.Article
 import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.shared.ArticleListV1
+import com.example.nordicnews.ui.shared.ErrorScreen
 import com.example.nordicnews.ui.shared.Footer
+import com.example.nordicnews.ui.shared.LoadingScreen
 import com.example.nordicnews.ui.theme.NordicNewsTheme
 
 object SearchDestination : NavigationDestination {
@@ -55,17 +58,6 @@ fun SearchScreen(
     viewModel: SearchViewModel = viewModel(factory = SearchViewModel.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsState()
-
-    val userName: String by viewModel.userName.collectAsState()
-    Log.e("Tag", "username: $userName")
-
-    LaunchedEffect(true)
-    {
-        Handler().postDelayed({
-            //doSomethingHere()
-            viewModel.CustomInit()
-        }, 500)
-    }
 
     Scaffold(
         topBar = {
@@ -110,64 +102,56 @@ fun SearchScreen(
             }
         }
     ) { innerPadding ->
-
-        LazyColumn(
-            modifier = Modifier
-                .padding(innerPadding),
-        ){
-            item { Spacer(modifier = Modifier.height(20.dp)) }
-
-            item {
-                Row(horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        //text = "Topic: ${uiState.category}",
-                        text = "My Topic: $userName",
-                        fontWeight = FontWeight.Bold,
-                    )
-                }
-            }
-            item { Spacer(modifier = Modifier.height(20.dp)) }
-            
-            item {
-                Column(modifier = Modifier.padding(start = 25.dp,end = 25.dp)) {
-                    ArticleListV1(
-                        onItemClick = { navigateToDetailScreen(it) },
-                        // Mock Article Data
-                        //articles = ArticleMockData.articleList
-
-                        // Data from Api
-                        articles = uiState.ArticleList,
-                        //modifier = Modifier.padding(bottom = 20.dp)
-                    )
-                }
-            }
+        when(uiState.searchApiState) {
+         SearchApiState.LOADING -> LoadingScreen(modifier = Modifier.fillMaxSize())
+         SearchApiState.SUCCESS -> SearchResult(
+                topic = uiState.name,
+                navigateToDetailScreen = navigateToDetailScreen,
+                articles = uiState.articleList,
+                modifier = Modifier.padding(innerPadding)
+            )
+        SearchApiState.ERROR ->    ErrorScreen( modifier = Modifier.fillMaxSize())
+         SearchApiState.NONE ->
+                Text(text = "None",modifier = Modifier.padding(innerPadding))
+            else ->
+                Text(text = "Else")   // For Otherwise
         }
-        /*
-        Column(
-            modifier = Modifier
-                .padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            if(uiState.name.isNotEmpty()) {
+
+    }
+}
+
+@Composable
+fun SearchResult(modifier : Modifier = Modifier,
+                 topic : String,
+                 navigateToDetailScreen :(Article) -> Unit,
+                 articles : List<Article>) {
+    LazyColumn(){
+        item { Spacer(modifier = Modifier.height(20.dp)) }
+
+        item {
+            Row(horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "Search: ${uiState.name}",
-                    modifier = Modifier.padding(bottom = 8.dp),
-                    style = MaterialTheme.typography.bodyMedium
+                    text = "My Topic: $topic",
+                    fontWeight = FontWeight.Bold,
                 )
             }
-            else {
-                Text(text = "No. of Article ${uiState.ArticleList.size}")
-
-            }
-
-            ArticleList(articles = uiState.ArticleList,
-                onItemClick = {})
         }
+        item { Spacer(modifier = Modifier.height(20.dp)) }
 
-         */
+        item {
+            Column(modifier = Modifier.padding(start = 25.dp,end = 25.dp)) {
+                ArticleListV1(
+                    onItemClick = { navigateToDetailScreen(it) },
+                    // Mock Article Data
+                    //articles = ArticleMockData.articleList
+
+                    // Data from Api
+                    articles = articles,
+                )
+            }
+        }
     }
-
 }
 
 @Preview(showSystemUi = true)
