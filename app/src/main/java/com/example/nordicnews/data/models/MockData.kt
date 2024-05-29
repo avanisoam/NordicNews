@@ -181,8 +181,10 @@ object ArticleMockData{
                 id = "Test Home Page Image",
                 name = "Google Cloud"
             ),
-            author = "Avani Soam",
-            content= "Test Content for Home Page Nordic News.",
+            author = "Google Cloud",
+            content= "Just type in the prompt of what you want — an email that asks for a full refund — hit create, and a full draft appears. It conveniently pulls in flight details from the previous email. It looks pretty close to what you want to send, but maybe you want to refine it further. In this case, a more elaborate email might increase the chances of getting the refund. “Help me write” will start rolling out as part of our Workspace updates. And just like with Smart Compose, you’ll see it get better over time.Since the early days of Street View, AI has stitched together billions of panoramic images, so people can explore the world from their device. At last year’s I/O we introduced Immersive View, which uses AI to create a high-fidelity representation of a place, so you can experience it before you visit.\\n\" +\n" +
+                    "                    \"\\n\" +\n" +
+                    "                    \"Now, we’re expanding that same technology to do what Maps does best: help you get where you want to go. Google Maps provides 20 billion kilometers of directions, every day — that’s a lot of trips. Now imagine if you could see your whole trip in advance. With Immersive View for routes you can, whether you're walking, cycling or driving.Of course, we want you to do more than just search photos — we also want to help you make them better. In fact, every month, 1.7 billion images are edited in Google Photos. AI advancements give us more powerful ways to do this. For example, Magic Eraser, launched first on Pixel, uses AI-powered computational photography to remove unwanted distractions. And later this year, using a combination of semantic understanding and generative AI, you can do much more with a new experience called Magic Editor.",
             description = "Test Description for Home Page Nordic News.",
             publishedAt = "2024-05-01T15:06:39Z",
             title = "101 real-world gen AI use cases featured at Google Cloud Next ’24",

@@ -60,7 +60,7 @@ class SearchViewModel(
                     )
                 }
                 delay(3000)  // the delay of 3 seconds
-                //val allNews = apiRepository.getNews(sources,page)
+
                 val allNews = apiRepository.getHeadlinesByCountryAndCategoryV1(sources)
 
                 uiState.update {currentUiState ->

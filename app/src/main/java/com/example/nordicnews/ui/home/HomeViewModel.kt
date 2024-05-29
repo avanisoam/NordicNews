@@ -11,6 +11,7 @@ import com.example.nordicnews.data.models.Article
 import com.example.nordicnews.data.models.Business
 import com.example.nordicnews.data.models.Category
 import com.example.nordicnews.data.models.General
+import com.example.nordicnews.data.models.Sports
 import com.example.nordicnews.data.models.Technology
 import com.example.nordicnews.data.network.ApiRepository
 import com.example.nordicnews.dataStore.UserPreferencesRepository
@@ -53,7 +54,7 @@ class HomeViewModel(
         )
 
     var categoryuiState = MutableStateFlow<List<Category>>(
-        value = listOf(General(),Business(),Technology())
+        value = listOf(General(),Business(),Technology(), Sports())
     )
         private set
 
@@ -61,22 +62,6 @@ class HomeViewModel(
         private set
 
    private fun getNewsBySource(source : String){
-       /*
-        viewModelScope.launch {
-            try {
-                val allNews = apiRepository.getNewsBySource(source)
-                Log.d("NEWS123","${allNews.totalResults} data")
-                uiState.update {currentUiState ->
-                    currentUiState.copy(
-                        ArticleList = allNews.articles
-                    )
-                }
-            }catch (e: IOException){
-                Log.d("Error:NEWS123","${e.toString()} data")
-            }
-        }
-
-        */
        viewModelScope.launch {
            uiState.value =  try {
                val allNews = apiRepository.getNewsBySource(source)
@@ -98,16 +83,9 @@ class HomeViewModel(
 
     init {
        getNewsBySource(source = "the-verge")
-        //checkServerStatus()
     }
 
 }
-
-/*
-data class HomeUiState(
-    val ArticleList : List<Article> = listOf()
-)
- */
 
 sealed interface HomeUiState {
     data class Success(val articleList : List<Article> = listOf()) : HomeUiState

@@ -23,7 +23,7 @@ class ApiRepository(private val nordicNewsApiService: NordicNewsApiService) : IA
     }
 
     override suspend fun getNewsBySource(sources: String, page: Int): NewsResponse {
-        Log.d("NEWS","${nordicNewsApiService.getNewsBySource(sources,page)} data")
+        //Log.d("NEWS","${nordicNewsApiService.getNewsBySource(sources,page)} data")
         return  nordicNewsApiService.getNewsBySource(sources,page)
     }
 

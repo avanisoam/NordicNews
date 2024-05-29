@@ -119,5 +119,5 @@ fun AddItem(
 @Preview(showSystemUi = true)
 fun BottomNavPreview() {
     //MainScreen()
-    BottomBar(navController = NavHostController(LocalContext.current))
+    //BottomBar(navController = NavHostController(LocalContext.current))
 }

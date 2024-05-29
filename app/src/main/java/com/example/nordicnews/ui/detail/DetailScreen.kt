@@ -144,10 +144,8 @@ fun DetailScreen(
             },
             bottomBar = {
                 BottomAppBar(
-                    containerColor = Color.White,//MaterialTheme.colorScheme.primaryContainer,
-                    //contentColor = Color.Yellow,//MaterialTheme.colorScheme.primary,
+                    containerColor = Color.White,
                 ) {
-                    //BottomNavigationBar(navController)
                     Footer(navController)
                 }
             }
@@ -155,9 +153,7 @@ fun DetailScreen(
 
             LazyColumn(
                 modifier = Modifier
-                    //.verticalScroll(rememberScrollState())
                     .padding(innerPadding),
-                //verticalArrangement = Arrangement.spacedBy(16.dp),
             ){
                 item {
                     Text(
@@ -175,23 +171,18 @@ fun DetailScreen(
                         )
                     )
                 }
-                /*
-                item {
-                    Text(text = "${uiState.article.url}**")
-                }
-                 */
                 item {
                     AsyncImage(
                         model = ImageRequest.Builder(context = LocalContext.current)
                             .data(article.urlToImage)
                             .build(),
                         contentDescription = null,
+                        error = painterResource(R.drawable.ic_broken_image),
+                        placeholder = painterResource(R.drawable.loading_img),
                         modifier = Modifier
                             .fillMaxWidth()
-                            //.width(390.dp)
                             .height(220.dp),
                             //.border(BorderStroke(2.dp, Color.Red)),
-                        //.clip(MaterialTheme.shapes.medium),
                         contentScale = ContentScale.Crop
                     )
                 }
@@ -202,21 +193,19 @@ fun DetailScreen(
 
                     Divider(color = Color(215, 215, 215),
                         modifier =Modifier
-                        //.height(1.dp)
-                        //.width(1.dp)
                         .padding(
                             start = 25.dp,
                             end = 25.dp,
                             bottom = 20.dp
                         ),
                         thickness = 1.dp
-
                      )
                 }
 
                 item {
                     Column(modifier = Modifier.
                     padding(start = 25.dp, end = 25.dp, bottom = 28.dp)) {
+                        /*
                         Text(
                             text = "AI in our products",
                             fontSize = 20.sp,
@@ -235,6 +224,7 @@ fun DetailScreen(
                             color = Color(29, 27, 32),
                             modifier = Modifier.padding(bottom=10.dp)
                         )
+                         */
                         Text(
                             text = article.content,
                             fontSize = 15.sp,

@@ -75,28 +75,6 @@ fun ArticleListV1(
     onItemClick: (Article) -> Unit,
     articles : List<Article>,
     modifier : Modifier = Modifier, ) {
-    /*
-    Column(modifier = Modifier.padding(
-        start = 25.dp,
-        end = 25.dp,
-        bottom = 20.dp
-    ),
-        verticalArrangement = Arrangement.spacedBy(20.dp)) {
-        Text(
-            text = "All Articles",
-            fontWeight = FontWeight(700),
-            fontSize = 20.sp,
-            lineHeight = 28.sp,
-            style = MaterialTheme.typography.headlineMedium,
-            color = Color(29, 27, 32),
-            modifier = Modifier.padding(
-                //start = 25.dp,
-                //end = 25.dp,
-                //bottom = 20.dp
-            )
-        )
-
-     */
         articles.forEach{article ->
             ArticleCard(
                 article = article,
@@ -105,23 +83,18 @@ fun ArticleListV1(
                     .clickable { onItemClick(article) }
             )
         }
-    //}
 }
 
 @Composable
 fun ArticleCard(article : Article,modifier: Modifier = Modifier) {
     Card(modifier = modifier
-        //.height(80.dp)
-        //.padding(8.dp)
-        //.sizeIn(minWidth = 100.dp, minHeight = 100.dp)
         .size(width =340.dp, height = 80.dp),
-        //.background(listOfColor.random()),
         colors = CardDefaults.cardColors(
             containerColor = Color.White,
         )) {
         Row{
                 AsyncImage(
-                    model = ImageRequest.Builder(context = LocalContext.current) //samplePhoto.imgSrc,
+                    model = ImageRequest.Builder(context = LocalContext.current)
                         .data(article.urlToImage)
                         .crossfade(true)
                         .build(),

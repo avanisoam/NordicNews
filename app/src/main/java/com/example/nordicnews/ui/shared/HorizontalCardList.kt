@@ -28,79 +28,37 @@ import com.example.nordicnews.data.models.Article
 import com.example.nordicnews.data.models.Category
 
 @Composable
-fun HorizontalCardList() {
-    
-}
-
-@Composable
-fun CardShower(beachName: String, modifier: Modifier= Modifier,backgroundColor : Color,textColor : Color) {
-    val listOfColor =
-        listOf(
-            Color(226, 237, 255),
-            Color(255, 224, 222),
-            Color(225, 242, 229),
-            Color(255, 245, 217)
-        )
-
+fun CardShower(categoryName: String, modifier: Modifier= Modifier,backgroundColor : Color,textColor : Color) {
     Row(modifier = Modifier.wrapContentHeight(align = Alignment.Top),
-        //.size(100.dp,100.dp)
         //.border(BorderStroke(2.dp, SolidColor(Color.Red))),
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         Card(
             modifier = modifier
-                //.height(80.dp)
-                //.padding(8.dp)
-                //.sizeIn(minWidth = 100.dp, minHeight = 100.dp)
                 .size(100.dp)
             ,
-            //.background(listOfColor.random()),
-            /*
-            colors = CardDefaults.cardColors(
-                containerColor = listOfColor.random(),
-
-             */
             colors = CardDefaults.cardColors(
                 containerColor = backgroundColor,
             ),
-            //elevation = CardDefaults.cardElevation(defaultElevation = 20.dp),
-            //shape = RoundedCornerShape(50.dp)
         ) {
-
-            /*
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = beachName,
-                modifier = Modifier.padding(bottom = 4.dp),
-                colorFilter = ColorFilter.tint(color = listOfColor.random())
-           )
-             */
-            //Text(text = beachName)
                 Column {
                     Spacer(modifier = Modifier.weight(2f))
 
                 Text(
-                        text = beachName,
+                        text = categoryName,
                         fontSize = 16.sp,
                         lineHeight = 22.sp,
                         fontWeight = FontWeight(500),
                         style = MaterialTheme.typography.headlineSmall,
-                        //textAlign = TextAlign.Left,
                     modifier = Modifier
-                        //.fillMaxHeight()
                         .padding(
                             //top = 66.dp,
                             bottom =12.dp,
-                            start = 15.dp,
+                            start = 10.dp,
                             //end = 69.dp
                         ),
-                        //.border(BorderStroke(2.dp,Color.Red)),
-                        // add custom modifier in text for text alignment
-                            //.border(BorderStroke(2.dp, Color.Red))
-                            //.align(Alignment.BottomStart),
                         color = textColor
                     )
-                //}
             }
         }
     }
@@ -112,9 +70,6 @@ fun ColorfulTabsList(
     category : List<Category>,
     onCardClick: (String) -> Unit,
     ) {
-    val listOfItems = mutableListOf(
-       "AI","Search","Google","Gold"
-    )
     val listOfColorForBackground =
         listOf(
             Color(226, 237, 255),
@@ -152,7 +107,7 @@ fun ColorfulTabsList(
             //itemsIndexed(listOfItems) { i, item ->
             itemsIndexed(category) { i, item ->
                 CardShower(
-                    beachName = item.category,
+                    categoryName = item.category,
                     backgroundColor = listOfColorForBackground[i],
                     textColor = listOfColorForText[i],
                     modifier = Modifier.padding(4.dp)

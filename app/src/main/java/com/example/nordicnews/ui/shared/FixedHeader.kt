@@ -1,5 +1,6 @@
 package com.example.nordicnews.ui.shared
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -13,54 +14,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.nordicnews.R
 import com.example.nordicnews.data.models.Article
 
 @Composable
-//fun LazyListScope.FixedHeader(article : Article,
 fun FixedHeader(article : Article,
+                onItemClick : (Article) -> Unit,
                 modifier : Modifier = Modifier
 ) {
-    //LazyColumn(modifier.height(500.dp)) {
-    Column(modifier.height(390.dp)){//390 -height
-        //item{
+    Column(modifier.height(390.dp)){
+
         AsyncImage(
             model = ImageRequest.Builder(context = LocalContext.current)
                 .data(article.urlToImage)
                 .build(),
-            contentDescription = null,
+            contentDescription = "Fixed Header Async Image",
+            error = painterResource(R.drawable.ic_broken_image),
+            placeholder = painterResource(R.drawable.loading_img),
             modifier = Modifier
                 .fillMaxWidth()
-                //.width(390.dp)
-                .height(220.dp),
-            //.clip(MaterialTheme.shapes.medium),
+                .height(220.dp)
+                .clickable { onItemClick(article) },
             contentScale = ContentScale.Crop
         )
-        //Spacer(modifier = Modifier.height(4.dp))
-        /*
-        Text(
-            text = buildAnnotatedString{
-                append(article.source.name)
-                append(".")
-                append("10 mins")
-            },
-            fontSize = 14.sp,
-            lineHeight = 17.41.sp,
-            fontWeight = FontWeight(400),
-            modifier = Modifier.padding(
-                top = 20.dp,
-                bottom = 9.dp,
-                start = 25.dp,
-                end = 25.dp
-            )
-        )
-
-         */
         Row(modifier = Modifier.padding(
             start = 25.dp,
             end=25.dp,
@@ -111,7 +94,9 @@ fun FixedHeader(article : Article,
                 start = 20.dp,
                 end = 20.dp,
                 top=9.dp
-            ),
+            )
+            .clickable { onItemClick(article) }
+            ,
         )
         // }
     }

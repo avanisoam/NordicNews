@@ -66,22 +66,17 @@ fun BookmarksScreen(
         },
         bottomBar = {
             BottomAppBar(
-                containerColor = Color.White,//MaterialTheme.colorScheme.primaryContainer,
-                //contentColor = Color.Yellow,//MaterialTheme.colorScheme.primary,
+                containerColor = Color.White,
             ) {
-                //BottomNavigationBar(navController)
                 Footer(navController)
-                //BottomBar(navController)
             }
         }
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
-                //.verticalScroll(rememberScrollState())
                 .padding(innerPadding),
-            //verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            item { Spacer(modifier = Modifier.height(40.dp)) }
+            item { Spacer(modifier = Modifier.height(20.dp)) }
             item {
                 Column(
                     modifier = Modifier.padding(

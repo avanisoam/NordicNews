@@ -61,44 +61,21 @@ fun SearchScreen(
 
     Scaffold(
         topBar = {
-            /*
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    //Text(stringResource(id = SearchDestination.titleRes))
-                    /*
-                    OutlinedTextField(
-                        value = uiState.name,
-                        onValueChange = {viewModel.onNameChange(it)},
-                        //label = { Text(text = "Search") },
-                        modifier = Modifier.fillMaxWidth()
-                            //.padding(2.dp),
-                    )*/
-                }
-            )
-             */
-
             SearchTopAppBar(
                 searchWidgetState = uiState.searchWidgetState,
                 searchTextState = uiState.name,
                 onTextChange = {viewModel.onNameChange(it)},
                 onCloseClicked = { viewModel.updateSearchWidgetState(newValue = SearchWidgetState.CLOSED ) },
-                onSearchClicked = {viewModel.searchNews(it)},//{viewModel.onSearchClicked(it)},
+                onSearchClicked = {viewModel.searchNews(it)},
                 onSearchTriggered = {viewModel.updateSearchWidgetState(newValue = SearchWidgetState.OPENED)}
             )
 
         },
         bottomBar = {
             BottomAppBar(
-                containerColor = Color.White,//MaterialTheme.colorScheme.primaryContainer,
-                //contentColor = Color.Yellow,//MaterialTheme.colorScheme.primary,
+                containerColor = Color.White,
             ) {
-                //BottomNavigationBar(navController)
                 Footer(navController)
-                //BottomBar(navController)
             }
         }
     ) { innerPadding ->
@@ -112,7 +89,7 @@ fun SearchScreen(
             )
         SearchApiState.ERROR ->    ErrorScreen( modifier = Modifier.fillMaxSize())
          SearchApiState.NONE ->
-                Text(text = "None",modifier = Modifier.padding(innerPadding))
+                Text(text = "No result found!",modifier = Modifier.padding(innerPadding).padding(15.dp))
             else ->
                 Text(text = "Else")   // For Otherwise
         }

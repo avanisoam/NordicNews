@@ -231,13 +231,16 @@ fun Result(
     ) {
         if(isLiteMode.not()) {
             item {
-                FixedHeader(article = ArticleMockData.articleList[13])
+                FixedHeader(
+                    article = ArticleMockData.articleList[13],
+                    onItemClick = {navigateToDetailScreen(it)}
+                )
             }
             item { Spacer(modifier = Modifier.height(50.dp)) }
             item {
                 HorizontalCardListWithText(
                     onItemClick = { navigateToDetailScreen(it) },
-                    articles = articles.take(20)//uiState.ArticleList.take(20)
+                    articles = articles.take(20)
                 )
             }
 

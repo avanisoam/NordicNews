@@ -1,6 +1,5 @@
 package com.example.nordicnews.ui.navigation
 
-import androidx.compose.ui.graphics.vector.ImageVector
 
 interface NavigationDestination {
     /**
@@ -13,7 +12,9 @@ interface NavigationDestination {
      */
     val titleRes: Int
 
-    // Icon
+    /**
+     * Drawable resource id to that contains icons to be displayed for the screen.
+     */
     val selectedIcon : Int
 
     val unSelectedIcon : Int

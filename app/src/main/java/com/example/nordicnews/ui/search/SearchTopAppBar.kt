@@ -28,14 +28,4 @@ fun SearchTopAppBar(
             )
         }
     }
-
-    /*
-    OpenSearchBar(
-        text = searchTextState ,
-        onTextChange = onTextChange ,
-        onSearchClicked = {onSearchClicked(it)},
-        onCloseClicked = onCloseClicked
-    )
-
-     */
 }

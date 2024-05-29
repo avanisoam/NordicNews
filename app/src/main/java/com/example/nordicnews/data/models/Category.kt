@@ -24,10 +24,9 @@ data class Technology(
     override val icon: Int = R.drawable.ic_tech,
 ) : Category
 
-fun getTitleResource(activeCategory: Category): Int = when (activeCategory) {
-    is General -> R.string.title_general
-    is Business -> R.string.title_business
-    is Technology -> R.string.title_technology
-    else -> throw IllegalAccessException("Page number is invalid")
-}
+data class Sports(
+    override val category: String = "Sports",
+    override val icon: Int = R.drawable.ic_tech,
+) : Category
+
 
