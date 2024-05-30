@@ -22,7 +22,7 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
+    primary = topbar_color,//Purple40,
     secondary = PurpleGrey40,
     tertiary = Pink40
 

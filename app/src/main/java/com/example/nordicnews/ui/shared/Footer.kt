@@ -1,6 +1,7 @@
 package com.example.nordicnews.ui.shared
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -52,11 +54,12 @@ fun Footer(
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(
-            top = 10.dp,
-            start = 38.dp,
-            //end = 6.dp
-        ),
-        horizontalArrangement = Arrangement.spacedBy(58.dp),
+            //top = 10.dp,
+            //start = 57.dp,
+            //end = 58.dp
+        )
+        .background(Color(0xfff7faff)),
+        horizontalArrangement = Arrangement.spacedBy(40.dp),
         verticalAlignment = Alignment.Bottom
     ) {
         BottomBar.Items.forEach{item ->
@@ -86,8 +89,9 @@ fun FooterItem(
                     launchSingleTop = true
                 }
             })
+            .padding(top = 10.dp)
     ) {
-        Column(modifier = Modifier,
+        Column(modifier = Modifier.padding(start=25.dp,end=25.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -106,7 +110,7 @@ fun FooterItem(
             )
             Text(
                 text = stringResource(id = screen.titleRes),
-                fontWeight = FontWeight(500),
+                //fontWeight = FontWeight(500),
                 fontSize = 14.sp,
                 lineHeight = 20.sp,
                 modifier = Modifier

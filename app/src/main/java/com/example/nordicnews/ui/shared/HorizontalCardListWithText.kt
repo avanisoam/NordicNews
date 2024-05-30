@@ -64,7 +64,7 @@ fun CardWithImageAndText(article : Article, modifier : Modifier = Modifier) {
                     //.height(80.dp)
                     //.padding(8.dp)
                     //.sizeIn(minWidth = 100.dp, minHeight = 100.dp)
-                    .size(width =340.dp, height = 80.dp)
+                    .size(width =330.dp, height = 80.dp)
                 ,
                 //.background(listOfColor.random()),
                 colors = CardDefaults.cardColors(

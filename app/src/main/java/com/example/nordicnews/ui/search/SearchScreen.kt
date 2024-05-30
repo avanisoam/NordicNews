@@ -82,7 +82,7 @@ fun SearchScreen(
         when(uiState.searchApiState) {
          SearchApiState.LOADING -> LoadingScreen(modifier = Modifier.fillMaxSize())
          SearchApiState.SUCCESS -> SearchResult(
-                topic = uiState.name,
+                topic = uiState.category,
                 navigateToDetailScreen = navigateToDetailScreen,
                 articles = uiState.articleList,
                 modifier = Modifier.padding(innerPadding)
@@ -103,7 +103,7 @@ fun SearchResult(modifier : Modifier = Modifier,
                  navigateToDetailScreen :(Article) -> Unit,
                  articles : List<Article>) {
     LazyColumn(){
-        item { Spacer(modifier = Modifier.height(20.dp)) }
+        item { Spacer(modifier = modifier) }
 
         item {
             Row(horizontalArrangement = Arrangement.Center,
