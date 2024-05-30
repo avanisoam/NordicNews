@@ -1,5 +1,15 @@
 # NordicNews
 
+### Table of Contents
+- Project Overview
+- Features
+- Technologies Used
+- Installation
+- Usage
+- Architecture
+- Screenshots
+- Contributing
+
 <p float = "left">
 <img src="./Requirement/Home pageHome_Page.png" width="100">
 <img src="Requirement/Detail pageDetail_Page.png" width="100">
