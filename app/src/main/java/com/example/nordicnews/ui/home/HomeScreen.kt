@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Home
@@ -159,11 +160,6 @@ fun HomeScreen(
                                     contentDescription = item.title
                                 )
                             },
-                            badge = {
-                                item.badgeCount?.let {
-                                    Text(text = item.badgeCount.toString())
-                                }
-                            },
                             modifier = Modifier
                                 .padding(NavigationDrawerItemDefaults.ItemPadding)
                         )
@@ -185,8 +181,8 @@ fun HomeScreen(
                                 }
                             }) {
                                 Icon(
-                                    imageVector = Icons.Default.Settings,
-                                    contentDescription = "Settings"
+                                    imageVector = Icons.Default.Menu,
+                                    contentDescription = "Menu"
                                 )
                             }
                         }

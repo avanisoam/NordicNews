@@ -39,7 +39,7 @@ import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.search.SearchDestination
 
 @Composable
-fun BottomBar(navController: NavController) {
+fun CustomBottomBar(navController: NavController) {
     val screens = listOf(
         HomeDestination,
         SearchDestination,
@@ -118,6 +118,5 @@ fun AddItem(
 @Composable
 @Preview(showSystemUi = true)
 fun BottomNavPreview() {
-    //MainScreen()
-    //BottomBar(navController = NavHostController(LocalContext.current))
+    CustomBottomBar(navController = NavHostController(LocalContext.current))
 }

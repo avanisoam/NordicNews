@@ -1,21 +1,16 @@
 package com.example.nordicnews.ui.bookmark
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -31,13 +26,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nordicnews.R
 import com.example.nordicnews.data.models.Article
-import com.example.nordicnews.data.models.ArticleMockData
-import com.example.nordicnews.ui.detail.DetailViewModel
-import com.example.nordicnews.ui.navigation.BottomNavigationBar
 import com.example.nordicnews.ui.navigation.NavigationDestination
-import com.example.nordicnews.ui.shared.ArticleList
 import com.example.nordicnews.ui.shared.ArticleListV1
-import com.example.nordicnews.ui.shared.BottomBar
 import com.example.nordicnews.ui.shared.Footer
 import com.example.nordicnews.ui.theme.NordicNewsTheme
 

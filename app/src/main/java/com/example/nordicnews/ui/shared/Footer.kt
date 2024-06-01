@@ -55,11 +55,11 @@ fun Footer(
         .fillMaxWidth()
         .padding(
             //top = 10.dp,
-            //start = 57.dp,
-            //end = 58.dp
+            start = 15.dp,
+            //end = 5.dp
         )
         .background(Color(0xfff7faff)),
-        horizontalArrangement = Arrangement.spacedBy(40.dp),
+        horizontalArrangement = Arrangement.spacedBy(80.dp),
         verticalAlignment = Alignment.Bottom
     ) {
         BottomBar.Items.forEach{item ->
@@ -91,7 +91,11 @@ fun FooterItem(
             })
             .padding(top = 10.dp)
     ) {
-        Column(modifier = Modifier.padding(start=25.dp,end=25.dp),
+        Column(modifier = Modifier
+            .padding(
+                //start=25.dp,
+                //end=25.dp
+                ),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

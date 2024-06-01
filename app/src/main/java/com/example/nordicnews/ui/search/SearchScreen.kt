@@ -103,7 +103,7 @@ fun SearchResult(modifier : Modifier = Modifier,
                  navigateToDetailScreen :(Article) -> Unit,
                  articles : List<Article>) {
     LazyColumn(){
-        item { Spacer(modifier = modifier) }
+        item { Spacer(modifier = Modifier.height(60.dp)) }
 
         item {
             Row(horizontalArrangement = Arrangement.Center,
