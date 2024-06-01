@@ -2,7 +2,7 @@
 
 # Nordic News - Android App
 
-<img src="./readme/NordicNews.png" align="left"
+<img src="./readme/NordicNews.PNG" align="left"
 width="140" hspace="10" vspace="10">
 
 Nordic News is a self-hosted News Articles app.  
