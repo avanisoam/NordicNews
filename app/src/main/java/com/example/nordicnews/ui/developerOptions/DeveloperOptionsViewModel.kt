@@ -7,21 +7,25 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.nordicnews.NordicNewsApplication
 import com.example.nordicnews.dataStore.UserPreferencesRepository
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-
-class DeveloperOptionsViewModel(private val userPreferencesRepository: UserPreferencesRepository) : ViewModel(){
+class DeveloperOptionsViewModel(
+    private val userPreferencesRepository: UserPreferencesRepository
+): ViewModel() {
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as NordicNewsApplication)
+                val application = this[
+                    ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY
+                ] as NordicNewsApplication
                 val userPreferencesRepository = application.userPreferencesRepository
-                DeveloperOptionsViewModel(userPreferencesRepository=userPreferencesRepository)
+                DeveloperOptionsViewModel(
+                    userPreferencesRepository = userPreferencesRepository
+                )
             }
         }
     }

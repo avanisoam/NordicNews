@@ -6,10 +6,10 @@ object Constants {
     val COUNTRY: String
         get() = "in"
 
-    val PROD_BASE_URL : String
+    val PROD_BASE_URL: String
         get() = "https://newsapi.org/v2/"
 
-    val DEV_BASE_URL : String
+    val DEV_BASE_URL: String
         //get() = "http://192.168.0.232:5003/api/News/"
         get() = "http://172.25.243.172:6005/api/News/"
 }

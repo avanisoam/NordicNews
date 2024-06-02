@@ -35,7 +35,6 @@ fun OpenSearchBar(
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp),
-        //elevation = AppBarDefaults.TopAppBarElevation,
         color = MaterialTheme.colorScheme.primary
     ) {
         TextField(
@@ -46,7 +45,6 @@ fun OpenSearchBar(
             placeholder = {
                 Text(
                     modifier = modifier,
-                    //.alpha(ContentAlpha.medium),
                     text = "Search here...",
                     color = Color.White
                 )
@@ -107,9 +105,8 @@ fun OpenSearchBar(
                 focusedContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent,
                 disabledContainerColor = Color.Transparent,
-                cursorColor = Color.Red,
+                cursorColor = Color.Red
             )
         )
-
     }
 }

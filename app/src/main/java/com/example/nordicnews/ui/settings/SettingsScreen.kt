@@ -54,7 +54,7 @@ fun SettingsScreen(
                 }
             )
         }
-    ){ innerPadding->
+    ) { innerPadding->
 
         Column(modifier = Modifier.padding(innerPadding)) {
             Spacer(modifier = Modifier.padding(4.dp))

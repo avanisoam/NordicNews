@@ -42,15 +42,20 @@ object BookmarksDestination : NavigationDestination {
 fun BookmarksScreen(
     navigateToDetailScreen : (Article) -> Unit,
     navController: NavController,
-    modifier: Modifier = Modifier,
-    viewModel: BookmarksViewModel = viewModel(factory = BookmarksViewModel.Factory)
+    viewModel: BookmarksViewModel = viewModel(
+        factory = BookmarksViewModel.Factory
+    )
 ) {
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(stringResource(id = BookmarksDestination.titleRes))
+                    Text(
+                        stringResource(
+                            id = BookmarksDestination.titleRes
+                        )
+                    )
                 }
             )
         },
@@ -63,8 +68,7 @@ fun BookmarksScreen(
         }
     ) { innerPadding ->
         LazyColumn(
-            modifier = Modifier
-                .padding(innerPadding),
+            modifier = Modifier.padding(innerPadding)
         ) {
             item { Spacer(modifier = Modifier.height(20.dp)) }
             item {
@@ -83,20 +87,14 @@ fun BookmarksScreen(
                         style = MaterialTheme.typography.headlineMedium,
                         color = Color(29, 27, 32),
                         modifier = Modifier.padding(
-                            //start = 25.dp,
-                            //end = 25.dp,
                             bottom = 20.dp
                         )
                     )
 
                     ArticleListV1(
                         onItemClick = { navigateToDetailScreen(it) },
-                        // Mock Article Data
-                        //articles = ArticleMockData.articleList
-
                         // Data from Api
-                        articles = uiState.bookmarks,
-                        //modifier = Modifier.padding(bottom = 20.dp)
+                        articles = uiState.bookmarks
                     )
                 }
             }

@@ -10,7 +10,7 @@ import com.example.nordicnews.data.models.Article
 /**
  * Database class with a singleton Instance object.
  */
-@Database(entities = arrayOf(Article::class), version = 1, exportSchema = false)
+@Database(entities = [Article::class], version = 1, exportSchema = false)
 @TypeConverters(ArticleTypeConvertor::class)
 abstract class NordicNewsDatabase : RoomDatabase() {
 
@@ -23,7 +23,11 @@ abstract class NordicNewsDatabase : RoomDatabase() {
         fun getDatabase(context: Context): NordicNewsDatabase {
             // if the Instance is not null, return it, otherwise create a new database instance.
             return Instance ?: synchronized(this) {
-                Room.databaseBuilder(context, NordicNewsDatabase::class.java, "nordicnews_database")
+                Room.databaseBuilder(
+                    context,
+                    NordicNewsDatabase::class.java,
+                    "nordicnews_database"
+                )
                     .addTypeConverter(ArticleTypeConvertor())
                     .build()
                     .also { Instance = it }

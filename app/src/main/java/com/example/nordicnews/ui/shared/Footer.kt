@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,20 +19,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.nordicnews.R
 import com.example.nordicnews.ui.bookmark.BookmarksDestination
 import com.example.nordicnews.ui.home.HomeDestination
 import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.search.SearchDestination
+import com.example.nordicnews.utils.popAndLaunchSingleTop
 
 object BottomBar {
     val Items = listOf(
@@ -45,29 +43,27 @@ object BottomBar {
 
 @Composable
 fun Footer(
-    navController: NavController,
-    modifier : Modifier = Modifier
+    navController: NavController
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(
-            //top = 10.dp,
-            start = 15.dp,
-            //end = 5.dp
-        )
-        .background(Color(0xfff7faff)),
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                start = 15.dp
+            )
+            .background(Color(0xfff7faff)),
         horizontalArrangement = Arrangement.spacedBy(80.dp),
         verticalAlignment = Alignment.Bottom
     ) {
-        BottomBar.Items.forEach{item ->
+        BottomBar.Items.forEach { item ->
             FooterItem(
                 screen = item,
-                currentDestination = currentDestination ,
-                navController = navController)
-
+                currentDestination = currentDestination,
+                navController = navController
+            )
         }
     }
 }
@@ -78,54 +74,55 @@ fun FooterItem(
     currentDestination: NavDestination?,
     navController: NavController
 ) {
-    val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
+    val selected = currentDestination?.hierarchy?.any {
+        it.route == screen.route
+    } == true
 
     Box(
         modifier = Modifier
             .height(70.dp)
-            .clickable(onClick = {
-                navController.navigate(screen.route) {
-                    popUpTo(navController.graph.findStartDestination().id)
-                    launchSingleTop = true
+            .clickable(
+                onClick = {
+                    navController.navigate(screen.route) {
+                        popAndLaunchSingleTop(navController)
+                    }
                 }
-            })
+            )
             .padding(top = 10.dp)
     ) {
-        Column(modifier = Modifier
-            .padding(
-                //start=25.dp,
-                //end=25.dp
-                ),
+        Column(
+            modifier = Modifier.padding(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter =
-                if (selected)
-                    painterResource(id = screen.selectedIcon)
-                else
-                    painterResource(id = screen.unSelectedIcon)
-                ,
-                contentDescription = stringResource(id = screen.titleRes),
-                modifier = Modifier.padding(
-                    //start = 9.dp,
-                    //end = 9.dp
-                )
+                painter = painterResource(id = screen.selectedIcon).takeIf {
+                    selected
+                } ?: painterResource(id = screen.unSelectedIcon),
+                contentDescription = stringResource(
+                    id = screen.titleRes
+                ),
+                modifier = Modifier.padding()
             )
             Text(
-                text = stringResource(id = screen.titleRes),
-                //fontWeight = FontWeight(500),
+                text = stringResource(
+                    id = screen.titleRes
+                ),
                 fontSize = 14.sp,
                 lineHeight = 20.sp,
                 modifier = Modifier
                     .padding(bottom = 11.dp)
                     .align(Alignment.CenterHorizontally),
-                color = if(selected) Color(61, 138, 255) else Color(29, 27, 32)
+                color = Color(61, 138, 255).takeIf {
+                    selected
+                } ?: Color(29, 27, 32)
             )
-            if(selected) {
+            if (selected) {
                 Image(
-                    painter = painterResource(id = R.drawable.indicator),
-                    contentDescription = "indicator",
+                    painter = painterResource(
+                        id = R.drawable.indicator
+                    ),
+                    contentDescription = "indicator"
                 )
             }
         }
@@ -135,5 +132,7 @@ fun FooterItem(
 @Preview(showSystemUi = true)
 @Composable
 private fun FooterPreview() {
-    Footer(navController = NavController(LocalContext.current))
+    Footer(
+        navController = NavController(LocalContext.current)
+    )
 }

@@ -33,7 +33,7 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -87,13 +87,13 @@ data class NavigationItem(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navigateToDetailScreen : (Article) -> Unit,
-    navigateToSearchScreen : (String) -> Unit,
+    navigateToDetailScreen : (Article) -> Unit = {},
+    navigateToSearchScreen : (String) -> Unit = {},
     navController: NavController,
     viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val categoryList by viewModel.categoryuiState.collectAsState()
+    val categoryList by viewModel.categoryUIState.collectAsState()
 
     val isLiteMode: Boolean by viewModel.isLiteDisplayMode.collectAsState()
     Log.e("MODE", "isLiteMode: $isLiteMode")
@@ -126,7 +126,7 @@ fun HomeScreen(
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         val scope = rememberCoroutineScope()
         var selectedItemIndex by rememberSaveable {
-            mutableStateOf(0)
+            mutableIntStateOf(0)
         }
         ModalNavigationDrawer(
             drawerContent = {
@@ -139,29 +139,27 @@ fun HomeScreen(
                             },
                             selected = index == selectedItemIndex,
                             onClick = {
-
                                 selectedItemIndex = index
 
-                                if(item.destinationRoute == null) {
+                                if (item.destinationRoute == null) {
                                     scope.launch {
                                         drawerState.close()
                                     }
-                                }
-                                else
-                                {
+                                } else {
                                     navController.navigate(item.destinationRoute)
                                 }
                             },
                             icon = {
                                 Icon(
-                                    imageVector = if (index == selectedItemIndex) {
-                                        item.selectedIcon
-                                    } else item.unselectedIcon,
+                                    imageVector = item.selectedIcon.takeIf {
+                                        index == selectedItemIndex
+                                    } ?: item.unselectedIcon,
                                     contentDescription = item.title
                                 )
                             },
-                            modifier = Modifier
-                                .padding(NavigationDrawerItemDefaults.ItemPadding)
+                            modifier = Modifier.padding(
+                                NavigationDrawerItemDefaults.ItemPadding
+                            )
                         )
                     }
                 }
@@ -175,11 +173,13 @@ fun HomeScreen(
                             Text(text = "Home")
                         },
                         navigationIcon = {
-                            IconButton(onClick = {
-                                scope.launch {
-                                    drawerState.open()
+                            IconButton(
+                                onClick = {
+                                    scope.launch {
+                                        drawerState.open()
+                                    }
                                 }
-                            }) {
+                            ) {
                                 Icon(
                                     imageVector = Icons.Default.Menu,
                                     contentDescription = "Menu"
@@ -190,15 +190,17 @@ fun HomeScreen(
                 },
                 bottomBar = {
                     BottomAppBar(
-                        containerColor = Color.White,
+                        containerColor = Color.White
                     ) {
                         Footer(navController)
                     }
                 }
             ) { innerPadding ->
 
-                when(uiState){
-                    is HomeUiState.Loading -> LoadingScreen(modifier = Modifier.fillMaxSize())
+                when(uiState) {
+                    is HomeUiState.Loading -> LoadingScreen(
+                        modifier = Modifier.fillMaxSize()
+                    )
                     is HomeUiState.Success -> Result(
                         categoryList = categoryList,
                         navigateToSearchScreen = navigateToSearchScreen,
@@ -207,7 +209,9 @@ fun HomeScreen(
                         articles = (uiState as HomeUiState.Success).articleList,
                         modifier = Modifier.padding(innerPadding)
                     )
-                    is HomeUiState.Error -> ErrorScreen( modifier = Modifier.fillMaxSize())
+                    is HomeUiState.Error -> ErrorScreen(
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
             }
         }
@@ -225,11 +229,13 @@ fun Result(
     LazyColumn(
         modifier = modifier,
     ) {
-        if(isLiteMode.not()) {
+        if (isLiteMode.not()) {
             item {
                 FixedHeader(
                     article = ArticleMockData.articleList[13],
-                    onItemClick = {navigateToDetailScreen(it)}
+                    onItemClick = {
+                        navigateToDetailScreen(it)
+                    }
                 )
             }
             item { Spacer(modifier = Modifier.height(50.dp)) }
@@ -265,19 +271,14 @@ fun Result(
                     style = MaterialTheme.typography.headlineMedium,
                     color = Color(29, 27, 32),
                     modifier = Modifier.padding(
-                        //start = 25.dp,
-                        //end = 25.dp,
                         bottom = 20.dp
                     )
                 )
 
                 ArticleListV1(
                     onItemClick = { navigateToDetailScreen(it) },
-                    // Mock Article Data
-                    //articles = ArticleMockData.articleList
-
                     // Data from Api
-                    articles = articles//uiState.ArticleList,
+                    articles = articles,
                 )
             }
         }
@@ -290,9 +291,8 @@ fun Result(
 @Composable
 private fun HomeScreenPreview() {
     NordicNewsTheme {
-        HomeScreen(navController = rememberNavController(),
-            navigateToDetailScreen = {},
-            navigateToSearchScreen = {}
+        HomeScreen(
+            navController = rememberNavController()
         )
     }
 }

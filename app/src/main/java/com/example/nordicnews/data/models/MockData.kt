@@ -1,7 +1,5 @@
 package com.example.nordicnews.data.models
 
-import com.example.nordicnews.R
-
 object ArticleMockData{
     val articleList = listOf(
         Article(
@@ -205,6 +203,6 @@ object ArticleMockData{
             title = "Google I/O 2023: Making AI more helpful for everyone",
             url = "https://www.businessinsider.com/mike-tyson-sued-for-punching-passenger-jetblue-flight-california-court-2024-5",
             urlToImage = "https://raw.githubusercontent.com/avanisoam/NordicNews/main/MockImages/Mock_DetailImg.png",
-        ),
+        )
     )
 }

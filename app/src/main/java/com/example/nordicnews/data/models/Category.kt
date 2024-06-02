@@ -1,7 +1,5 @@
 package com.example.nordicnews.data.models
 
-import androidx.annotation.StringRes
-import androidx.compose.ui.res.stringResource
 import com.example.nordicnews.R
 
 interface Category {

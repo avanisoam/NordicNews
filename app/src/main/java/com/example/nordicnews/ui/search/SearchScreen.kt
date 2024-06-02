@@ -1,7 +1,5 @@
 package com.example.nordicnews.ui.search
 
-import android.os.Handler
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,11 +9,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -49,7 +45,6 @@ object SearchDestination : NavigationDestination {
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     navigateToDetailScreen : (Article) -> Unit,
@@ -79,51 +74,53 @@ fun SearchScreen(
             }
         }
     ) { innerPadding ->
-        when(uiState.searchApiState) {
-         SearchApiState.LOADING -> LoadingScreen(modifier = Modifier.fillMaxSize())
-         SearchApiState.SUCCESS -> SearchResult(
-                topic = uiState.category,
-                navigateToDetailScreen = navigateToDetailScreen,
-                articles = uiState.articleList,
-                modifier = Modifier.padding(innerPadding)
-            )
-        SearchApiState.ERROR ->    ErrorScreen( modifier = Modifier.fillMaxSize())
-         SearchApiState.NONE ->
-                Text(text = "No result found!",modifier = Modifier.padding(innerPadding).padding(15.dp))
-            else ->
-                Text(text = "Else")   // For Otherwise
+        when (uiState.searchApiState) {
+             SearchApiState.LOADING -> LoadingScreen(
+                 modifier = Modifier.fillMaxSize()
+             )
+             SearchApiState.SUCCESS -> SearchResult(
+                    topic = uiState.category,
+                    navigateToDetailScreen = navigateToDetailScreen,
+                    articles = uiState.articleList
+                )
+             SearchApiState.ERROR -> ErrorScreen(
+                 modifier = Modifier.fillMaxSize()
+             )
+             SearchApiState.NONE -> Text(
+                text = "No result found!",
+                modifier = Modifier.padding(innerPadding).padding(15.dp)
+             )
         }
-
     }
 }
 
 @Composable
-fun SearchResult(modifier : Modifier = Modifier,
-                 topic : String,
-                 navigateToDetailScreen :(Article) -> Unit,
-                 articles : List<Article>) {
-    LazyColumn(){
+fun SearchResult(
+    topic : String,
+    navigateToDetailScreen :(Article) -> Unit,
+    articles : List<Article>
+) {
+    LazyColumn {
         item { Spacer(modifier = Modifier.height(60.dp)) }
-
         item {
-            Row(horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
                     text = "My Topic: $topic",
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Bold
                 )
             }
         }
         item { Spacer(modifier = Modifier.height(20.dp)) }
 
         item {
-            Column(modifier = Modifier.padding(start = 25.dp,end = 25.dp)) {
+            Column(
+                modifier = Modifier.padding(start = 25.dp,end = 25.dp)
+            ) {
                 ArticleListV1(
                     onItemClick = { navigateToDetailScreen(it) },
-                    // Mock Article Data
-                    //articles = ArticleMockData.articleList
-
-                    // Data from Api
                     articles = articles,
                 )
             }

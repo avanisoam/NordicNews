@@ -3,7 +3,6 @@ package com.example.nordicnews.ui.shared
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,16 +23,17 @@ import com.example.nordicnews.R
 import com.example.nordicnews.data.models.Article
 
 @Composable
-fun FixedHeader(article : Article,
-                onItemClick : (Article) -> Unit,
-                modifier : Modifier = Modifier
+fun FixedHeader(
+    article : Article,
+    onItemClick : (Article) -> Unit,
+    modifier : Modifier = Modifier
 ) {
-    Column(modifier.height(390.dp)){
+    Column(modifier.height(390.dp)) {
 
         AsyncImage(
-            model = ImageRequest.Builder(context = LocalContext.current)
-                .data(article.urlToImage)
-                .build(),
+            model = ImageRequest.Builder(
+                context = LocalContext.current
+            ).data(article.urlToImage).build(),
             contentDescription = "Fixed Header Async Image",
             error = painterResource(R.drawable.ic_broken_image),
             placeholder = painterResource(R.drawable.loading_img),
@@ -44,12 +43,14 @@ fun FixedHeader(article : Article,
                 .clickable { onItemClick(article) },
             contentScale = ContentScale.Crop
         )
-        Row(modifier = Modifier.padding(
-            start = 25.dp,
-            end=25.dp,
-            bottom = 9.dp,
-            top = 20.dp
-        )){
+        Row(
+            modifier = Modifier.padding(
+                start = 25.dp,
+                end=25.dp,
+                bottom = 9.dp,
+                top = 20.dp
+            )
+        ) {
             Text(
                 text = article.source.name,
                 fontSize = 14.sp,
@@ -67,10 +68,7 @@ fun FixedHeader(article : Article,
                 fontWeight = FontWeight(400),
                 lineHeight = 17.41.sp,
                 color = Color(29, 27, 32),
-                modifier = Modifier.padding(
-                    //start = 0.5.dp,
-                    //end = 0.5.dp
-                )
+                modifier = Modifier.padding()
             )
             Text(
                 text = getOffset(article.publishedAt),
@@ -96,8 +94,6 @@ fun FixedHeader(article : Article,
                 top=9.dp
             )
             .clickable { onItemClick(article) }
-            ,
         )
-        // }
     }
 }

@@ -13,7 +13,7 @@ interface IAppContainer {
 
 class DefaultAppContainer(
     private val context: Context,
-    private val baseUrl: String
+    baseUrl: String
 ) : IAppContainer {
 
     private val retrofit = Retrofit.Builder()

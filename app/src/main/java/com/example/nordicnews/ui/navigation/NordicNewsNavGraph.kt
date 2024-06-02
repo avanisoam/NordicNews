@@ -1,6 +1,7 @@
 package com.example.nordicnews.ui.navigation
 
 import android.net.Uri
+import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -33,13 +34,13 @@ fun NordicNewsNavHost(
         navController = navController,
         startDestination = HomeDestination.route,
         modifier = modifier
-    ){
+    ) {
 
         // Home Screen Route
         composable(HomeDestination.route) {
             HomeScreen(
-                navigateToDetailScreen = {
-                    val json = Uri.encode(Gson().toJson(it))
+                navigateToDetailScreen = { article ->
+                    val json = Uri.encode(Gson().toJson(article))
                     navController.navigate("${DetailDestination.route}/$json")
                 },
                 navigateToSearchScreen = {
@@ -58,7 +59,14 @@ fun NordicNewsNavHost(
                 }
             )
         ) { entry ->
-            val article = entry.arguments?.getParcelable<Article>(DetailDestination.ARTICLE_ARG)
+            val article = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                entry.arguments?.getParcelable(
+                    DetailDestination.ARTICLE_ARG,
+                    Article::class.java
+                )
+            } else {
+                entry.arguments?.getParcelable(DetailDestination.ARTICLE_ARG)
+            }
 
             DetailScreen(
                 navigateToDetailScreen = {
@@ -74,8 +82,8 @@ fun NordicNewsNavHost(
         // Search Screen Route 1
         composable(route = SearchDestination.route) {
             SearchScreen(
-                navigateToDetailScreen = {
-                    val json = Uri.encode(Gson().toJson(it))
+                navigateToDetailScreen = { article ->
+                    val json = Uri.encode(Gson().toJson(article))
                     navController.navigate("${DetailDestination.route}/$json")
                 },
                 navController
@@ -91,8 +99,8 @@ fun NordicNewsNavHost(
             )
         ) {
             SearchScreen(
-                navigateToDetailScreen = {
-                    val json = Uri.encode(Gson().toJson(it))
+                navigateToDetailScreen = { article ->
+                    val json = Uri.encode(Gson().toJson(article))
                     navController.navigate("${DetailDestination.route}/$json")
                 },
                 navController
@@ -102,8 +110,8 @@ fun NordicNewsNavHost(
         // Bookmarks Screen Route
         composable(BookmarksDestination.route) {
             BookmarksScreen(
-                navigateToDetailScreen = {
-                    val json = Uri.encode(Gson().toJson(it))
+                navigateToDetailScreen = { article ->
+                    val json = Uri.encode(Gson().toJson(article))
                     navController.navigate("${DetailDestination.route}/$json")
                 },
                 navController
@@ -113,14 +121,18 @@ fun NordicNewsNavHost(
         // Settings Screen Route
         composable(SettingsDestination.route) {
             SettingsScreen(
-                navigateUp = {navController.navigateUp()},
+                navigateUp = {
+                    navController.navigateUp()
+                }
             )
         }
 
         // DeveloperOptions Screen Route
         composable(DeveloperOptionsDestination.route) {
             DeveloperOptionsScreen(
-                navigateUp = {navController.navigateUp()},
+                navigateUp = {
+                    navController.navigateUp()
+                }
             )
         }
     }

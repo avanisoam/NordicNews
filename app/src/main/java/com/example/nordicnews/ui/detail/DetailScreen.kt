@@ -17,13 +17,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -66,12 +63,9 @@ object DetailDestination : NavigationDestination {
     override val route = "detail"
     const val ARTICLE_ARG = "article"
     val routeWithArgs = "${route}/{$ARTICLE_ARG}"
-
     override val titleRes = R.string.detail
-
     override val selectedIcon = R.drawable.ic_general
     override val unSelectedIcon = R.drawable.ic_general
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -80,16 +74,11 @@ fun DetailScreen(
     navigateToDetailScreen : (Article) -> Unit,
     article : Article?,
     navController: NavController,
-    modifier: Modifier = Modifier,
     viewModel: DetailViewModel = viewModel(factory = DetailViewModel.Factory),
     navigateUp: () -> Unit = {}
 ) {
     val context = LocalContext.current
-    if(article == null)
-    {
-        Text(text = "Something went wrong!")
-    }
-    else {
+    article?.let {
         val uiState by viewModel.uiState.collectAsState()
         val coroutineScope = rememberCoroutineScope()
 
@@ -97,39 +86,51 @@ fun DetailScreen(
             topBar = {
                 CenterAlignedTopAppBar(
                     title = {
-                        Text(stringResource(id = DetailDestination.titleRes))
+                        Text(
+                            stringResource(id = DetailDestination.titleRes)
+                        )
                     },
                     actions = {
                         // RowScope here, so these icons will be placed horizontally
                         if (uiState.article.url == "") {
-                            IconButton(onClick = {
-                                coroutineScope.launch {
-                                    viewModel.saveItem(article)
+                            IconButton(
+                                onClick = {
+                                    coroutineScope.launch {
+                                        viewModel.saveItem(article)
+                                    }
                                 }
-                            }) {
+                            ) {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.pin_hollow ) ,
-                                    contentDescription = null)
+                                    painter = painterResource(
+                                        id = R.drawable.pin_hollow
+                                    ),
+                                    contentDescription = null
+                                )
                             }
                         } else {
-                            IconButton(onClick = {
-                                coroutineScope.launch {
-                                    viewModel.deleteItem(article)
-                                    //navigateUp()
-                                    // To refresh screen
-                                    //navigateToDetailScreen(article)
+                            IconButton(
+                                onClick = {
+                                    coroutineScope.launch {
+                                        viewModel.deleteItem(article)
+                                    }
                                 }
-                            }) {
+                            ) {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.pin ) ,
-                                    contentDescription = null)
+                                    painter = painterResource(
+                                        id = R.drawable.pin
+                                    ),
+                                    contentDescription = null
+                                )
                             }
                         }
 
-                        IconButton(onClick = { viewModel.shareOrder(context) }) {
+                        IconButton(
+                            onClick = { viewModel.shareOrder(context) }
+                        ) {
                             Icon(
-                                painter = painterResource(id = R.drawable.share ) ,
-                                contentDescription = null)
+                                painter = painterResource(id = R.drawable.share),
+                                contentDescription = null
+                            )
                         }
                     },
                     navigationIcon = {
@@ -150,14 +151,12 @@ fun DetailScreen(
                 }
             }
         ) { innerPadding ->
-
             LazyColumn(
-                modifier = Modifier
-                    .padding(innerPadding),
-            ){
+                modifier = Modifier.padding(innerPadding),
+            ) {
                 item {
                     Text(
-                        text = article.title ,
+                        text = article.title,
                         style = MaterialTheme.typography.headlineLarge,
                         fontWeight = FontWeight(400),
                         fontSize = 28.sp,
@@ -173,58 +172,39 @@ fun DetailScreen(
                 }
                 item {
                     AsyncImage(
-                        model = ImageRequest.Builder(context = LocalContext.current)
-                            .data(article.urlToImage)
-                            .build(),
+                        model = ImageRequest.Builder(
+                            context = LocalContext.current
+                        ).data(article.urlToImage).build(),
                         contentDescription = null,
                         error = painterResource(R.drawable.ic_broken_image),
                         placeholder = painterResource(R.drawable.loading_img),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(220.dp),
-                            //.border(BorderStroke(2.dp, Color.Red)),
+                        modifier = Modifier.fillMaxWidth().height(220.dp),
                         contentScale = ContentScale.Crop
                     )
                 }
                 item {
                     DetailsRow(article = article)
                 }
-                item{
-
-                    Divider(color = Color(215, 215, 215),
-                        modifier =Modifier
-                        .padding(
-                            start = 25.dp,
-                            end = 25.dp,
-                            bottom = 20.dp
+                item {
+                    Divider(
+                        color = Color(215, 215, 215),
+                        modifier = Modifier.padding(
+                                start = 25.dp,
+                                end = 25.dp,
+                                bottom = 20.dp
                         ),
                         thickness = 1.dp
-                     )
+                    )
                 }
 
                 item {
-                    Column(modifier = Modifier.
-                    padding(start = 25.dp, end = 25.dp, bottom = 28.dp)) {
-                        /*
-                        Text(
-                            text = "AI in our products",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight(700),
-                            lineHeight = 28.sp,
-                            style = MaterialTheme.typography.headlineMedium,
-                            color = Color(29, 27, 32),
-                            modifier = Modifier.padding(top=20.dp,bottom=20.dp)
+                    Column(
+                        modifier = Modifier.padding(
+                        start = 25.dp,
+                        end = 25.dp,
+                        bottom = 28.dp
                         )
-                        Text(
-                            text = "“Help me write” in Gmail",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight(500),
-                            lineHeight = 22.sp,
-                            style = MaterialTheme.typography.headlineSmall,
-                            color = Color(29, 27, 32),
-                            modifier = Modifier.padding(bottom=10.dp)
-                        )
-                         */
+                    ) {
                         Text(
                             text = article.content,
                             fontSize = 15.sp,
@@ -237,8 +217,10 @@ fun DetailScreen(
                         )
                     }
                 }
-                item{
-                    Column(modifier = Modifier.padding(start=25.dp,end=25.dp)) {
+                item {
+                    Column(
+                        modifier = Modifier.padding(start=25.dp, end=25.dp)
+                    ) {
                         Text(
                             text = "Related article",
                             fontSize = 20.sp,
@@ -246,56 +228,24 @@ fun DetailScreen(
                             lineHeight = 28.sp,
                             style = MaterialTheme.typography.headlineMedium,
                             color = Color(29, 27, 32),
-                            modifier = Modifier.padding(bottom=20.dp),
-                            )
+                            modifier = Modifier.padding(bottom=20.dp)
+                        )
 
                         ArticleListV1(
-                            onItemClick = { navigateToDetailScreen(it)},
+                            onItemClick = { navigateToDetailScreen(it) },
                             // Mock Article Data
                             articles = ArticleMockData.articleList.takeLast(3)
-                            // Data from Api
-                            //articles = uiState.ArticleList,
-                            //modifier = Modifier.height(500.dp)
                         )
                     }
                 }
-                item { 
+                item {
                     Spacer(modifier = Modifier.height(84.dp))
                 }
             }
-            /*
-            DetailBodyV2(
-                //uiState = uiState,
-                article = article,
-                modifier = Modifier
-                    .padding(innerPadding))
-                /*
-                DetailBody(
-                    uiState = uiState,
-                    article = article,
-                    modifier = Modifier.padding(innerPadding))
-
-                 */
-            /*
-        Column(
-            modifier = Modifier
-                .padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            Text(
-                // text = "Nordic News - ${stringResource(DetailDestination.titleRes)}",
-                text = "Nordic News - ${article.toString()}",
-                modifier = modifier
-            )
         }
-*/
-        }
-
-             */
-        }
+    } ?: run {
+        Text(text = "Something went wrong!")
     }
-
-
 }
 
 @Composable
@@ -304,55 +254,27 @@ fun DetailBody(
     article : Article,
     modifier : Modifier = Modifier
 ) {
-    Box(modifier = modifier
-        .fillMaxWidth()
-        .border(BorderStroke(2.dp, Color.Red))
-        .height(100.dp)
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .border(BorderStroke(2.dp, Color.Red))
+            .height(100.dp)
     ) {
-    Column {
-        /*
-        AsyncImage(
-            model = ImageRequest.Builder(context = LocalContext.current) //samplePhoto.imgSrc,
-                .data(article.urlToImage)
-                .crossfade(true)
-                .build(),
-            //error = painterResource(R.drawable.ic_broken_image),
-            //placeholder = painterResource(R.drawable.loading_img),
-            contentDescription = stringResource(R.string.news_thumbnail),
-            contentScale = ContentScale.Crop,  // to cover whole screen
-            modifier = Modifier
-                .fillMaxWidth()
-            //.align(Alignment.Center)
-            //.clip(MaterialTheme.shapes.small)
-            //.size(width = 80.dp, height = 80.dp),
-        )
-
-         */
-
-        Text(
-            text = article.source.name,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(
-                //top= 4.dp,
-                //start = 8.dp,
-                //bottom = 8.dp
+        Column {
+            Text(
+                text = article.source.name,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding()
             )
-        )
-        Text(
-            text = uiState.article.url,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(
-                //top= 4.dp,
-                //start = 8.dp,
-                //bottom = 8.dp
+            Text(
+                text = uiState.article.url,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding()
             )
-        )
-
-
+        }
     }
-}
 }
 
 @Composable
@@ -365,13 +287,12 @@ fun DetailBodyV1(
         .fillMaxWidth()
         .fillMaxSize()
         .border(BorderStroke(2.dp, Color.Red))
-        //.height(100.dp)
 
     ) {
-        Column(modifier
-            //.padding(8.dp)
-            //.verticalScroll(rememberScrollState())
-            .border(BorderStroke(2.dp, Color.Blue))
+        Column(
+            modifier = modifier.border(
+                BorderStroke(2.dp, Color.Blue)
+            )
         ) {
             Text(
                 text = article.title,
@@ -380,65 +301,28 @@ fun DetailBodyV1(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Justify,
                 modifier = Modifier.padding(16.dp)
-                )
-
+            )
 
             AsyncImage(
-                model = ImageRequest.Builder(context = LocalContext.current) //samplePhoto.imgSrc,
+                model = ImageRequest.Builder(
+                    context = LocalContext.current
+                )
                     .data(article.urlToImage)
                     .crossfade(true)
                     .build(),
-                //error = painterResource(R.drawable.ic_broken_image),
-                //placeholder = painterResource(R.drawable.loading_img),
                 contentDescription = stringResource(R.string.news_thumbnail),
                 contentScale = ContentScale.Crop,  // to cover whole screen
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(390.dp)
-                //.align(Alignment.Center)
-                //.clip(MaterialTheme.shapes.small)
-                //.size(width = 80.dp, height = 80.dp),
+                modifier = Modifier.fillMaxWidth().height(390.dp)
             )
-
-            /*
-            Text(
-                text = article.source.name,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(
-                    //top= 4.dp,
-                    //start = 8.dp,
-                    //bottom = 8.dp
-                )
-            )
-            Text(
-                text = uiState.article.url,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(
-                    //top= 4.dp,
-                    //start = 8.dp,
-                    //bottom = 8.dp
-                )
-            )
-
-             */
-
-
         }
     }
 }
 
 @Composable
-fun DetailBodyV2(article : Article,
-               modifier : Modifier = Modifier) {
+fun DetailBodyV2(article : Article) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(
-            //start = 16.dp,
-            //end = 8.dp,
-            //top = 40.dp
-        ),
+        contentPadding = PaddingValues(),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ){
         item {
@@ -462,65 +346,59 @@ fun DetailBodyV2(article : Article,
         }
         item {
             AsyncImage(
-                model = ImageRequest.Builder(context = LocalContext.current)
+                model = ImageRequest.Builder(
+                    context = LocalContext.current
+                )
                     .data(article.urlToImage)
                     .build(),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(220.dp),
-                    //.clip(MaterialTheme.shapes.medium),
                 contentScale = ContentScale.Crop
             )
         }
-            //Spacer(modifier = Modifier.height(24.dp))
         item {
             DetailsRow(article)
         }
-            //Spacer(modifier = Modifier.height(24.dp))
         item {
             Text(
                 text = article.title,
                 style = MaterialTheme.typography.headlineMedium,
                 color = Color.Black,
                 modifier = Modifier.padding(start = 16.dp,end=16.dp)
-
             )
         }
-    item {
-            Text(
-                text = article.content,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.Black,
-                modifier = Modifier.padding(start = 16.dp,end=16.dp)
-            )
-    }
-    item {
-            Text(
-                text = article.content,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.Black,
-                modifier = Modifier.padding(start = 16.dp,end=16.dp)
-            )
+        item {
+                Text(
+                    text = article.content,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.Black,
+                    modifier = Modifier.padding(start = 16.dp,end=16.dp)
+                )
         }
-
+        item {
+                Text(
+                    text = article.content,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.Black,
+                    modifier = Modifier.padding(start = 16.dp,end=16.dp)
+                )
+            }
     }
 }
 
 @Composable
-fun DetailsRow(article : Article,
-               modifier : Modifier = Modifier) {
+fun DetailsRow(article : Article) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                //top = 32.dp,
                 start = 25.dp,
                 bottom = 19.dp,
                 end = 25.dp
             )
     ) {
-
         AsyncImage(
             model = ImageRequest.Builder(context = LocalContext.current)
                 .data(article.urlToImage)
@@ -528,12 +406,8 @@ fun DetailsRow(article : Article,
             contentDescription = null,
             modifier = Modifier
                 .padding(top = 32.dp)
-                //.size(64.dp)
                 .size(width = 35.dp, height = 35.dp)
                 .clip(CircleShape),
-                //.border(BorderStroke(2.dp, Color.Red))
-                //.clip(MaterialTheme.shapes.small),
-                //.weight(1f),
             contentScale = ContentScale.Crop
         )
 
@@ -560,10 +434,7 @@ fun DetailsRow(article : Article,
                     lineHeight = 17.41.sp,
                     color = Color(29, 27, 32),
                     style = MaterialTheme.typography.labelLarge,
-                    modifier = Modifier.padding(
-                        //start = 0.5.dp,
-                        //end = 0.5.dp
-                    )
+                    modifier = Modifier.padding()
                 )
                 Text(
                     text = "${getOffset(article.publishedAt)} ago",

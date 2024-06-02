@@ -11,14 +11,12 @@ fun SearchTopAppBar(
     onSearchClicked: (String) -> Unit,
     onSearchTriggered: () -> Unit
 ) {
-
     when(searchWidgetState) {
         SearchWidgetState.CLOSED -> {
             ClosedAppBar(
                 onSearchIconClicked = onSearchTriggered
             )
         }
-
         SearchWidgetState.OPENED -> {
             OpenSearchBar(
                 text = searchTextState ,

@@ -15,17 +15,17 @@ import com.example.nordicnews.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClosedAppBar(onSearchIconClicked: () -> Unit) {
-    TopAppBar(title = {
-        Text(text = stringResource(id = R.string.app_name))
-    },
+    TopAppBar(
+        title = {
+            Text(text = stringResource(id = R.string.app_name))
+        },
         actions = {
             IconButton(onClick = { onSearchIconClicked() }) {
                 Icon(
-                    imageVector = Icons.Filled.Search ,
+                    imageVector = Icons.Filled.Search,
                     contentDescription = "SearchIcon",
                     tint = Color.Black
                 )
-
             }
         }
     )

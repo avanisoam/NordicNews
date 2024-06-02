@@ -1,9 +1,7 @@
 package com.example.nordicnews.data
 
 import com.example.nordicnews.data.models.Article
-import com.example.nordicnews.data.models.ArticleMockData
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 
 class ArticleRepository(private val articleDao: ArticleDao) : IArticleRepository {
 
@@ -13,5 +11,4 @@ class ArticleRepository(private val articleDao: ArticleDao) : IArticleRepository
     override suspend fun deleteArticle(article: Article) {
         articleDao.delete(article)
     }
-
 }

@@ -9,7 +9,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.nordicnews.NordicNewsApplication
 import com.example.nordicnews.data.models.Article
 import com.example.nordicnews.data.models.Business
-import com.example.nordicnews.data.models.Category
 import com.example.nordicnews.data.models.General
 import com.example.nordicnews.data.models.Sports
 import com.example.nordicnews.data.models.Technology
@@ -20,7 +19,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -43,17 +41,14 @@ class HomeViewModel(
         }
     }
 
-    val isLiteDisplayMode: StateFlow<Boolean> = userPreferencesRepository.isLightMode
-        .map {
-            it
-        }
-        .stateIn(
+    val isLiteDisplayMode: StateFlow<Boolean> =
+        userPreferencesRepository.isLightMode.map { it }.stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(500),
             false
         )
 
-    var categoryuiState = MutableStateFlow<List<Category>>(
+    var categoryUIState = MutableStateFlow(
         value = listOf(General(),Business(),Technology(), Sports())
     )
         private set
@@ -61,19 +56,18 @@ class HomeViewModel(
     var uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
         private set
 
-   private fun getNewsBySource(source : String){
+   private fun getNewsBySource(source : String) {
        viewModelScope.launch {
            uiState.value =  try {
                val allNews = apiRepository.getNewsBySource(source)
                HomeUiState.Success(allNews.articles)
-
-           }catch (e: IOException){
+           } catch (_: IOException) {
                 HomeUiState.Error
            }
        }
-    }
+   }
 
-    private fun checkServerStatus(){
+    private fun checkServerStatus() {
         viewModelScope.launch {
             val ping = apiRepository.ping()
             Log.d("PING","$ping data")
@@ -89,6 +83,6 @@ class HomeViewModel(
 
 sealed interface HomeUiState {
     data class Success(val articleList : List<Article> = listOf()) : HomeUiState
-    object Error : HomeUiState
-    object Loading : HomeUiState
+    data object Error : HomeUiState
+    data object Loading : HomeUiState
 }
