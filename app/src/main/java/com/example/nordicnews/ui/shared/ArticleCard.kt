@@ -1,50 +1,40 @@
 package com.example.nordicnews.ui.shared
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.nordicnews.R
-import com.example.nordicnews.data.models.Article
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DatePickerDefaults
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.nordicnews.R
+import com.example.nordicnews.data.models.Article
 import com.example.nordicnews.data.models.ArticleMockData
 import com.example.nordicnews.data.models.Source
 import java.time.Duration
-import java.time.Instant
-import java.time.LocalDate
 import java.time.OffsetDateTime
-import java.util.Date
-import java.util.TimeZone
 
 
 @Composable
@@ -55,15 +45,17 @@ fun ArticleApp() {
 @Composable
 fun ArticleList(
     onItemClick: (Article) -> Unit,
-    articles : List<Article>,
-    modifier : Modifier = Modifier) {
-    LazyColumn(modifier.height(500.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp)) {
-        items(articles){article ->
+    articles: List<Article>,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        modifier = modifier.height(500.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
+        items(articles) { article ->
             ArticleCard(
                 article = article,
                 modifier = Modifier
-                    //.padding(4.dp)
                     .clickable { onItemClick(article) }
             )
         }
@@ -72,95 +64,92 @@ fun ArticleList(
 
 @Composable
 fun ArticleListV1(
-    onItemClick: (Article) -> Unit,
-    articles : List<Article>,
-    modifier : Modifier = Modifier, ) {
-        articles.forEach{article ->
-            ArticleCard(
-                article = article,
-                modifier = Modifier
-                    .padding(bottom =20.dp)
-                    .clickable { onItemClick(article) }
-            )
-        }
+    onItemClick: (Article) -> Unit = {},
+    articles: List<Article>
+) {
+    articles.forEach { article ->
+        ArticleCard(
+            article = article,
+            modifier = Modifier
+                .padding(bottom = 20.dp)
+                .clickable { onItemClick(article) }
+        )
+    }
 }
 
 @Composable
 fun ArticleCard(article : Article,modifier: Modifier = Modifier) {
-    Card(modifier = modifier
-        .size(width =340.dp, height = 80.dp),
+    Card(
+        modifier = modifier.size(width = 340.dp, height = 80.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White,
-        )) {
+            containerColor = Color.White
+        )
+    ) {
         Row{
-                AsyncImage(
-                    model = ImageRequest.Builder(context = LocalContext.current)
-                        .data(article.urlToImage)
-                        .crossfade(true)
-                        .build(),
-                    error = painterResource(R.drawable.ic_broken_image),
-                    placeholder = painterResource(R.drawable.loading_img),
-                    contentDescription = stringResource(R.string.news_thumbnail),
-                    contentScale = ContentScale.FillHeight,  // to cover whole screen
-                    modifier = Modifier
-                        //.align(Alignment.Center)
-                        .clip(MaterialTheme.shapes.small)
-                        .size(width = 80.dp, height = 80.dp),
-                )
+            AsyncImage(
+                model = ImageRequest.Builder(context = LocalContext.current)
+                    .data(article.urlToImage)
+                    .crossfade(true)
+                    .build(),
+                error = painterResource(R.drawable.ic_broken_image),
+                placeholder = painterResource(R.drawable.loading_img),
+                contentDescription = stringResource(R.string.news_thumbnail),
+                contentScale = ContentScale.FillHeight,  // to cover whole screen
+                modifier = Modifier
+                    //.align(Alignment.Center)
+                    .clip(MaterialTheme.shapes.small)
+                    .size(width = 80.dp, height = 80.dp),
+            )
 
-                Column(modifier = Modifier
+            Column(
+                modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 7.dp, start = 18.dp, bottom = 7.dp)) {
+                    .padding(top = 7.dp, start = 18.dp, bottom = 7.dp)
+            ) {
+                Text(
+                    text = article.title,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight(500),
+                    lineHeight = 22.sp,
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = Color(29, 27, 32),
+                    modifier = Modifier.padding(
+                        bottom = 5.dp
+                    )
+                )
+                Row{
                     Text(
-                        text = article.title ?: "",//sanitizeString(article.title),
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight(500),
-                        lineHeight = 22.sp,
-                        style = MaterialTheme.typography.headlineSmall,
+                        text = article.source.name,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight(400),
+                        lineHeight = 17.41.sp,
                         color = Color(29, 27, 32),
                         modifier = Modifier.padding(
-                            //top= 4.dp,
-                            //start = 8.dp,
-                            bottom = 5.dp
+                            end = 7.dp
                         )
                     )
-                    //Text(text = beachName)
-                    Row{
-                        Text(
-                            text = article.source.name,
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight(400),
-                            lineHeight = 17.41.sp,
-                            color = Color(29, 27, 32),
-                            modifier = Modifier.padding(
-                                end = 7.dp
-                            )
+                    Text(
+                        text = "·",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight(400),
+                        lineHeight = 17.41.sp,
+                        color = Color(29, 27, 32),
+                        modifier = Modifier.padding()
+                    )
+                    Text(
+                        text = getOffset(article.publishedAt),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight(400),
+                        lineHeight = 17.41.sp,
+                        color = Color(29, 27, 32),
+                        modifier = Modifier.padding(
+                            start = 7.dp
                         )
-                        Text(
-                            text = "·",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight(400),
-                            lineHeight = 17.41.sp,
-                            color = Color(29, 27, 32),
-                            modifier = Modifier.padding(
-                                //start = 0.5.dp,
-                                //end = 0.5.dp
-                            )
-                        )
-                        Text(
-                            text = getOffset(article.publishedAt),
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight(400),
-                            lineHeight = 17.41.sp,
-                            color = Color(29, 27, 32),
-                            modifier = Modifier.padding(
-                                start = 7.dp
-                            )
-                        )
-                    }
+                    )
                 }
+            }
         }
     }
 }
@@ -174,37 +163,27 @@ fun getOffset(input: String) : String {
     //val duration = Duration.between(OffsetDateTime.now(), offsetDateTime)
     val duration = Duration.between(offsetDateTime, OffsetDateTime.now())
     // get the difference in full days
-    var temp = ""
-    var year : Long = 0
-    var days : Long = 0
-    var month : Long = 0
-    var hours : Long = 0
-    var min : Long = 0
-
-    min = duration.toMinutes()
-    temp = "$min min"
-    if(min > 59)
-    {
-        hours = duration.toHours()
-        temp = "$hours hrs"
-    }
-    if(hours > 59)
-    {
-        days = duration.toDays()
-        temp = "$days days"
-    }
-    if(days > 30)
-    {
-        temp = "more then month"
-    }
-    if(days > 364)
-    {
-        temp = "more then year"
-    }
+    val days : Long = duration.toDays()
+    val hours : Long = duration.toHours()
+    val min = duration.toMinutes()
 
     // print the result as "days left"
     //println("$days days left")
-    return temp.toString()
+    return when {
+        min > 59 && hours < 59 -> {
+            "$hours hrs"
+        }
+        hours > 59 && days < 31 -> {
+            "$days days"
+        }
+        days in 31..363 -> {
+            "more than month"
+        }
+        days > 364 -> {
+            "more than year"
+        }
+        else -> "$min min"
+    }
 }
 
 private fun sanitizeString(value : String) : String {
@@ -246,6 +225,8 @@ private fun ArticleCardPreview1() {
 @Preview(showSystemUi = true)
 @Composable
 private fun ArticleCardPreview2() {
-    ArticleListV1(onItemClick = {}, articles = ArticleMockData.articleList)
+    ArticleListV1(
+        articles = ArticleMockData.articleList
+    )
 }
 

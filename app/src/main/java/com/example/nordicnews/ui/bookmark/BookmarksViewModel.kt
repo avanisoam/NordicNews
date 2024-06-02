@@ -2,14 +2,12 @@ package com.example.nordicnews.ui.bookmark
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.nordicnews.NordicNewsApplication
 import com.example.nordicnews.data.ArticleRepository
 import com.example.nordicnews.data.models.Article
-import com.example.nordicnews.ui.detail.DetailViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -28,12 +26,13 @@ class BookmarksViewModel(private  val articleRepository : ArticleRepository) : V
     }
 
     val uiState: StateFlow<BookmarksUiState> =
-        articleRepository.getAllArticles().map { BookmarksUiState(it) }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000),
-                initialValue = BookmarksUiState()
-            )
+        articleRepository.getAllArticles().map {
+            BookmarksUiState(it.reversed())
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = BookmarksUiState()
+        )
 }
 
 data class BookmarksUiState(

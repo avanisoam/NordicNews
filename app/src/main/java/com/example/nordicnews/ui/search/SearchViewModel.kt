@@ -11,13 +11,8 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.nordicnews.NordicNewsApplication
 import com.example.nordicnews.data.models.Article
 import com.example.nordicnews.data.network.ApiRepository
-import com.example.nordicnews.dataStore.UserPreferencesRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -29,32 +24,39 @@ class SearchViewModel(
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as NordicNewsApplication)
+                val application = this[
+                    ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY
+                ] as NordicNewsApplication
                 val apiRepository = application.container.apiRepository
                 val savedStateHandle = this.createSavedStateHandle()
-                SearchViewModel(savedStateHandle,apiRepository = apiRepository)
+                SearchViewModel(
+                    savedStateHandle = savedStateHandle,
+                    apiRepository = apiRepository
+                )
             }
         }
     }
 
-    private val category: String? = savedStateHandle[SearchDestination.CATEGORY_ARG]
+    private val category: String? = savedStateHandle[
+        SearchDestination.CATEGORY_ARG
+    ]
 
     var uiState = MutableStateFlow(SearchUiState())
         private set
 
     fun onNameChange(value : String) {
-        
-        uiState.update {currentUiState ->
+        uiState.update { currentUiState ->
             currentUiState.copy(
                 name = value
             )
         }
     }
-    fun getFilteredNews(sources : String = "ars-technica",//"the-verge",//"bbc-news",
-                   page : Int= 1){
+    private fun getFilteredNews(
+        sources : String = "ars-technica"
+    ) {
         viewModelScope.launch {
             try {
-                uiState.update {currentUiState ->
+                uiState.update { currentUiState ->
                     currentUiState.copy(
                         searchApiState = SearchApiState.LOADING
                     )
@@ -63,15 +65,14 @@ class SearchViewModel(
 
                 val allNews = apiRepository.getHeadlinesByCountryAndCategoryV1(sources)
 
-                uiState.update {currentUiState ->
+                uiState.update { currentUiState ->
                     currentUiState.copy(
                         articleList = allNews.articles,
                         searchApiState = SearchApiState.SUCCESS
                     )
                 }
-            }//catch (e: IOException) {
-            catch (ex : Exception) {
-                uiState.update {currentUiState ->
+            } catch (_ : Exception) {
+                uiState.update { currentUiState ->
                     currentUiState.copy(
                         searchApiState = SearchApiState.ERROR
                     )
@@ -81,8 +82,7 @@ class SearchViewModel(
     }
 
     fun updateSearchWidgetState(newValue: SearchWidgetState) {
-
-        uiState.update {currentUiState ->
+        uiState.update { currentUiState ->
             currentUiState.copy(
                 searchWidgetState = newValue
             )
@@ -92,34 +92,31 @@ class SearchViewModel(
     fun searchNews(keyword : String) {
         viewModelScope.launch {
             try {
-                uiState.update {currentUiState ->
+                uiState.update { currentUiState ->
                     currentUiState.copy(
                         searchApiState = SearchApiState.LOADING
                     )
-
                 }
                 val allNews = apiRepository.searchNewsV2(keyword)
                 Log.d("AllNews", "${allNews.totalResults} no.of news")
-                uiState.update {currentUiState ->
+                uiState.update { currentUiState ->
                     currentUiState.copy(
                         articleList = allNews.articles,
                         searchApiState = SearchApiState.SUCCESS
                     )
                 }
-            }catch (ex : Exception){
-                uiState.update {currentUiState ->
+            } catch (_ : Exception){
+                uiState.update { currentUiState ->
                     currentUiState.copy(
                         searchApiState = SearchApiState.ERROR
                     )
-
                 }
             }
         }
     }
 
     init {
-
-        if(category != null) {
+        if (category != null) {
             uiState.update { currentUiState ->
                 currentUiState.copy(
                     category = category,

@@ -5,15 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,11 +29,11 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.example.nordicnews.ui.bookmark.BookmarksDestination
 import com.example.nordicnews.ui.home.HomeDestination
 import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.search.SearchDestination
+import com.example.nordicnews.utils.popAndLaunchSingleTop
 
 @Composable
 fun CustomBottomBar(navController: NavController) {
@@ -65,7 +62,6 @@ fun CustomBottomBar(navController: NavController) {
             )
         }
     }
-
 }
 
 @Composable
@@ -74,25 +70,30 @@ fun AddItem(
     currentDestination: NavDestination?,
     navController: NavController
 ) {
-    val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
+    val selected = currentDestination?.hierarchy?.any {
+        it.route == screen.route
+    } == true
 
-    val background =
-        if (selected) Color.Red.copy(alpha = 0.6f) else Color.Transparent
+    val background = Color.Red.copy(alpha = 0.6f).takeIf {
+        selected
+    } ?: Color.Transparent
 
-    val contentColor =
-        if (selected) Color.White else Color.Black
+    val contentColor = Color.White.takeIf {
+        selected
+    } ?: Color.Black
 
     Box(
         modifier = Modifier
             .height(40.dp)
             .clip(CircleShape)
             .background(background)
-            .clickable(onClick = {
-                navController.navigate(screen.route) {
-                    popUpTo(navController.graph.findStartDestination().id)
-                    launchSingleTop = true
+            .clickable(
+                onClick = {
+                    navController.navigate(screen.route) {
+                        popAndLaunchSingleTop(navController)
+                    }
                 }
-            })
+            )
     ) {
         Row(
             modifier = Modifier
@@ -101,7 +102,11 @@ fun AddItem(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Icon(
-                painter = painterResource(id = if (selected) screen.selectedIcon else screen.unSelectedIcon),
+                painter = painterResource(
+                    id = screen.selectedIcon.takeIf {
+                        selected
+                    } ?: screen.unSelectedIcon
+                ),
                 contentDescription = "icon",
                 tint = contentColor
             )
@@ -118,5 +123,7 @@ fun AddItem(
 @Composable
 @Preview(showSystemUi = true)
 fun BottomNavPreview() {
-    CustomBottomBar(navController = NavHostController(LocalContext.current))
+    CustomBottomBar(
+        navController = NavHostController(LocalContext.current)
+    )
 }
