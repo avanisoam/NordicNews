@@ -8,7 +8,7 @@ width="140" hspace="10" vspace="10">
 Nordic News is a self-hosted News Articles app.  
 Unlike other services, Nordic News is free and open source.  
 
-Nordic News is available on the Google Play Store and F-Droid.
+Nordic News is available on Github and soon will be available on the Google Play Store and F-Droid.
 
 <p align="left">
 <a href="https://github.com/avanisoam/NordicNews/raw/main/app/release/app-release.apk">
