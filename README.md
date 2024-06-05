@@ -11,10 +11,10 @@ Unlike other services, Nordic News is free and open source.
 Nordic News is available on the Google Play Store and F-Droid.
 
 <p align="left">
-<a href="https://play.google.com/store/apps/details?id=TODO">
+<a href="https://github.com/avanisoam/NordicNews/raw/main/app/release/app-release.apk">
     <img alt="Get it on Google Play"
         height="80"
-        src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />
+        src="https://img.shields.io/badge/Git_it_on-GitHub-black?style=for-the-badge&logo=github" />
 </a>  
  </p>
 
