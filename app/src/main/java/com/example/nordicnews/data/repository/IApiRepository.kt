@@ -1,6 +1,8 @@
-package com.example.nordicnews.data.network
+package com.example.nordicnews.data.repository
 
 import android.util.Log
+import com.example.nordicnews.data.network.NewsResponse
+import com.example.nordicnews.data.network.NordicNewsApiService
 import java.time.LocalDate
 
 interface IApiRepository {

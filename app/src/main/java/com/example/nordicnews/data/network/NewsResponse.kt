@@ -1,6 +1,6 @@
 package com.example.nordicnews.data.network
 
-import com.example.nordicnews.data.models.Article
+import com.example.nordicnews.data.model.Article
 
 data class NewsResponse(
     val articles: List<Article>,

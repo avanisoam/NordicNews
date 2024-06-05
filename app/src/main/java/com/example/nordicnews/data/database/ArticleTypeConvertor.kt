@@ -1,8 +1,8 @@
-package com.example.nordicnews.data
+package com.example.nordicnews.data.database
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
-import com.example.nordicnews.data.models.Source
+import com.example.nordicnews.data.model.Source
 
 @ProvidedTypeConverter
 class ArticleTypeConvertor {

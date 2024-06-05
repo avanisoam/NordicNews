@@ -10,7 +10,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -20,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.nordicnews.R
-import com.example.nordicnews.data.models.Article
+import com.example.nordicnews.data.model.Article
 
 @Composable
 fun FixedHeader(
@@ -45,7 +44,7 @@ fun FixedHeader(
         )
         Row(
             modifier = Modifier.padding(
-                start = 25.dp,
+                start = 10.dp,
                 end=25.dp,
                 bottom = 9.dp,
                 top = 20.dp
@@ -56,7 +55,7 @@ fun FixedHeader(
                 fontSize = 14.sp,
                 fontWeight = FontWeight(400),
                 lineHeight = 17.41.sp,
-                color = Color(29, 27, 32),
+                color = MaterialTheme.colorScheme.onBackground,//Color(29, 27, 32),
                 style = MaterialTheme.typography.labelLarge,
                 modifier = Modifier.padding(
                     end = 7.dp
@@ -67,7 +66,7 @@ fun FixedHeader(
                 fontSize = 14.sp,
                 fontWeight = FontWeight(400),
                 lineHeight = 17.41.sp,
-                color = Color(29, 27, 32),
+                color = MaterialTheme.colorScheme.onBackground,//Color(29, 27, 32),
                 modifier = Modifier.padding()
             )
             Text(
@@ -75,7 +74,7 @@ fun FixedHeader(
                 fontSize = 14.sp,
                 fontWeight = FontWeight(400),
                 lineHeight = 17.41.sp,
-                color = Color(29, 27, 32),
+                color = MaterialTheme.colorScheme.onBackground,//Color(29, 27, 32),
                 modifier = Modifier.padding(
                     start = 7.dp
                 )
@@ -85,11 +84,11 @@ fun FixedHeader(
         Text(
             text = article.title,
             style = MaterialTheme.typography.headlineLarge,
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onBackground,//Color.Black,
             fontSize = 28.sp,
             lineHeight = 36.sp,
             modifier = Modifier.padding(
-                start = 20.dp,
+                start = 10.dp,
                 end = 20.dp,
                 top=9.dp
             )

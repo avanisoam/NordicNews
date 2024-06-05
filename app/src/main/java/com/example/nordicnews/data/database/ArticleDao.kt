@@ -1,11 +1,11 @@
-package com.example.nordicnews.data
+package com.example.nordicnews.data.database
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.nordicnews.data.models.Article
+import com.example.nordicnews.data.model.Article
 import kotlinx.coroutines.flow.Flow
 
 @Dao

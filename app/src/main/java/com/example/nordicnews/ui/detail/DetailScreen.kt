@@ -47,9 +47,9 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.nordicnews.R
-import com.example.nordicnews.data.models.Article
-import com.example.nordicnews.data.models.ArticleMockData
-import com.example.nordicnews.data.models.Source
+import com.example.nordicnews.data.model.Article
+import com.example.nordicnews.data.model.ArticleMockData
+import com.example.nordicnews.data.model.Source
 import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.shared.ArticleListV1
 import com.example.nordicnews.ui.shared.Footer
@@ -87,7 +87,11 @@ fun DetailScreen(
                 CenterAlignedTopAppBar(
                     title = {
                         Text(
-                            stringResource(id = DetailDestination.titleRes)
+                            stringResource(id = DetailDestination.titleRes),
+                            fontSize = 16.sp,
+                            style = MaterialTheme.typography.headlineSmall,
+                            lineHeight = 22.sp,
+                            textAlign = TextAlign.Center
                         )
                     },
                     actions = {
@@ -161,10 +165,10 @@ fun DetailScreen(
                         fontWeight = FontWeight(400),
                         fontSize = 28.sp,
                         lineHeight = 36.sp,
-                        color = Color(29, 27, 32),
+                        color = MaterialTheme.colorScheme.onBackground,//Color(29, 27, 32),
                         modifier = Modifier.padding(
-                            start = 16.dp,
-                            end = 16.dp,
+                            start = 10.dp,
+                            end = 10.dp,
                             top = 40.dp,
                             bottom = 28.dp
                         )
@@ -189,8 +193,8 @@ fun DetailScreen(
                     Divider(
                         color = Color(215, 215, 215),
                         modifier = Modifier.padding(
-                                start = 25.dp,
-                                end = 25.dp,
+                                start = 10.dp,
+                                end = 10.dp,
                                 bottom = 20.dp
                         ),
                         thickness = 1.dp
@@ -200,8 +204,8 @@ fun DetailScreen(
                 item {
                     Column(
                         modifier = Modifier.padding(
-                        start = 25.dp,
-                        end = 25.dp,
+                        start = 10.dp,
+                        end = 10.dp,
                         bottom = 28.dp
                         )
                     ) {
@@ -211,15 +215,15 @@ fun DetailScreen(
                             fontWeight = FontWeight(400),
                             lineHeight = 24.sp,
                             style = MaterialTheme.typography.bodyLarge,
-                            color = Color(29, 27, 32),
+                            color = MaterialTheme.colorScheme.onBackground,//Color(29, 27, 32),
                             modifier = Modifier.padding(bottom=20.dp),
-                            textAlign = TextAlign.Justify
+                            textAlign = TextAlign.Left
                         )
                     }
                 }
                 item {
                     Column(
-                        modifier = Modifier.padding(start=25.dp, end=25.dp)
+                        modifier = Modifier.padding(start=10.dp, end=10.dp)
                     ) {
                         Text(
                             text = "Related article",
@@ -227,7 +231,7 @@ fun DetailScreen(
                             fontWeight = FontWeight(700),
                             lineHeight = 28.sp,
                             style = MaterialTheme.typography.headlineMedium,
-                            color = Color(29, 27, 32),
+                            color = MaterialTheme.colorScheme.onBackground,//Color(29, 27, 32),
                             modifier = Modifier.padding(bottom=20.dp)
                         )
 
@@ -394,9 +398,9 @@ fun DetailsRow(article : Article) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                start = 25.dp,
+                start = 10.dp,
                 bottom = 19.dp,
-                end = 25.dp
+                end = 10.dp
             )
     ) {
         AsyncImage(
@@ -419,7 +423,7 @@ fun DetailsRow(article : Article) {
                 fontSize = 16.sp,
                 fontWeight = FontWeight(500),
                 lineHeight = 22.sp,
-                color = Color(29, 27, 32),
+                color = MaterialTheme.colorScheme.onBackground,//Color(29, 27, 32),
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.padding(
                     end = 18.dp,
@@ -432,7 +436,7 @@ fun DetailsRow(article : Article) {
                     fontSize = 14.sp,
                     fontWeight = FontWeight(400),
                     lineHeight = 17.41.sp,
-                    color = Color(29, 27, 32),
+                    color = MaterialTheme.colorScheme.onBackground,//Color(29, 27, 32),
                     style = MaterialTheme.typography.labelLarge,
                     modifier = Modifier.padding()
                 )
@@ -441,7 +445,7 @@ fun DetailsRow(article : Article) {
                     fontSize = 14.sp,
                     fontWeight = FontWeight(400),
                     lineHeight = 17.41.sp,
-                    color = Color(29, 27, 32),
+                    color = MaterialTheme.colorScheme.onBackground,//Color(29, 27, 32),
                     style = MaterialTheme.typography.labelLarge,
                     modifier = Modifier.padding(
                         start = 7.dp

@@ -24,7 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.nordicnews.data.models.Category
+import com.example.nordicnews.data.model.Category
 
 @Composable
 fun CardShower(
@@ -79,9 +79,9 @@ fun ColorfulTabsList(
             fontSize = 20.sp,
             lineHeight = 28.sp,
             style = MaterialTheme.typography.headlineMedium,
-            color = Color(29, 27, 32),
+            color = MaterialTheme.colorScheme.onBackground,//Color(29, 27, 32),
             modifier = Modifier.padding(
-                start = 25.dp,
+                start = 10.dp,
                 end = 25.dp,
                 bottom = 20.dp
             )
@@ -89,7 +89,7 @@ fun ColorfulTabsList(
         LazyHorizontalGrid(
             modifier = Modifier
                 .height(100.dp)
-                .padding(start = 25.dp),
+                .padding(start = 10.dp),
             rows = GridCells.Fixed(1)
         ) {
             itemsIndexed(category) { i, item ->

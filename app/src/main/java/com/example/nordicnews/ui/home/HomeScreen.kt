@@ -41,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -48,9 +49,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nordicnews.R
-import com.example.nordicnews.data.models.Article
-import com.example.nordicnews.data.models.ArticleMockData
-import com.example.nordicnews.data.models.Category
+import com.example.nordicnews.data.model.Article
+import com.example.nordicnews.data.model.ArticleMockData
+import com.example.nordicnews.data.model.Category
 import com.example.nordicnews.ui.developerOptions.DeveloperOptionsDestination
 import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.settings.SettingsDestination
@@ -135,7 +136,13 @@ fun HomeScreen(
                     drawerItems.forEachIndexed { index, item ->
                         NavigationDrawerItem(
                             label = {
-                                Text(text = item.title)
+                                Text(
+                                    text = item.title,
+                                    fontSize = 16.sp,
+                                    style = MaterialTheme.typography.headlineSmall,
+                                    lineHeight = 22.sp,
+                                    textAlign = TextAlign.Center
+                                )
                             },
                             selected = index == selectedItemIndex,
                             onClick = {
@@ -170,7 +177,13 @@ fun HomeScreen(
                 topBar = {
                     CenterAlignedTopAppBar(
                         title = {
-                            Text(text = "Home")
+                            Text(
+                                text = "Home",
+                                fontSize = 16.sp,
+                                style = MaterialTheme.typography.headlineSmall,
+                                lineHeight = 22.sp,
+                                textAlign = TextAlign.Center
+                            )
                         },
                         navigationIcon = {
                             IconButton(
@@ -259,8 +272,8 @@ fun Result(
         }
         item{
             Column(modifier = Modifier.padding(
-                start = 25.dp,
-                end = 25.dp,
+                start = 10.dp,
+                end = 10.dp,
                 bottom = 50.dp
             )) {
                 Text(
@@ -269,7 +282,7 @@ fun Result(
                     fontSize = 20.sp,
                     lineHeight = 28.sp,
                     style = MaterialTheme.typography.headlineMedium,
-                    color = Color(29, 27, 32),
+                    color = MaterialTheme.colorScheme.onBackground,//Color(29, 27, 32),
                     modifier = Modifier.padding(
                         bottom = 20.dp
                     )

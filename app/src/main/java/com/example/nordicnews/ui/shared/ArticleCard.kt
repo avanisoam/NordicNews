@@ -30,9 +30,9 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.nordicnews.R
-import com.example.nordicnews.data.models.Article
-import com.example.nordicnews.data.models.ArticleMockData
-import com.example.nordicnews.data.models.Source
+import com.example.nordicnews.data.model.Article
+import com.example.nordicnews.data.model.ArticleMockData
+import com.example.nordicnews.data.model.Source
 import java.time.Duration
 import java.time.OffsetDateTime
 
@@ -80,7 +80,7 @@ fun ArticleListV1(
 @Composable
 fun ArticleCard(article : Article,modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier.size(width = 340.dp, height = 80.dp),
+        modifier = modifier.height(80.dp).fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         )
@@ -104,7 +104,7 @@ fun ArticleCard(article : Article,modifier: Modifier = Modifier) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 7.dp, start = 18.dp, bottom = 7.dp)
+                    .padding(top = 7.dp, start = 18.dp, bottom = 7.dp,end = 18.dp)
             ) {
                 Text(
                     text = article.title,

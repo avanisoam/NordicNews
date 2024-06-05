@@ -17,7 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,7 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nordicnews.R
-import com.example.nordicnews.data.models.Article
+import com.example.nordicnews.data.model.Article
 import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.shared.ArticleListV1
 import com.example.nordicnews.ui.shared.Footer
@@ -54,7 +54,11 @@ fun BookmarksScreen(
                     Text(
                         stringResource(
                             id = BookmarksDestination.titleRes
-                        )
+                        ),
+                        fontSize = 16.sp,
+                        style = MaterialTheme.typography.headlineSmall,
+                        lineHeight = 22.sp,
+                        textAlign = TextAlign.Center
                     )
                 }
             )
@@ -74,23 +78,11 @@ fun BookmarksScreen(
             item {
                 Column(
                     modifier = Modifier.padding(
-                        start = 25.dp,
-                        end = 25.dp,
+                        start = 10.dp,
+                        end = 10.dp,
                         bottom = 50.dp
                     )
                 ) {
-                    Text(
-                        text = "All Bookmarks",
-                        fontWeight = FontWeight(700),
-                        fontSize = 20.sp,
-                        lineHeight = 28.sp,
-                        style = MaterialTheme.typography.headlineMedium,
-                        color = Color(29, 27, 32),
-                        modifier = Modifier.padding(
-                            bottom = 20.dp
-                        )
-                    )
-
                     ArticleListV1(
                         onItemClick = { navigateToDetailScreen(it) },
                         // Data from Api
@@ -106,7 +98,7 @@ fun BookmarksScreen(
 @Preview(showSystemUi = true)
 @Composable
 private fun BookmarkScreenPreview() {
-    NordicNewsTheme {
+    NordicNewsTheme(darkTheme = true) {
         BookmarksScreen(navController = rememberNavController(),
             navigateToDetailScreen = {})
     }

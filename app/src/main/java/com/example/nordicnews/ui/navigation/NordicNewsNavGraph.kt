@@ -9,8 +9,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.nordicnews.data.models.Article
-import com.example.nordicnews.data.models.AssetParamType
+import com.example.nordicnews.data.model.Article
+import com.example.nordicnews.data.model.AssetParamType
 import com.example.nordicnews.ui.bookmark.BookmarksDestination
 import com.example.nordicnews.ui.bookmark.BookmarksScreen
 import com.example.nordicnews.ui.detail.DetailDestination

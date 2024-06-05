@@ -11,8 +11,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.nordicnews.NordicNewsApplication
 import com.example.nordicnews.R
-import com.example.nordicnews.data.ArticleRepository
-import com.example.nordicnews.data.models.Article
+import com.example.nordicnews.data.repository.ArticleRepository
+import com.example.nordicnews.data.model.Article
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map

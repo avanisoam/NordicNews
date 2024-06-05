@@ -1,8 +1,10 @@
 package com.example.nordicnews.data
 
 import android.content.Context
-import com.example.nordicnews.data.network.ApiRepository
+import com.example.nordicnews.data.database.NordicNewsDatabase
+import com.example.nordicnews.data.repository.ApiRepository
 import com.example.nordicnews.data.network.NordicNewsApiService
+import com.example.nordicnews.data.repository.ArticleRepository
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
