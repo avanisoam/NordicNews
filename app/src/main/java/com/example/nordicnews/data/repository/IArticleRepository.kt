@@ -1,6 +1,6 @@
-package com.example.nordicnews.data
+package com.example.nordicnews.data.repository
 
-import com.example.nordicnews.data.models.Article
+import com.example.nordicnews.data.model.Article
 import kotlinx.coroutines.flow.Flow
 
 interface IArticleRepository {

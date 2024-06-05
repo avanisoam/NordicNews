@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -46,7 +47,11 @@ fun OpenSearchBar(
                 Text(
                     modifier = modifier,
                     text = "Search here...",
-                    color = Color.White
+                    color = Color.White,
+                    fontSize = 16.sp,
+                    style = MaterialTheme.typography.headlineSmall,
+                    lineHeight = 22.sp,
+                    textAlign = TextAlign.Center
                 )
             },
             textStyle = TextStyle(

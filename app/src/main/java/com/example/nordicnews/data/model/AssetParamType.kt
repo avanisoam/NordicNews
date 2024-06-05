@@ -1,4 +1,4 @@
-package com.example.nordicnews.data.models
+package com.example.nordicnews.data.model
 
 import android.os.Bundle
 import androidx.navigation.NavType

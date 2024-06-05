@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,14 +18,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nordicnews.R
-import com.example.nordicnews.data.models.Article
+import com.example.nordicnews.data.model.Article
 import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.shared.ArticleListV1
 import com.example.nordicnews.ui.shared.ErrorScreen
@@ -60,7 +61,7 @@ fun SearchScreen(
                 searchWidgetState = uiState.searchWidgetState,
                 searchTextState = uiState.name,
                 onTextChange = {viewModel.onNameChange(it)},
-                onCloseClicked = { viewModel.updateSearchWidgetState(newValue = SearchWidgetState.CLOSED ) },
+                onCloseClicked = { viewModel.onCrossButtonClick(newValue = SearchWidgetState.CLOSED ) },//{ viewModel.updateSearchWidgetState(newValue = SearchWidgetState.CLOSED ) },
                 onSearchClicked = {viewModel.searchNews(it)},
                 onSearchTriggered = {viewModel.updateSearchWidgetState(newValue = SearchWidgetState.OPENED)}
             )
@@ -86,10 +87,13 @@ fun SearchScreen(
              SearchApiState.ERROR -> ErrorScreen(
                  modifier = Modifier.fillMaxSize()
              )
+            SearchApiState.NONE -> LoadingScreen(modifier = Modifier.fillMaxSize().padding(innerPadding))
+            /*
              SearchApiState.NONE -> Text(
                 text = "No result found!",
                 modifier = Modifier.padding(innerPadding).padding(15.dp)
              )
+             */
         }
     }
 }
@@ -108,8 +112,12 @@ fun SearchResult(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "My Topic: $topic",
-                    fontWeight = FontWeight.Bold
+                    text = topic,
+                    style = MaterialTheme.typography.headlineLarge,
+                    //fontWeight = FontWeight.Bold
+                    fontSize = 28.sp,
+                    lineHeight = 36.sp,
+                    modifier = Modifier.padding(start =10.dp)
                 )
             }
         }
@@ -117,7 +125,7 @@ fun SearchResult(
 
         item {
             Column(
-                modifier = Modifier.padding(start = 25.dp,end = 25.dp)
+                modifier = Modifier.padding(start = 10.dp,end = 10.dp)
             ) {
                 ArticleListV1(
                     onItemClick = { navigateToDetailScreen(it) },

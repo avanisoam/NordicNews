@@ -1,4 +1,4 @@
-package com.example.nordicnews.data.models
+package com.example.nordicnews.data.model
 
 import android.os.Parcelable
 import androidx.room.Entity

@@ -32,8 +32,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.nordicnews.R
-import com.example.nordicnews.data.models.Article
-import com.example.nordicnews.data.models.ArticleMockData
+import com.example.nordicnews.data.model.Article
+import com.example.nordicnews.data.model.ArticleMockData
 
 
 @Composable
@@ -65,7 +65,7 @@ fun CardWithImageAndText(article : Article, modifier : Modifier = Modifier) {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 7.dp, start = 18.dp, bottom = 7.dp)
+                            .padding(top = 7.dp, start = 18.dp, bottom = 7.dp,end = 18.dp)
                     ) {
                         Text(
                             text = article.title,
@@ -123,20 +123,20 @@ fun HorizontalCardListWithText(
 ) {
     Column {
         Text(
-            text = "Focus On AI",
+            text = "Top Highlights",
             fontWeight = FontWeight(700),
             fontSize = 20.sp,
             lineHeight = 28.sp,
             style = MaterialTheme.typography.headlineMedium,
-            color = Color(29, 27, 32),
+            color = MaterialTheme.colorScheme.onBackground,//Color(29, 27, 32),
             modifier = Modifier.padding(
-                start = 25.dp,
+                start = 10.dp,
                 end = 25.dp,
                 bottom = 20.dp
             )
         )
         LazyHorizontalGrid(
-            modifier = Modifier.height(180.dp).padding(start = 25.dp),
+            modifier = Modifier.height(180.dp).padding(start = 10.dp),
             rows = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)

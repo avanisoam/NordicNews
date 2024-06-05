@@ -9,8 +9,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.nordicnews.NordicNewsApplication
-import com.example.nordicnews.data.models.Article
-import com.example.nordicnews.data.network.ApiRepository
+import com.example.nordicnews.data.model.Article
+import com.example.nordicnews.data.repository.ApiRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -89,6 +89,34 @@ class SearchViewModel(
         }
     }
 
+    fun onCrossButtonClick(newValue: SearchWidgetState){
+        viewModelScope.launch {
+            try {
+                uiState.update { currentUiState ->
+                    currentUiState.copy(
+                        searchWidgetState = newValue,
+                        name = ""
+                    )
+                }
+                val allNews = apiRepository.getNewsBySource("the-verge")
+                Log.d("AllNews", "${allNews.totalResults} no.of news")
+                uiState.update { currentUiState ->
+                    currentUiState.copy(
+                        articleList = allNews.articles,
+                        searchApiState = SearchApiState.SUCCESS
+                    )
+                }
+            }catch (_ : Exception){
+                uiState.update { currentUiState ->
+                    currentUiState.copy(
+                        searchApiState = SearchApiState.ERROR
+                    )
+                }
+            }
+
+        }
+    }
+
     fun searchNews(keyword : String) {
         viewModelScope.launch {
             try {
@@ -140,6 +168,6 @@ data class SearchUiState(
     val searchWidgetState : SearchWidgetState = SearchWidgetState.OPENED,
     val name : String = "",
     val articleList : List<Article> = listOf(),
-    val category : String = "Everything",
+    val category : String = "",
     val searchApiState : SearchApiState = SearchApiState.NONE,
 )
