@@ -14,7 +14,7 @@ Nordic News is available on the Google Play Store and F-Droid.
 <a href="https://github.com/avanisoam/NordicNews/raw/main/app/release/app-release.apk">
     <img alt="Get it on Google Play"
         height="40"
-        src="https://img.shields.io/badge/Git_it_on-GitHub-black?style=for-the-badge&logo=github" />
+        src="https://raw.githubusercontent.com/avanisoam/NordicNews/5c29b9d78bb3ddb57bcea76b10a53f7cbdf5e1d4/Github_download.svg" />
 </a>  
  </p>
 
