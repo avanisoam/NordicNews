@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.MaterialTheme
@@ -21,7 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nordicnews.R
@@ -32,6 +32,7 @@ import com.example.nordicnews.ui.shared.ErrorScreen
 import com.example.nordicnews.ui.shared.Footer
 import com.example.nordicnews.ui.shared.LoadingScreen
 import com.example.nordicnews.ui.theme.NordicNewsTheme
+import org.koin.androidx.compose.getViewModel
 
 object SearchDestination : NavigationDestination {
 
@@ -51,7 +52,7 @@ fun SearchScreen(
     navigateToDetailScreen : (Article) -> Unit,
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: SearchViewModel = viewModel(factory = SearchViewModel.Factory)
+    viewModel: SearchViewModel = getViewModel<SearchViewModel>()
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -87,13 +88,10 @@ fun SearchScreen(
              SearchApiState.ERROR -> ErrorScreen(
                  modifier = Modifier.fillMaxSize()
              )
-            SearchApiState.NONE -> LoadingScreen(modifier = Modifier.fillMaxSize().padding(innerPadding))
-            /*
              SearchApiState.NONE -> Text(
                 text = "No result found!",
                 modifier = Modifier.padding(innerPadding).padding(15.dp)
              )
-             */
         }
     }
 }

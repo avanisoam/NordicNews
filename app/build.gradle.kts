@@ -96,4 +96,10 @@ dependencies {
 
     // DataStore - Prefrences
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    // Koin
+    implementation ("io.insert-koin:koin-android:3.3.0")
+    implementation ("io.insert-koin:koin-androidx-navigation:3.3.0")
+    implementation ("io.insert-koin:koin-androidx-compose:3.3.0")
+    testImplementation ("io.insert-koin:koin-test-junit4:3.3.0")
 }

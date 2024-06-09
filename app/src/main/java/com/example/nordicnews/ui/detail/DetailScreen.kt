@@ -56,6 +56,7 @@ import com.example.nordicnews.ui.shared.Footer
 import com.example.nordicnews.ui.shared.getOffset
 import com.example.nordicnews.ui.theme.NordicNewsTheme
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 
 
 object DetailDestination : NavigationDestination {
@@ -74,8 +75,8 @@ fun DetailScreen(
     navigateToDetailScreen : (Article) -> Unit,
     article : Article?,
     navController: NavController,
-    viewModel: DetailViewModel = viewModel(factory = DetailViewModel.Factory),
-    navigateUp: () -> Unit = {}
+    navigateUp: () -> Unit = {},
+    viewModel : DetailViewModel = getViewModel<DetailViewModel>()
 ) {
     val context = LocalContext.current
     article?.let {
@@ -182,7 +183,9 @@ fun DetailScreen(
                         contentDescription = null,
                         error = painterResource(R.drawable.ic_broken_image),
                         placeholder = painterResource(R.drawable.loading_img),
-                        modifier = Modifier.fillMaxWidth().height(220.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(220.dp),
                         contentScale = ContentScale.Crop
                     )
                 }
@@ -316,7 +319,9 @@ fun DetailBodyV1(
                     .build(),
                 contentDescription = stringResource(R.string.news_thumbnail),
                 contentScale = ContentScale.Crop,  // to cover whole screen
-                modifier = Modifier.fillMaxWidth().height(390.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(390.dp)
             )
         }
     }
