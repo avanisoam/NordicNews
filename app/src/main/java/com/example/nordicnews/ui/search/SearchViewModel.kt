@@ -21,22 +21,6 @@ class SearchViewModel(
     private  val apiRepository: ApiRepository
 ) : ViewModel() {
 
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = this[
-                    ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY
-                ] as NordicNewsApplication
-                val apiRepository = application.container.apiRepository
-                val savedStateHandle = this.createSavedStateHandle()
-                SearchViewModel(
-                    savedStateHandle = savedStateHandle,
-                    apiRepository = apiRepository
-                )
-            }
-        }
-    }
-
     private val category: String? = savedStateHandle[
         SearchDestination.CATEGORY_ARG
     ]

@@ -13,6 +13,7 @@ import com.example.nordicnews.NordicNewsApplication
 import com.example.nordicnews.R
 import com.example.nordicnews.data.repository.ArticleRepository
 import com.example.nordicnews.data.model.Article
+import com.example.nordicnews.data.model.Source
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -20,21 +21,10 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
-    savedStateHandle: SavedStateHandle,
+    val savedStateHandle: SavedStateHandle,
     private  val articleRepository : ArticleRepository
 
 ) : ViewModel() {
-
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as NordicNewsApplication)
-                val articleRepository = application.container.articleRepository
-                val savedStateHandle = this.createSavedStateHandle()
-                DetailViewModel(savedStateHandle, articleRepository = articleRepository)
-            }
-        }
-    }
 
     private val argumentArticleObject = checkNotNull(savedStateHandle.get<Article>("article"))
 

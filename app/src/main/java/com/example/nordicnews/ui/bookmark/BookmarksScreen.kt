@@ -30,6 +30,7 @@ import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.shared.ArticleListV1
 import com.example.nordicnews.ui.shared.Footer
 import com.example.nordicnews.ui.theme.NordicNewsTheme
+import org.koin.androidx.compose.getViewModel
 
 object BookmarksDestination : NavigationDestination {
     override val route = "bookmark"
@@ -42,9 +43,7 @@ object BookmarksDestination : NavigationDestination {
 fun BookmarksScreen(
     navigateToDetailScreen : (Article) -> Unit,
     navController: NavController,
-    viewModel: BookmarksViewModel = viewModel(
-        factory = BookmarksViewModel.Factory
-    )
+    viewModel: BookmarksViewModel = getViewModel<BookmarksViewModel>()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(

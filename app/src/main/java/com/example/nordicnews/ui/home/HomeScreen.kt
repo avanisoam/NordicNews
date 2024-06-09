@@ -64,6 +64,7 @@ import com.example.nordicnews.ui.shared.HorizontalCardListWithText
 import com.example.nordicnews.ui.shared.LoadingScreen
 import com.example.nordicnews.ui.theme.NordicNewsTheme
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 
 
 object HomeDestination : NavigationDestination {
@@ -91,7 +92,7 @@ fun HomeScreen(
     navigateToDetailScreen : (Article) -> Unit = {},
     navigateToSearchScreen : (String) -> Unit = {},
     navController: NavController,
-    viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
+    viewModel: HomeViewModel = getViewModel<HomeViewModel>()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val categoryList by viewModel.categoryUIState.collectAsState()

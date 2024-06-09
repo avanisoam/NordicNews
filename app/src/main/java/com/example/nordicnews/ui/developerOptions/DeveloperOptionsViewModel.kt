@@ -16,20 +16,6 @@ import kotlinx.coroutines.launch
 class DeveloperOptionsViewModel(
     private val userPreferencesRepository: UserPreferencesRepository
 ): ViewModel() {
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = this[
-                    ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY
-                ] as NordicNewsApplication
-                val userPreferencesRepository = application.userPreferencesRepository
-                DeveloperOptionsViewModel(
-                    userPreferencesRepository = userPreferencesRepository
-                )
-            }
-        }
-    }
-
     val uiState : StateFlow<DeveloperOptionsUiState> = userPreferencesRepository.isDebugMode
         .map { isDebugModeEnabled ->
             DeveloperOptionsUiState(isDebugModeEnabled)

@@ -9,44 +9,41 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.nordicnews.data.Constants
-import com.example.nordicnews.data.DefaultAppContainer
-import com.example.nordicnews.data.IAppContainer
 import com.example.nordicnews.dataStore.UserPreferencesRepository
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.filter
+import com.example.nordicnews.di.dataBaseModule
+import com.example.nordicnews.di.dataStoreModule
+import com.example.nordicnews.di.networkModule
+import com.example.nordicnews.di.remoteDataSourceModule
+import com.example.nordicnews.di.repositoryModule
+import com.example.nordicnews.di.viewModelModule
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.runBlocking
-
-// TODO: Make Constant
-private const val PREFERENCE_NAME = "nordicnews_preferences"
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
-    name = PREFERENCE_NAME
+    name = Constants.PREFERENCE_NAME
 )
 class NordicNewsApplication : Application() {
-    lateinit var container: IAppContainer
+
     lateinit var userPreferencesRepository: UserPreferencesRepository
 
-    private val isDevloperMode = mutableStateOf(false)
+    val isDeveloperMode = mutableStateOf(false)
 
     private suspend fun readDataStoreSync() {
-        // TODO: Make Constant
-        val dataStoreKey = booleanPreferencesKey("is_debugMode_on")
+        val dataStoreKey = booleanPreferencesKey(Constants.DEBUG_MODE_PREFERENCE)
         val preferences = dataStore.data.first()
 
-        isDevloperMode.value =  preferences[dataStoreKey]  ?: false
+        isDeveloperMode.value =  preferences[dataStoreKey]  ?: false
 
-        Log.d("OnLoad:Blocking/Sync", "${isDevloperMode.value}")
+        Log.d("OnLoad:", " In runBlocking DeveloperMode is ${isDeveloperMode.value}")
     }
 
     override fun onCreate() {
         super.onCreate()
         userPreferencesRepository = UserPreferencesRepository(dataStore)
 
-        Log.d("OnLoad:Before", "${isDevloperMode.value}")
+        Log.d("OnLoad:", " Before reading DeveloperMode is ${isDeveloperMode.value}")
 
         // https://stackoverflow.com/questions/73414839/how-to-load-instantly-data-from-data-store
         // https://developer.android.com/topic/libraries/architecture/datastore#synchronous
@@ -54,17 +51,18 @@ class NordicNewsApplication : Application() {
             readDataStoreSync()
         }
 
-        Log.d("OnLoad:After", "${isDevloperMode.value}")
+        Log.d("OnLoad:", " After reading DeveloperMode is ${isDeveloperMode.value}")
 
-        container = if(isDevloperMode.value) {
-            DefaultAppContainer(
-                this,
-                Constants.DEV_BASE_URL
-            )
-        } else {
-            DefaultAppContainer(
-                this,
-                Constants.PROD_BASE_URL
+        startKoin{
+            androidContext(this@NordicNewsApplication)
+
+            modules(
+                dataBaseModule,
+                remoteDataSourceModule,
+                networkModule,
+                repositoryModule,
+                viewModelModule,
+                dataStoreModule
             )
         }
 

@@ -31,6 +31,7 @@ import com.example.nordicnews.R
 import com.example.nordicnews.data.Constants
 import com.example.nordicnews.ui.navigation.NavigationDestination
 import com.example.nordicnews.ui.shared.SettingsSwitchComp
+import org.koin.androidx.compose.getViewModel
 
 object DeveloperOptionsDestination : NavigationDestination {
     override val route = "developerOptions"
@@ -43,9 +44,7 @@ object DeveloperOptionsDestination : NavigationDestination {
 @Composable
 fun DeveloperOptionsScreen(
     navigateUp: () -> Unit,
-    viewModel: DeveloperOptionsViewModel = viewModel(
-        factory = DeveloperOptionsViewModel.Factory
-    )
+    viewModel: DeveloperOptionsViewModel = getViewModel<DeveloperOptionsViewModel>()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(
