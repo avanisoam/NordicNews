@@ -36,7 +36,7 @@ class SettingViewModel(
         }
     }
 
-    val uiState: StateFlow<SettingUiState> = userPreferencesRepository.isLightMode
+    val uiState: StateFlow<SettingUiState> = userPreferencesRepository.isLiteMode
         .map { isModeOn ->
             SettingUiState(isLiteModeOn = isModeOn)
         }

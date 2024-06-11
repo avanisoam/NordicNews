@@ -15,16 +15,6 @@ import kotlinx.coroutines.flow.stateIn
 
 class BookmarksViewModel(private  val articleRepository : ArticleRepository) : ViewModel() {
 
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as NordicNewsApplication)
-                val articleRepository = application.container.articleRepository
-                BookmarksViewModel(articleRepository = articleRepository)
-            }
-        }
-    }
-
     val uiState: StateFlow<BookmarksUiState> =
         articleRepository.getAllArticles().map {
             BookmarksUiState(it.reversed())

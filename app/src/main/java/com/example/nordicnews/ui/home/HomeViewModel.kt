@@ -2,11 +2,7 @@ package com.example.nordicnews.ui.home
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.nordicnews.NordicNewsApplication
 import com.example.nordicnews.data.model.Article
 import com.example.nordicnews.data.model.Business
 import com.example.nordicnews.data.model.General
@@ -26,23 +22,8 @@ class HomeViewModel(
     private  val apiRepository: ApiRepository,
     private val userPreferencesRepository: UserPreferencesRepository
 ): ViewModel() {
-
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as NordicNewsApplication)
-                val apiRepository = application.container.apiRepository
-                val userPreferencesRepository = application.userPreferencesRepository
-                HomeViewModel(
-                    apiRepository = apiRepository,
-                    userPreferencesRepository=userPreferencesRepository
-                    )
-            }
-        }
-    }
-
     val isLiteDisplayMode: StateFlow<Boolean> =
-        userPreferencesRepository.isLightMode.map { it }.stateIn(
+        userPreferencesRepository.isLiteMode.map { it }.stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(500),
             false
