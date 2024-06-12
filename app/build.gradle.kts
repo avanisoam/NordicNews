@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.nordicnews"
+    namespace = "com.avanisoam.nordicnews"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.nordicnews"
+        applicationId = "com.avanisoam.nordicnews"
         minSdk = 26
         targetSdk = 34
         versionCode = 2
