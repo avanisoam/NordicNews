@@ -11,7 +11,7 @@ Unlike other services, Nordic News is free and open source.
 Nordic News is available on Github.
 
 <p align="left">
-<a href="https://github.com/avanisoam/NordicNews/raw/main/app/release/app-release.apk">
+<a href="https://github.com/avanisoam/NordicNews/releases/download/v1.4/app-release.apk">
     <img alt="Get it on Google Play"
         height="40"
         src="https://raw.githubusercontent.com/avanisoam/NordicNews/5c29b9d78bb3ddb57bcea76b10a53f7cbdf5e1d4/Github_download.svg" />
