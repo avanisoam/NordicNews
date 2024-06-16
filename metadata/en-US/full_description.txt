@@ -1,0 +1,1 @@
+Nordic News is an Android application designed to provide users with the latest news from the Nordic region. It aggregates news articles from various sources and presents them in a user-friendly format. The app is built with a focus on performance, usability, and accessibility.
