@@ -112,12 +112,14 @@ fun HomeScreen(
             unselectedIcon = Icons.Outlined.Settings,
             destinationRoute = SettingsDestination.route
         ),
+        /*
         NavigationItem(
             title = "Developer Options",
             selectedIcon = Icons.Filled.Build,
             unselectedIcon = Icons.Outlined.Build,
             destinationRoute = DeveloperOptionsDestination.route
-        ),
+        )
+         */
     )
 
     Surface(
