@@ -4,7 +4,7 @@ object Constants {
     val API_KEY: String
         get() = "d6478f2cd0f34abbbe54626f658b33bd"//BuildConfig.API_KEY
     val COUNTRY: String
-        get() = "in"
+        get() = "us"
 
     val PROD_BASE_URL: String
         get() = "https://newsapi.org/v2/"

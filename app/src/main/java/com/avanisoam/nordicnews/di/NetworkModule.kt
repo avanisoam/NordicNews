@@ -5,24 +5,29 @@ import com.avanisoam.nordicnews.data.Constants
 import com.avanisoam.nordicnews.data.Constants.PROD_BASE_URL
 import com.avanisoam.nordicnews.data.network.NordicNewsApiService
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-fun provideHttpClient(): OkHttpClient {
+private val loggingInterceptor = HttpLoggingInterceptor().apply {
+    setLevel(HttpLoggingInterceptor.Level.BODY)
+}
+private fun provideHttpClient(): OkHttpClient {
     return OkHttpClient
         .Builder()
+        .addInterceptor(loggingInterceptor)
         .readTimeout(60, TimeUnit.SECONDS)
         .connectTimeout(60, TimeUnit.SECONDS)
         .build()
 }
 
-fun provideConverterFactory(): GsonConverterFactory =
+private fun provideConverterFactory(): GsonConverterFactory =
     GsonConverterFactory.create()
 
-fun provideRetrofit(
+private fun provideRetrofit(
     baseUrl : String,
     okHttpClient: OkHttpClient,
     gsonConverterFactory: GsonConverterFactory
@@ -34,7 +39,7 @@ fun provideRetrofit(
         .build()
 }
 
-fun provideService(retrofit: Retrofit): NordicNewsApiService =
+private fun provideService(retrofit: Retrofit): NordicNewsApiService =
     retrofit.create(NordicNewsApiService::class.java)
 
 val networkModule = module {

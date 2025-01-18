@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.avanisoam.nordicnews.data.model.Article
 import com.avanisoam.nordicnews.data.repository.ApiRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -43,12 +44,20 @@ class SearchViewModel(
                 delay(3000)  // the delay of 3 seconds
 
                 val allNews = apiRepository.getHeadlinesByCountryAndCategoryV1(sources)
-
-                uiState.update { currentUiState ->
-                    currentUiState.copy(
-                        articleList = allNews.articles,
-                        searchApiState = SearchApiState.SUCCESS
-                    )
+                if(allNews.articles.isNotEmpty()) {
+                    uiState.update { currentUiState ->
+                        currentUiState.copy(
+                            articleList = allNews.articles,
+                            searchApiState = SearchApiState.SUCCESS
+                        )
+                    }
+                }
+                else{
+                    uiState.update { currentUiState ->
+                        currentUiState.copy(
+                            searchApiState = SearchApiState.NONE
+                        )
+                    }
                 }
             } catch (_ : Exception) {
                 uiState.update { currentUiState ->
@@ -97,7 +106,7 @@ class SearchViewModel(
     }
 
     fun searchNews(keyword : String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 uiState.update { currentUiState ->
                     currentUiState.copy(
@@ -105,12 +114,23 @@ class SearchViewModel(
                     )
                 }
                 val allNews = apiRepository.searchNewsV2(keyword)
-                Log.d("AllNews", "${allNews.totalResults} no.of news")
-                uiState.update { currentUiState ->
-                    currentUiState.copy(
-                        articleList = allNews.articles,
-                        searchApiState = SearchApiState.SUCCESS
-                    )
+                Log.d("AllNews1", "${allNews.totalResults} no.of news")
+                //Log.d("AllNews2", "$allNews")
+                if(allNews.articles.isNotEmpty()) {
+                    uiState.update { currentUiState ->
+                        currentUiState.copy(
+                            articleList = allNews.articles,
+                            searchApiState = SearchApiState.SUCCESS,
+                            name = ""
+                        )
+                    }
+                }
+                else{
+                    uiState.update { currentUiState ->
+                        currentUiState.copy(
+                            searchApiState = SearchApiState.NONE
+                        )
+                    }
                 }
             } catch (_ : Exception){
                 uiState.update { currentUiState ->

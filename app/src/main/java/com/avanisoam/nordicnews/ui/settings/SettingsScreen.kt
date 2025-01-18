@@ -71,7 +71,7 @@ fun SettingsScreen(
             SettingsSwitchComp(
                 icon = Icons.Filled.Settings,
                 iconDesc = "Toggle Switch",
-                name = "Lite Mode",
+                name = "Hide Categories",
                 state = uiState.isLiteModeOn
             ) {
                 viewModel.toggleSwitch()
