@@ -61,6 +61,7 @@ Nordic News is available on Github.
 *   **Coil**: For image loading and caching.
 *   **Coroutines**: For asynchronous programming.
 *   **MVVM Architecture**: Model-View-ViewModel for a clean and maintainable codebase.
+*   **DataStore Preferences**: To store User Preferences.
 
 ## Installation
 
@@ -81,6 +82,11 @@ Nordic News is available on Github.
     ```
     
 2.  Open the project in Android Studio.
+3.  Create your API_KEY by visiting https://newsapi.org . Replace the generated API_KEY in 
+    data/Constants.kt
+        [<img src="./readme/ReplaceApiKey.PNG"
+        width="300"
+        hspace="10" vspace="10">](/readme/HomeScreen.jpg)
 3.  Build the project to install dependencies.
 4.  Run the application on your device or emulator.
 

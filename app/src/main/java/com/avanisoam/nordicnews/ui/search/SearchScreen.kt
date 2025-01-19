@@ -79,17 +79,23 @@ fun SearchScreen(
              SearchApiState.LOADING -> LoadingScreen(
                  modifier = Modifier.fillMaxSize()
              )
-             SearchApiState.SUCCESS -> SearchResult(
+             SearchApiState.SUCCESS ->
+                 SearchResult(
                     topic = uiState.category,
                     navigateToDetailScreen = navigateToDetailScreen,
-                    articles = uiState.articleList
+                    articles = uiState.articleList,
+                     modifier = Modifier
+                         .padding(innerPadding)
+                         //.padding(15.dp)
                 )
              SearchApiState.ERROR -> ErrorScreen(
                  modifier = Modifier.fillMaxSize()
              )
              SearchApiState.NONE -> Text(
                 text = "No result found!",
-                modifier = Modifier.padding(innerPadding).padding(15.dp)
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .padding(15.dp)
              )
         }
     }
@@ -99,10 +105,11 @@ fun SearchScreen(
 fun SearchResult(
     topic : String,
     navigateToDetailScreen :(Article) -> Unit,
-    articles : List<Article>
+    articles : List<Article>,
+    modifier: Modifier
 ) {
-    LazyColumn {
-        item { Spacer(modifier = Modifier.height(60.dp)) }
+    LazyColumn(modifier = modifier) {
+        //item { Spacer(modifier = Modifier.height(60.dp)) }
         item {
             Row(
                 horizontalArrangement = Arrangement.Center,

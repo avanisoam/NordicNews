@@ -107,7 +107,7 @@ fun ArticleCard(article : Article,modifier: Modifier = Modifier) {
                     .padding(top = 7.dp, start = 18.dp, bottom = 7.dp,end = 18.dp)
             ) {
                 Text(
-                    text = article.title,
+                    text = article.title?: "",
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     fontSize = 16.sp,
