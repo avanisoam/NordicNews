@@ -2,7 +2,7 @@ package com.avanisoam.nordicnews.data
 
 object Constants {
     val API_KEY: String
-        get() = "YOUR_API_KEY_HERE"
+        get() = "d6478f2cd0f34abbbe54626f658b33bd"
     val COUNTRY: String
         get() = "us"
 
