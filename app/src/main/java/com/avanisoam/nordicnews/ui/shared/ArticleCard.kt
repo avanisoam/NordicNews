@@ -50,7 +50,7 @@ fun ArticleList(
 ) {
     LazyColumn(
         modifier = modifier.height(500.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         items(articles) { article ->
             ArticleCard(

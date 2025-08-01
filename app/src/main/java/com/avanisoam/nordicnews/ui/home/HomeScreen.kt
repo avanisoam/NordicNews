@@ -47,6 +47,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.avanisoam.nordicnews.R
 import com.avanisoam.nordicnews.data.model.Article
 import com.avanisoam.nordicnews.data.model.ArticleMockData
@@ -98,6 +100,8 @@ fun HomeScreen(
 
     val isLiteMode: Boolean by viewModel.isLiteDisplayMode.collectAsState()
     Log.e("MODE", "isLiteMode: $isLiteMode")
+
+    val articles = viewModel.getBreakingNews().collectAsLazyPagingItems()
 
     val drawerItems = listOf(
         NavigationItem(
@@ -222,6 +226,7 @@ fun HomeScreen(
                         navigateToDetailScreen = navigateToDetailScreen,
                         isLiteMode = isLiteMode,
                         articles = (uiState as HomeUiState.Success).articleList,
+                        articleInPages = articles,
                         modifier = Modifier.padding(innerPadding)
                     )
                     is HomeUiState.Error -> ErrorScreen(
@@ -240,66 +245,70 @@ fun Result(
     navigateToDetailScreen : (Article) -> Unit,
     isLiteMode : Boolean,
     articles : List<Article>,
+    articleInPages : LazyPagingItems<Article>,
     modifier : Modifier = Modifier) {
-    LazyColumn(
-        modifier = modifier,
-    ) {
-        if (isLiteMode.not()) {
-            item {
-                FixedHeader(
-                    article = ArticleMockData.articleList[13],
-                    onItemClick = {
-                        navigateToDetailScreen(it)
-                    }
-                )
-            }
-            item { Spacer(modifier = Modifier.height(50.dp)) }
-            item {
-                HorizontalCardListWithText(
-                    onItemClick = { navigateToDetailScreen(it) },
-                    articles = articles.take(20)
-                )
-            }
-
-            item { Spacer(modifier = Modifier.height(50.dp)) }
-
-            item {
-                ColorfulTabsList(
-                    category = categoryList,
-                    onCardClick = { navigateToSearchScreen(it) }
-                )
-            }
-
-            item { Spacer(modifier = Modifier.height(50.dp)) }
-        }
-        item{
-            Column(modifier = Modifier.padding(
-                start = 10.dp,
-                end = 10.dp,
-                bottom = 50.dp
-            )) {
-                Text(
-                    text = "All Articles",
-                    fontWeight = FontWeight(700),
-                    fontSize = 20.sp,
-                    lineHeight = 28.sp,
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.onBackground,//Color(29, 27, 32),
-                    modifier = Modifier.padding(
-                        bottom = 20.dp
+        LazyColumn(
+            modifier = modifier,
+        ) {
+            if (isLiteMode.not()) {
+                item {
+                    FixedHeader(
+                        article = ArticleMockData.articleList[13],
+                        onItemClick = {
+                            navigateToDetailScreen(it)
+                        }
                     )
-                )
+                }
+                item { Spacer(modifier = Modifier.height(50.dp)) }
+                item {
+                    HorizontalCardListWithText(
+                        onItemClick = { navigateToDetailScreen(it) },
+                        articles = articles.take(20)
+                    )
+                }
 
-                ArticleListV1(
-                    onItemClick = { navigateToDetailScreen(it) },
-                    // Data from Api
-                    articles = articles,
-                )
+                item { Spacer(modifier = Modifier.height(50.dp)) }
+
+                item {
+                    ColorfulTabsList(
+                        category = categoryList,
+                        onCardClick = { navigateToSearchScreen(it) }
+                    )
+                }
+
+                item { Spacer(modifier = Modifier.height(50.dp)) }
+            }
+            item{
+                Column(modifier = Modifier.padding(
+                    start = 10.dp,
+                    end = 10.dp,
+                    bottom = 50.dp
+                )) {
+                    Text(
+                        text = "All Articles",
+                        fontWeight = FontWeight(700),
+                        fontSize = 20.sp,
+                        lineHeight = 28.sp,
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = MaterialTheme.colorScheme.onBackground,//Color(29, 27, 32),
+                        modifier = Modifier.padding(
+                            bottom = 20.dp
+                        )
+                    )
+                    PagingNews(
+                        articles = articleInPages,
+                        onItemClick = { navigateToDetailScreen(it) }
+                    )
+                    /*
+                    ArticleListV1(
+                        onItemClick = { navigateToDetailScreen(it) },
+                        // Data from Api
+                        articles = articles,
+                    )
+                     */
+                }
             }
         }
-
-    }
-
 }
 
 @Preview(showSystemUi = true)

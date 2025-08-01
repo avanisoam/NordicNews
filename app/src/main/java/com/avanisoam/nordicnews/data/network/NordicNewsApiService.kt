@@ -58,4 +58,12 @@ interface NordicNewsApiService {
         @Query("sources") sources: String,
         @Query("apiKey") apiKey: String = API_KEY
     ): NewsResponse
+
+    //@GET("everything?q=apple&sortBy=popularity&apiKey=d6478f2cd0f34abbbe54626f658b33bd&pageSize=20")
+    //@GET("everything?q=apple&from=2024-06-28&to=2024-06-28&sortBy=popularity&pageSize=20")
+    @GET("everything?q=denmark&from=2024-06-28&to=2024-06-28&sortBy=popularity&pageSize=10")
+    suspend fun getNews(
+        @Query("page") page: Int,
+        @Query("apiKey") apiKey: String = API_KEY
+    ): NewsResponse
 }

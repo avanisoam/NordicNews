@@ -1,8 +1,14 @@
 package com.avanisoam.nordicnews.data.repository
 
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.avanisoam.nordicnews.data.model.Article
+import com.avanisoam.nordicnews.data.model.NewsPagingSource
 import com.avanisoam.nordicnews.data.network.NewsResponse
 import com.avanisoam.nordicnews.data.network.NordicNewsApiService
+import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 interface IApiRepository {
@@ -39,6 +45,8 @@ interface IApiRepository {
     suspend fun getHeadlinesBySource(
         source: String = "techcrunch"
     ): NewsResponse
+
+     fun getNews() : Flow<PagingData<Article>>
 
 }
 
@@ -80,5 +88,16 @@ class ApiRepository(
 
     override suspend fun getHeadlinesBySource(source: String): NewsResponse {
        return  nordicNewsApiService.getHeadlinesBySource(source)
+    }
+
+    override fun getNews(): Flow<PagingData<Article>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+            ),
+            pagingSourceFactory = {
+                NewsPagingSource(nordicNewsApiService)
+            }
+        ).flow
     }
 }

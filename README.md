@@ -61,6 +61,8 @@ Nordic News is available on Github.
 *   **Coil**: For image loading and caching.
 *   **Coroutines**: For asynchronous programming.
 *   **MVVM Architecture**: Model-View-ViewModel for a clean and maintainable codebase.
+*   **Koin**: Used for Dependency Injection.
+*   **DataStore Preferences**: Used to main user state.
 
 ## Installation
 
@@ -93,7 +95,6 @@ Nordic News is available on Github.
 5.  Bookmark articles for later reading.
 6.  Tap the side menu icon to change the settings of Lite Mode and display only News articles on Home Screen
 7.  Tap the Developer Options icon in menu bar to switch between Test Mode and Production Mode
-8.  App is using its own Apis used only for Testing purpose. To see actual data from web switch to Prod Mode using Developer Options available in the menu bar. By default Production Mode is on.
 
 ## Screenshots
 

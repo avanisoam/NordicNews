@@ -3,6 +3,8 @@ package com.avanisoam.nordicnews.ui.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.avanisoam.nordicnews.data.model.Article
 import com.avanisoam.nordicnews.data.model.Business
 import com.avanisoam.nordicnews.data.model.General
@@ -10,6 +12,7 @@ import com.avanisoam.nordicnews.data.model.Sports
 import com.avanisoam.nordicnews.data.model.Technology
 import com.avanisoam.nordicnews.data.repository.ApiRepository
 import com.avanisoam.nordicnews.dataStore.UserPreferencesRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -36,6 +39,10 @@ class HomeViewModel(
 
     var uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
         private set
+
+    fun getBreakingNews(): Flow<PagingData<Article>>
+    = apiRepository.getNews().cachedIn(viewModelScope)
+
 
    private fun getNewsBySource(source : String) {
        viewModelScope.launch {

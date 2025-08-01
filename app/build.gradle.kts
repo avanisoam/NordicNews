@@ -103,4 +103,8 @@ dependencies {
     implementation ("io.insert-koin:koin-androidx-navigation:3.3.0")
     implementation ("io.insert-koin:koin-androidx-compose:3.3.0")
     testImplementation ("io.insert-koin:koin-test-junit4:3.3.0")
+
+    //paging 3
+    implementation ( "androidx.paging:paging-runtime-ktx:3.3.0")
+    implementation ("androidx.paging:paging-compose:3.3.0")
 }
